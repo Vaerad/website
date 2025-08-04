@@ -1,93 +1,104 @@
-document.addEventListener('DOMContentLoaded', () => {
-
-    /* Navigation par onglets */
-    const navTabs = document.querySelectorAll('.nav-tab');
-    const tabContents = document.querySelectorAll('.tab-content');
-    navTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            const target = tab.getAttribute('data-tab');
-            navTabs.forEach(t => t.classList.remove('active'));
-            tabContents.forEach(c => c.classList.remove('active'));
-            tab.classList.add('active');
-            document.getElementById(target).classList.add('active');
-        });
-    });
-
-    /* Sélecteur de thème */
-    const themeButtons = document.querySelectorAll('.theme-btn');
-    themeButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const theme = btn.getAttribute('data-theme');
-            document.body.classList.remove('theme-red', 'theme-purple', 'theme-orange', 'theme-cyan');
-            themeButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            if (theme !== 'default') document.body.classList.add(`theme-${theme}`);
-        });
-    });
-
-    /* Effet machine à écrire */
-    const typingText = document.querySelector('.typing-text');
-    const fullTxt = 'Apprenti Technicien Système et Réseau • Infrastructure • Support';
-    function typeWriter() {
-        typingText.textContent = ''; let i = 0;
-        (function type() {
-            if (i < fullTxt.length) {
-                typingText.textContent += fullTxt.charAt(i); i++; setTimeout(type, 80);
-            } else setTimeout(typeWriter, 4000);
-        })();
-    }
-    setTimeout(typeWriter, 1000);
-
-    /* Effets visuels */
-    const circuit = document.querySelector('.circuit-overlay');
-    setInterval(() => {
-        if (Math.random() > 0.97) {
-            circuit.style.opacity = '0.3';
-            setTimeout(() => circuit.style.opacity = '1', 150);
-        }
-    }, 200);
-
-    const networkBg = document.querySelector('.network-bg');
-    document.addEventListener('mousemove', e => {
-        const x = e.clientX / window.innerWidth;
-        const y = e.clientY / window.innerHeight;
-        networkBg.style.transform = `translate(${x * 15}px, ${y * 15}px)`;
-    });
-
-    /* Fetch RSS IT Connect */
-    async function fetchTechNews() {
-        const spinner = document.getElementById('loading-spinner');
-        const newsList = document.getElementById('tech-news-list');
-        
-        try {
-            const proxyUrl = 'https://api.rss2json.com/v1/api.json?rss_url=';
-            const rssUrl = 'https://www.it-connect.fr/feed/';
-            
-            const response = await fetch(proxyUrl + encodeURIComponent(rssUrl));
-            const data = await response.json();
-            
-            spinner.style.display = 'none';
-            newsList.innerHTML = '';
-            
-            data.items.slice(0, 5).forEach(item => {
-                const li = document.createElement('li');
-                const a = document.createElement('a');
-                a.href = item.link;
-                a.target = '_blank';
-                a.textContent = item.title;
-                li.appendChild(a);
-                newsList.appendChild(li);
-            });
-        } catch (error) {
-            spinner.style.display = 'none';
-            newsList.innerHTML = '<li style="color: #ff6b6b;">Erreur de chargement</li>';
-            console.error('Erreur RSS:', error);
-        }
-    }
-    
-    fetchTechNews();
-    // Actualise toutes les 10 minutes
-    setInterval(fetchTechNews, 600000);
-
+/* ------------------------------------------------------------------
+   NAVIGATION ENTRE ONGLETS
+------------------------------------------------------------------ */
+document.querySelectorAll('.nav-tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
 });
+
+/* ------------------------------------------------------------------
+   THÈME COLORÉ
+------------------------------------------------------------------ */
+document.querySelectorAll('.theme-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.body.className='';                     // reset classes
+    document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const theme=btn.dataset.theme;
+    if(theme!=='default') document.body.classList.add(`theme-${theme}`);
+  });
+});
+
+/* ------------------------------------------------------------------
+   PING UTILISATEUR ↔︎ SITE
+------------------------------------------------------------------ */
+function measurePing(){
+  const dot   = document.querySelector('.ping-dot');
+  const value = document.getElementById('ping-value');
+  const start = performance.now();
+
+  fetch('/favicon.ico?cache=' + Date.now(), {cache:'no-store'})
+    .then(()=> {
+      const ms = Math.round(performance.now() - start);
+      value.textContent = ms + ' ms';
+
+      if(ms < 100){ dot.style.background='#00e676'; }
+      else if(ms < 250){ dot.style.background='#ffb300'; }
+      else{ dot.style.background='#ff1744'; }
+      dot.style.boxShadow = `0 0 6px ${dot.style.background}`;
+    })
+    .catch(()=>{
+      value.textContent = '∞ ms';
+      dot.style.background='#ff1744';
+      dot.style.boxShadow='0 0 6px #ff1744';
+    });
+}
+measurePing();
+setInterval(measurePing, 10000);
+
+/* ------------------------------------------------------------------
+   EFFET DE PARALLAXE LÉGER SUR LE FOND
+------------------------------------------------------------------ */
+const bg = document.querySelector('.network-bg');
+document.addEventListener('mousemove',e=>{
+  const x = e.clientX / window.innerWidth;
+  const y = e.clientY / window.innerHeight;
+  bg.style.transform = `translate(${x*20}px,${y*20}px)`;
+});
+
+/* ------------------------------------------------------------------
+   MACHINE À ÉCRIRE POUR LE SOUS-TITRE (une seule boucle)
+------------------------------------------------------------------ */
+const typingEl = document.querySelector('.subtitle');
+const originalTxt = typingEl.textContent.trim();
+typingEl.textContent='';
+let idx=0;
+const typer = setInterval(()=>{
+  typingEl.textContent += originalTxt.charAt(idx++);
+  if(idx===originalTxt.length) clearInterval(typer);
+},70);
+
+/* ------------------------------------------------------------------
+   RÉCUPÉRATION RSS - ZATAZ & IT-CONNECT
+------------------------------------------------------------------ */
+async function loadFeed(url,target){
+  const list   = document.getElementById(target);
+  const parent = list.parentElement.querySelector('.loading-spinner');
+  try{
+    const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent(url));
+    const data= await res.json();
+    parent.style.display='none';
+    list.innerHTML='';
+    data.items.slice(0,6).forEach(item=>{
+      const li=document.createElement('li');
+      li.innerHTML=`<a href="${item.link}" target="_blank">${item.title}</a>`;
+      list.appendChild(li);
+    });
+  }catch(err){
+    parent.style.display='none';
+    list.innerHTML='<li style="color:#ff6b6b">Erreur de chargement</li>';
+    console.error('RSS error →',err);
+  }
+}
+function refreshFeeds(){
+  loadFeed('https://www.zataz.com/feed/','cybersec-news-list');
+  loadFeed('https://www.it-connect.fr/feed/','tech-news-list');
+}
+refreshFeeds();
+setInterval(refreshFeeds,600000);    // toutes les 10 min
+
 
