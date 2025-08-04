@@ -1,9 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    /* ----- Navigation par onglets ----- */
+    /* Navigation par onglets */
     const navTabs = document.querySelectorAll('.nav-tab');
     const tabContents = document.querySelectorAll('.tab-content');
-
     navTabs.forEach(tab => {
         tab.addEventListener('click', () => {
             const target = tab.getAttribute('data-tab');
@@ -14,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    /* ----- Sélecteur de thème étendu ----- */
+    /* Sélecteur de thème */
     const themeButtons = document.querySelectorAll('.theme-btn');
     themeButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -26,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    /* ----- Effet machine à écrire ----- */
+    /* Effet machine à écrire */
     const typingText = document.querySelector('.typing-text');
     const fullTxt = 'Apprenti Technicien Système et Réseau • Infrastructure • Support';
     function typeWriter() {
@@ -39,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     setTimeout(typeWriter, 1000);
 
-    /* ----- Effet scintillement circuit ----- */
+    /* Effets visuels */
     const circuit = document.querySelector('.circuit-overlay');
     setInterval(() => {
         if (Math.random() > 0.97) {
@@ -48,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 200);
 
-    /* ----- Parallax fond ----- */
     const networkBg = document.querySelector('.network-bg');
     document.addEventListener('mousemove', e => {
         const x = e.clientX / window.innerWidth;
@@ -56,16 +54,40 @@ document.addEventListener('DOMContentLoaded', () => {
         networkBg.style.transform = `translate(${x * 15}px, ${y * 15}px)`;
     });
 
-    /* ----- Animation des cartes de jeu ----- */
-    const gameItems = document.querySelectorAll('.game-item');
-    gameItems.forEach((item, index) => {
-        item.style.animationDelay = `${index * 0.1}s`;
-        item.addEventListener('mouseenter', () => {
-            item.style.transform = 'translateX(10px) scale(1.02)';
-        });
-        item.addEventListener('mouseleave', () => {
-            item.style.transform = 'translateX(0) scale(1)';
-        });
-    });
+    /* Fetch RSS IT Connect */
+    async function fetchTechNews() {
+        const spinner = document.getElementById('loading-spinner');
+        const newsList = document.getElementById('tech-news-list');
+        
+        try {
+            const proxyUrl = 'https://api.rss2json.com/v1/api.json?rss_url=';
+            const rssUrl = 'https://www.it-connect.fr/feed/';
+            
+            const response = await fetch(proxyUrl + encodeURIComponent(rssUrl));
+            const data = await response.json();
+            
+            spinner.style.display = 'none';
+            newsList.innerHTML = '';
+            
+            data.items.slice(0, 5).forEach(item => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = item.link;
+                a.target = '_blank';
+                a.textContent = item.title;
+                li.appendChild(a);
+                newsList.appendChild(li);
+            });
+        } catch (error) {
+            spinner.style.display = 'none';
+            newsList.innerHTML = '<li style="color: #ff6b6b;">Erreur de chargement</li>';
+            console.error('Erreur RSS:', error);
+        }
+    }
+    
+    fetchTechNews();
+    // Actualise toutes les 10 minutes
+    setInterval(fetchTechNews, 600000);
 
 });
+
