@@ -1,234 +1,358 @@
+/* ------------------------------------------------------------------
+   POLICES
+------------------------------------------------------------------ */
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* Variables de thème */
+/* ------------------------------------------------------------------
+   VARIABLES DE COULEUR
+------------------------------------------------------------------ */
 :root{
-  --primary-color:#64b5f6;--secondary-color:#81c784;--accent-color:#90caf9;
-  --bg-color:#0f1419;--card-bg:rgba(15,20,25,.8);--text-color:#e1e1e1;
-  --border-color:#424242;--glow-primary:rgba(100,181,246,.3);--glow-secondary:rgba(129,199,132,.3)
+  --primary-color:   #64b5f6;
+  --secondary-color: #81c784;
+  --accent-color:    #90caf9;
+  --bg-color:        #0f1419;
+  --card-bg:         rgba(15,20,25,.8);
+  --text-color:      #e1e1e1;
+  --border-color:    #424242;
+  --glow-primary:    rgba(100,181,246,.3);
+  --glow-secondary:  rgba(129,199,132,.3);
 }
-body.theme-red{
-  --primary-color:#ff6b6b;--secondary-color:#ffa726;--accent-color:#ffab91;
-  --glow-primary:rgba(255,107,107,.3);--glow-secondary:rgba(255,167,38,.3)
-}
-body.theme-purple{
-  --primary-color:#ba68c8;--secondary-color:#f06292;--accent-color:#ce93d8;
-  --glow-primary:rgba(186,104,200,.3);--glow-secondary:rgba(240,98,146,.3)
-}
-body.theme-orange{
-  --primary-color:#ff9800;--secondary-color:#ffc107;--accent-color:#ffb74d;
-  --glow-primary:rgba(255,152,0,.3);--glow-secondary:rgba(255,193,7,.3)
-}
-body.theme-cyan{
-  --primary-color:#00bcd4;--secondary-color:#4dd0e1;--accent-color:#80deea;
-  --glow-primary:rgba(0,188,212,.3);--glow-secondary:rgba(77,208,225,.3)
-}
+/* déclinaisons */
+body.theme-red   {--primary-color:#ff6b6b;--secondary-color:#ffa726;--accent-color:#ffab91;
+                  --glow-primary:rgba(255,107,107,.3);--glow-secondary:rgba(255,167,38,.3)}
+body.theme-purple{--primary-color:#ba68c8;--secondary-color:#f06292;--accent-color:#ce93d8;
+                  --glow-primary:rgba(186,104,200,.3);--glow-secondary:rgba(240,98,146,.3)}
+body.theme-orange{--primary-color:#ff9800;--secondary-color:#ffc107;--accent-color:#ffb74d;
+                  --glow-primary:rgba(255,152,0,.3);--glow-secondary:rgba(255,193,7,.3)}
+body.theme-cyan  {--primary-color:#00bcd4;--secondary-color:#4dd0e1;--accent-color:#80deea;
+                  --glow-primary:rgba(0,188,212,.3);--glow-secondary:rgba(77,208,225,.3)}
 
-/* Reset & Base */
+/* ------------------------------------------------------------------
+   RESET & BASE
+------------------------------------------------------------------ */
 *{margin:0;padding:0;box-sizing:border-box}
 body{
-  font-family:'Inter',sans-serif;background:var(--bg-color);color:var(--primary-color);
-  overflow-x:hidden;min-height:100vh;transition:.3s
+  font-family:'Inter',sans-serif;
+  background:var(--bg-color);
+  background-image:
+    radial-gradient(circle at 20% 80%,rgba(100,181,246,.15)0%,transparent 55%),
+    radial-gradient(circle at 80% 20%,rgba(129,199,132,.15)0%,transparent 55%),
+    radial-gradient(circle at 50% 50%,rgba(144,202,249,.10)0%,transparent 55%);
+  background-attachment:fixed;
+  color:var(--primary-color);
+  min-height:100vh;
+  overflow-x:hidden;
+  transition:.3s;
 }
-.container{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 350px 20px 20px}
 
-/* Sidebar Veille Technologique */
-.tech-news-sidebar{
-  position:fixed;right:20px;top:20px;width:320px;max-height:500px;
-  background:var(--card-bg);border:2px solid var(--primary-color);border-radius:12px;
-  backdrop-filter:blur(10px);z-index:500;overflow:hidden;
-  box-shadow:0 0 20px var(--glow-primary);animation:sidebar-pulse 4s ease-in-out infinite alternate
+/* ------------------------------------------------------------------
+   CONTAINER GÉNÉRAL
+------------------------------------------------------------------ */
+.container{
+  max-width:1200px;
+  margin:0 auto;
+  padding:20px 360px;                /* 360 px = place pour les deux sidebars */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  position:relative;
+  min-height:100vh;
 }
-@keyframes sidebar-pulse{
-  from{box-shadow:0 0 20px var(--glow-primary)}
-  to{box-shadow:0 0 30px var(--glow-primary)}
-}
-.sidebar-header{
-  display:flex;align-items:center;gap:.8rem;padding:1rem;
-  background:var(--glow-primary);border-bottom:1px solid var(--primary-color)
-}
-.sidebar-header i{color:var(--secondary-color);font-size:1.2rem}
-.sidebar-header h3{color:var(--secondary-color);font-size:1rem;font-weight:600}
-.news-container{padding:1rem;max-height:400px;overflow-y:auto}
-.loading-spinner{display:flex;align-items:center;gap:.5rem;color:var(--accent-color);justify-content:center;padding:1rem}
-.loading-spinner i{animation:spin 1s linear infinite}
-@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-#tech-news-list{list-style:none;margin:0;padding:0}
-#tech-news-list li{margin-bottom:.8rem;padding:.5rem;background:var(--glow-primary);border-radius:6px;transition:.3s}
-#tech-news-list li:hover{background:var(--glow-secondary);transform:translateX(3px)}
-#tech-news-list a{
-  color:var(--text-color);text-decoration:none;font-size:.85rem;line-height:1.3;
-  display:block;transition:.3s
-}
-#tech-news-list a:hover{color:var(--secondary-color)}
-.news-container::-webkit-scrollbar{width:4px}
-.news-container::-webkit-scrollbar-track{background:transparent}
-.news-container::-webkit-scrollbar-thumb{background:var(--primary-color);border-radius:2px}
 
-/* Sélecteur de thème */
-.theme-selector{position:fixed;top:20px;left:20px;display:flex;gap:8px;z-index:1000;flex-wrap:wrap;max-width:220px}
-.theme-btn{width:35px;height:35px;border:2px solid var(--border-color);border-radius:50%;cursor:pointer;transition:.3s}
+/* ------------------------------------------------------------------
+   SÉLECTEUR DE THÈME
+------------------------------------------------------------------ */
+.theme-selector{
+  position:fixed;top:20px;left:20px;
+  display:flex;gap:8px;flex-wrap:wrap;
+  z-index:1000;
+}
+.theme-btn{
+  width:35px;height:35px;border-radius:50%;
+  border:2px solid var(--border-color);
+  cursor:pointer;transition:.3s;
+}
 .theme-btn:hover{transform:scale(1.1);box-shadow:0 0 15px var(--glow-primary)}
 .theme-btn.active{box-shadow:0 0 20px var(--glow-secondary);border-color:var(--secondary-color)}
-.theme-btn.blue{background:linear-gradient(135deg,#64b5f6,#81c784)}
-.theme-btn.red{background:linear-gradient(135deg,#ff6b6b,#ffa726)}
+.theme-btn.blue  {background:linear-gradient(135deg,#64b5f6,#81c784)}
+.theme-btn.red   {background:linear-gradient(135deg,#ff6b6b,#ffa726)}
 .theme-btn.purple{background:linear-gradient(135deg,#ba68c8,#f06292)}
 .theme-btn.orange{background:linear-gradient(135deg,#ff9800,#ffc107)}
-.theme-btn.cyan{background:linear-gradient(135deg,#00bcd4,#4dd0e1)}
+.theme-btn.cyan  {background:linear-gradient(135deg,#00bcd4,#4dd0e1)}
 
-/* Fonds animés */
-.network-bg{position:fixed;inset:0;background:
-  radial-gradient(circle at 25% 25%,var(--glow-primary)0%,transparent 50%),
-  radial-gradient(circle at 75% 75%,var(--glow-secondary)0%,transparent 50%),
-  radial-gradient(circle at 50% 50%,var(--glow-primary)0%,transparent 50%);
-  animation:network-pulse 6s ease-in-out infinite alternate;z-index:-2}
-@keyframes network-pulse{0%,100%{opacity:.6}50%{opacity:.3}}
+/* ------------------------------------------------------------------
+   SIDEBARS
+------------------------------------------------------------------ */
+.cybersec-sidebar,.tech-news-sidebar{
+  position:fixed;top:100px;width:320px;max-height:500px;
+  background:var(--card-bg);border-radius:12px;
+  backdrop-filter:blur(10px);overflow:hidden;z-index:500
+}
+.cybersec-sidebar{left:20px;border:2px solid #ff4444;box-shadow:0 0 20px rgba(255,68,68,.5);
+                  animation:pulseRed 4s ease-in-out infinite alternate}
+.tech-news-sidebar{right:20px;border:2px solid var(--primary-color);
+                   box-shadow:0 0 20px var(--glow-primary);
+                   animation:pulseBlue 4s ease-in-out infinite alternate}
+@keyframes pulseRed {from{box-shadow:0 0 20px rgba(255,68,68,.3)}to{box-shadow:0 0 30px rgba(255,68,68,.6)}}
+@keyframes pulseBlue{from{box-shadow:0 0 20px var(--glow-primary)}to{box-shadow:0 0 30px var(--glow-primary)}}
 
-.circuit-overlay{position:fixed;inset:0;background-image:
-  linear-gradient(var(--glow-primary)1px,transparent 1px),
-  linear-gradient(90deg,var(--glow-primary)1px,transparent 1px);
-  background-size:40px 40px;animation:circuit-flow 15s linear infinite;z-index:-1}
-@keyframes circuit-flow{0%{transform:translate(0,0)}100%{transform:translate(40px,40px)}}
+.sidebar-header{
+  display:flex;gap:.6rem;align-items:center;
+  padding:1rem;font-weight:700;font-size:.9rem;
+  background:rgba(255,255,255,.05)
+}
+.cybersec-sidebar .sidebar-header{color:#ff4444;border-bottom:1px solid #ff4444}
+.tech-news-sidebar .sidebar-header{color:var(--primary-color);border-bottom:1px solid var(--primary-color)}
+.news-container{padding:1rem;max-height:400px;overflow-y:auto}
+#cybersec-news-list,#tech-news-list{list-style:none;display:flex;flex-direction:column;gap:.8rem}
+#cybersec-news-list li,#tech-news-list li{
+  padding:.5rem;border-radius:6px;font-size:.85rem;transition:.3s
+}
+#cybersec-news-list li{background:rgba(255,68,68,.25)}
+#tech-news-list  li{background:var(--glow-primary)}
+#cybersec-news-list li:hover{background:rgba(255,68,68,.4);transform:translateX(3px)}
+#tech-news-list  li:hover{background:var(--glow-secondary);transform:translateX(3px)}
+#cybersec-news-list a,#tech-news-list a{color:var(--text-color);text-decoration:none}
+#cybersec-news-list a:hover{color:#ffaaaa}
+#tech-news-list  a:hover{color:var(--secondary-color)}
+.loading-spinner{
+  display:flex;gap:.5rem;justify-content:center;align-items:center;
+  color:var(--accent-color);padding:1rem
+}
+.loading-spinner i{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-/* En-tête */
-.header{text-align:center;margin-bottom:2rem}
+/* ------------------------------------------------------------------
+   FOND ANIMÉ
+------------------------------------------------------------------ */
+.network-bg{
+  position:fixed;inset:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 25% 25%,var(--glow-primary)0%,transparent 50%),
+    radial-gradient(circle at 75% 75%,var(--glow-secondary)0%,transparent 50%),
+    radial-gradient(circle at 50% 50%,var(--glow-primary)0%,transparent 50%);
+  animation:bgPulse 8s ease-in-out infinite alternate;z-index:-1
+}
+@keyframes bgPulse{0%,100%{opacity:.4}50%{opacity:.8}}
+
+/* ------------------------------------------------------------------
+   EN-TÊTE
+------------------------------------------------------------------ */
+.header{text-align:center;margin-bottom:2rem;width:100%}
 .name{
   font-family:'Roboto Mono',monospace;font-size:clamp(2.5rem,8vw,4.5rem);
-  font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--secondary-color);margin-bottom:1rem;
-  text-shadow:0 0 10px var(--glow-secondary),0 0 20px var(--glow-secondary);
-  animation:title-glow 3s ease-in-out infinite alternate;transition:.3s
+  font-weight:700;text-transform:uppercase;letter-spacing:2px;
+  color:var(--secondary-color);
+  text-shadow:0 0 10px var(--glow-secondary);
+  animation:nameGlow 3s ease-in-out infinite alternate
 }
-@keyframes title-glow{
-  from{text-shadow:0 0 10px var(--glow-secondary),0 0 20px var(--glow-secondary)}
-  to{text-shadow:0 0 15px var(--glow-secondary),0 0 30px var(--glow-secondary)}
+@keyframes nameGlow{from{text-shadow:0 0 10px var(--glow-secondary)}
+                    to  {text-shadow:0 0 20px var(--glow-secondary)}}
+.subtitle{
+  font-size:1.3rem;color:var(--accent-color);
+  margin-top:1rem;text-align:center;width:100%
 }
-.subtitle{font-size:1.3rem;color:var(--accent-color);margin-top:1rem;transition:.3s}
-.typing-text{border-right:2px solid var(--primary-color);white-space:nowrap;overflow:hidden;
-  animation:typing 3s steps(40),blink .7s infinite}
-@keyframes typing{from{width:0}to{width:100%}}
-@keyframes blink{0%,50%{border-color:var(--primary-color)}51%,100%{border-color:transparent}}
 
-/* Navigation */
+/* Ping utilisateur */
+.latency{
+  margin-top:.8rem;
+  display:flex;gap:.6rem;align-items:center;justify-content:center;
+  font-weight:600;font-size:.95rem;color:var(--text-color)
+}
+.ping-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:#00e676;box-shadow:0 0 6px #00e676;transition:.3s
+}
+
+/* ------------------------------------------------------------------
+   NAVIGATION
+------------------------------------------------------------------ */
 .navigation{margin-bottom:2rem;width:100%;max-width:900px}
-.nav-tabs{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.nav-tabs{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
 .nav-tab{
-  display:flex;align-items:center;gap:.5rem;padding:.8rem 1.5rem;background:var(--card-bg);
-  border:2px solid var(--border-color);border-radius:8px;color:var(--accent-color);cursor:pointer;font-weight:500;
+  display:flex;align-items:center;gap:.5rem;
+  padding:.8rem 1.5rem;border-radius:8px;
+  background:var(--card-bg);border:2px solid var(--border-color);
+  color:var(--accent-color);font-weight:500;cursor:pointer;
   backdrop-filter:blur(10px);transition:.3s
 }
 .nav-tab:hover{border-color:var(--primary-color);background:var(--glow-primary);transform:translateY(-2px)}
 .nav-tab.active{
-  border-color:var(--secondary-color);background:var(--glow-secondary);color:var(--secondary-color);
-  box-shadow:0 0 15px var(--glow-secondary)
+  border-color:var(--secondary-color);background:var(--glow-secondary);
+  color:var(--secondary-color);box-shadow:0 0 15px var(--glow-secondary)
 }
+.nav-tab i{font-size:1.1rem}
 
-/* Contenu principal */
+/* ------------------------------------------------------------------
+   CONTENU PRINCIPAL
+------------------------------------------------------------------ */
 .main-content{max-width:800px;width:100%}
 .tab-content{display:none;animation:fadeIn .5s ease-in-out}
 .tab-content.active{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
-/* Cartes */
 .network-border{
-  border:2px solid var(--primary-color);border-radius:12px;padding:2rem;background:var(--card-bg);
-  backdrop-filter:blur(10px);box-shadow:0 0 20px var(--glow-primary);animation:border-pulse 4s ease-in-out infinite alternate
+  border:2px solid var(--primary-color);border-radius:12px;padding:2rem;
+  background:var(--card-bg);
+  box-shadow:0 0 20px var(--glow-primary),inset 0 0 20px var(--glow-primary);
+  animation:borderPulse 4s ease-in-out infinite alternate
 }
-@keyframes border-pulse{
-  from{box-shadow:0 0 20px var(--glow-primary)}
-  to{box-shadow:0 0 30px var(--glow-primary)}
-}
+@keyframes borderPulse{from{box-shadow:0 0 20px var(--glow-primary)}
+                       to  {box-shadow:0 0 30px var(--glow-primary)}}
 .section-title{
-  font-family:'Roboto Mono',monospace;font-size:1.8rem;font-weight:700;text-transform:uppercase;text-align:center;
-  color:var(--secondary-color);margin-bottom:1.5rem;letter-spacing:1px
+  font-family:'Roboto Mono',monospace;font-size:1.8rem;font-weight:700;
+  text-transform:uppercase;text-align:center;color:var(--secondary-color);
+  margin-bottom:1.5rem
 }
 .bio{font-size:1.1rem;color:var(--text-color);line-height:1.6;text-align:center}
 
-/* Gaming */
-.gaming-setup h3{color:var(--secondary-color);margin-bottom:1.5rem;text-align:center;font-size:1.4rem}
-.setup-specs{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap}
-.spec-item{display:flex;align-items:center;gap:.8rem;color:var(--text-color);font-size:1rem}
-.spec-item i{color:var(--accent-color);font-size:1.2rem}
-
-.games-categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem;margin-top:2rem}
-.game-category{
-  background:var(--card-bg);border:1px solid var(--border-color);border-radius:12px;padding:1.5rem;
-  backdrop-filter:blur(10px);transition:.3s
-}
-.category-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;padding-bottom:1rem;
-  border-bottom:2px solid var(--primary-color)}
-.category-header i{font-size:1.8rem;color:var(--secondary-color)}
-.category-header h3{color:var(--secondary-color);font-size:1.3rem}
-
-.games-list{display:flex;flex-direction:column;gap:1rem}
-.game-item{display:flex;align-items:flex-start;gap:1rem;padding:1rem;background:var(--glow-primary);
-  border-radius:8px;transition:.3s}
-.game-item i{color:var(--accent-color);font-size:1.5rem;min-width:24px}
-.game-info h4{color:var(--secondary-color);margin-bottom:.3rem;font-size:1.1rem}
-.game-info p{color:#b0bec5;font-size:.9rem;line-height:1.4}
-
-.featured-game{background:var(--glow-secondary);border:1px solid var(--secondary-color)}
-.featured-game .game-description{color:var(--text-color);line-height:1.5;margin-bottom:.8rem}
-.game-tag{
-  display:inline-block;background:linear-gradient(135deg,var(--primary-color),var(--secondary-color));
-  color:var(--bg-color);padding:.3rem .8rem;border-radius:15px;font-size:.8rem;font-weight:600
-}
-
-/* CV, Projets, Contact, etc. (styles précédents) */
+/* ------------------------------------------------------------------
+   COMPÉTENCES
+------------------------------------------------------------------ */
 .skills-section{margin:3rem 0}
 .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem}
 .skill-card{
-  background:var(--card-bg);border:1px solid var(--border-color);border-radius:10px;padding:1.5rem;text-align:center;
-  backdrop-filter:blur(10px);transition:.3s
+  background:var(--card-bg);border:1px solid var(--border-color);border-radius:10px;
+  padding:1.5rem;text-align:center;transition:.3s;backdrop-filter:blur(10px)
 }
-.skill-card:hover{border-color:var(--primary-color);background:var(--glow-primary);transform:translateY(-5px)}
+.skill-card:hover{border-color:var(--primary-color);background:var(--glow-primary);
+                  box-shadow:0 10px 25px var(--glow-primary);transform:translateY(-5px)}
 .skill-card i{font-size:2.5rem;color:var(--accent-color);margin-bottom:1rem}
-.skill-card h3{color:var(--secondary-color);margin-bottom:.5rem;font-weight:600}
+.skill-card h3{color:var(--secondary-color);margin-bottom:.5rem}
+.skill-card p{color:#b0bec5;font-size:.9rem}
 
+/* ------------------------------------------------------------------
+   SOCIAUX
+------------------------------------------------------------------ */
 .social-section{text-align:center;margin-top:3rem}
 .social-buttons{display:flex;flex-wrap:wrap;gap:1.5rem;justify-content:center}
 .social-btn{
-  display:flex;align-items:center;gap:.5rem;padding:1rem 1.5rem;background:var(--card-bg);
-  border:2px solid var(--border-color);border-radius:8px;color:var(--accent-color);text-decoration:none;font-weight:500;
+  display:flex;align-items:center;gap:.5rem;
+  padding:1rem 1.5rem;border-radius:8px;
+  background:var(--card-bg);border:2px solid var(--border-color);
+  color:var(--accent-color);font-weight:500;text-decoration:none;
   backdrop-filter:blur(10px);transition:.3s
 }
-.social-btn:hover{border-color:var(--primary-color);background:var(--glow-primary);transform:translateY(-3px)}
+.social-btn:hover{border-color:var(--primary-color);background:var(--glow-primary);
+                  box-shadow:0 8px 20px var(--glow-primary);transform:translateY(-3px)}
+.social-btn i{font-size:1.3rem}
 
+/* ------------------------------------------------------------------
+   MUSIQUE
+------------------------------------------------------------------ */
 .music-section{text-align:center;margin-top:3rem}
-.music-player-compact iframe{border-radius:12px;box-shadow:0 8px 25px var(--glow-primary);width:100%}
+.music-player-compact iframe{
+  width:100%;border-radius:12px;box-shadow:0 8px 25px var(--glow-primary);transition:.3s
+}
+.music-player-compact iframe:hover{transform:translateY(-3px);box-shadow:0 12px 35px var(--glow-secondary)}
 
-.cv-download-section{text-align:center;padding:2rem}
-.cv-icon{font-size:4rem;color:var(--secondary-color);margin-bottom:1rem}
-.download-btn{
-  display:inline-flex;align-items:center;gap:.5rem;padding:1rem 2rem;
+/* ------------------------------------------------------------------
+   GAMING
+------------------------------------------------------------------ */
+.gaming-setup{margin-bottom:2rem}
+.gaming-setup h3{color:var(--secondary-color);text-align:center;margin-bottom:1.5rem}
+.setup-specs{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap}
+.spec-item{display:flex;gap:.8rem;align-items:center;color:var(--text-color);font-size:1rem}
+.spec-item i{color:var(--accent-color);font-size:1.2rem}
+
+.games-categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem}
+.game-category{
+  background:var(--card-bg);border:1px solid var(--border-color);border-radius:12px;
+  padding:1.5rem;transition:.3s;backdrop-filter:blur(10px)
+}
+.game-category:hover{background:var(--glow-primary);border-color:var(--primary-color);transform:translateY(-3px)}
+.category-header{display:flex;gap:1rem;align-items:center;margin-bottom:1.5rem;
+                 border-bottom:2px solid var(--primary-color);padding-bottom:1rem}
+.category-header i{font-size:1.8rem;color:var(--secondary-color)}
+.category-header h3{color:var(--secondary-color)}
+.games-list{display:flex;flex-direction:column;gap:1rem}
+.game-item{
+  display:flex;gap:1rem;align-items:flex-start;padding:1rem;
+  background:var(--glow-primary);border-radius:8px;transition:.3s
+}
+.game-item:hover{background:var(--glow-secondary);transform:translateX(5px)}
+.game-item i{color:var(--accent-color);font-size:1.5rem}
+.game-info h4{color:var(--secondary-color);margin-bottom:.3rem}
+.game-info p{color:#b0bec5;font-size:.9rem}
+.featured-game{background:var(--glow-secondary);border:1px solid var(--secondary-color)}
+.featured-game .game-description{color:var(--text-color)}
+.game-tag{
+  display:inline-block;margin-top:.5rem;padding:.3rem .8rem;border-radius:15px;
   background:linear-gradient(135deg,var(--primary-color),var(--secondary-color));
-  color:var(--bg-color);text-decoration:none;border-radius:8px;font-weight:600;margin:0 .5rem;
-  transition:.3s
+  color:var(--bg-color);font-size:.75rem;font-weight:600
 }
-.download-btn.secondary{background:transparent;border:2px solid var(--primary-color);color:var(--primary-color)}
 
-.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+/* ------------------------------------------------------------------
+   PROJETS
+------------------------------------------------------------------ */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem}
 .project-card{
-  background:var(--card-bg);border:1px solid var(--border-color);border-radius:10px;padding:1.5rem;text-align:center;
-  backdrop-filter:blur(10px);transition:.3s
+  background:var(--card-bg);border:1px solid var(--border-color);border-radius:10px;
+  padding:1.5rem;text-align:center;transition:.3s;backdrop-filter:blur(10px)
 }
-.project-card:hover{border-color:var(--secondary-color);transform:translateY(-5px)}
+.project-card:hover{background:var(--glow-secondary);border-color:var(--secondary-color);
+                    box-shadow:0 10px 25px var(--glow-secondary);transform:translateY(-5px)}
 .project-icon{
-  width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--primary-color),var(--secondary-color));
+  width:60px;height:60px;border-radius:50%;
+  background:linear-gradient(135deg,var(--primary-color),var(--secondary-color));
   display:flex;align-items:center;justify-content:center;margin:0 auto 1rem
 }
+.project-icon i{color:var(--bg-color);font-size:1.4rem}
 .project-card h3{color:var(--secondary-color);margin-bottom:.5rem}
+.project-card p{color:#b0bec5}
 
-.contact-info{display:flex;flex-direction:column;gap:1rem}
-.contact-item{display:flex;align-items:center;gap:1rem;padding:1rem;background:var(--glow-primary);
-  border-radius:8px;color:var(--text-color)}
-.contact-item i{color:var(--primary-color);font-size:1.2rem;width:20px;text-align:center}
-
-/* Responsive */
-@media(max-width:768px){
-  .container{padding:1rem}
-  .tech-news-sidebar{position:relative;right:auto;top:auto;width:100%;margin-bottom:2rem}
-  .theme-selector{position:relative;top:auto;left:auto;justify-content:center;margin-bottom:1rem}
-  .nav-tab span{display:none}
-  .setup-specs{flex-direction:column;align-items:center}
-  .games-categories{grid-template-columns:1fr}
+/* ------------------------------------------------------------------
+   CV
+------------------------------------------------------------------ */
+.cv-download-section{text-align:center;padding:2rem}
+.cv-icon{font-size:4rem;color:var(--secondary-color);margin-bottom:1rem}
+.cv-download-section h3{color:var(--secondary-color);margin-bottom:1rem}
+.download-btn{
+  display:inline-flex;gap:.5rem;align-items:center;
+  padding:1rem 2rem;border-radius:8px;font-weight:600;
+  background:linear-gradient(135deg,var(--primary-color),var(--secondary-color));
+  color:var(--bg-color);text-decoration:none;box-shadow:0 4px 15px var(--glow-primary);transition:.3s
 }
+.download-btn:hover{box-shadow:0 8px 25px var(--glow-secondary);transform:translateY(-2px)}
+.download-btn.secondary{background:transparent;border:2px solid var(--primary-color);color:var(--primary-color)}
+.download-btn.secondary:hover{background:var(--glow-primary);color:var(--secondary-color)}
+
+/* ------------------------------------------------------------------
+   CONTACT
+------------------------------------------------------------------ */
+.contact-info{display:flex;flex-direction:column;gap:1rem}
+.contact-item{display:flex;gap:1rem;align-items:center;padding:1rem;border-radius:8px;background:var(--glow-primary)}
+.contact-item i{color:var(--primary-color);font-size:1.2rem}
+.contact-item span{color:var(--text-color)}
+
+/* ------------------------------------------------------------------
+   FOOTER DISCORD
+------------------------------------------------------------------ */
+.footer{text-align:center;margin-top:60px;padding-bottom:30px}
+.discord-tag{
+  display:inline-flex;gap:.5rem;align-items:center;
+  color:#7289da;font-weight:600;text-decoration:none;font-size:1rem
+}
+.discord-tag i{font-size:1.3rem}
+.discord-tag:hover{color:#a8b9ff;text-decoration:underline}
+
+/* ------------------------------------------------------------------
+   RESPONSIVE
+------------------------------------------------------------------ */
+@media(max-width:1024px){
+  .container{padding:20px 30px}
+  .cybersec-sidebar,.tech-news-sidebar{
+    position:relative;left:auto;right:auto;top:auto;width:100%;
+    margin-bottom:25px;max-height:350px
+  }
+}
+@media(max-width:600px){
+  .nav-tab span{display:none}
+  .theme-selector{left:50%;transform:translateX(-50%)}
+  .setup-specs{flex-direction:column;align-items:center;text-align:center}
+  .games-categories,.skills-grid,.projects-grid{grid-template-columns:1fr}
+  .social-buttons{flex-direction:column;align-items:center}
+  .social-btn{width:200px;justify-content:center}
+}
+
 
