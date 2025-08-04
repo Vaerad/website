@@ -4,165 +4,119 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alexandre Badouard – Apprenti Technicien Système & Réseau</title>
-
-  <!-- Styles & FontAwesome -->
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-
 <body>
   <div class="container">
 
     <!-- Sélecteur de thème -->
     <div class="theme-selector">
-      <div class="theme-btn blue   active" data-theme="default"></div>
-      <div class="theme-btn red"     data-theme="red"></div>
-      <div class="theme-btn purple"  data-theme="purple"></div>
-      <div class="theme-btn orange"  data-theme="orange"></div>
-      <div class="theme-btn cyan"    data-theme="cyan"></div>
+      <button class="theme-btn blue active" data-theme="default"></button>
+      <button class="theme-btn red" data-theme="red"></button>
+      <button class="theme-btn purple" data-theme="purple"></button>
+      <button class="theme-btn orange" data-theme="orange"></button>
+      <button class="theme-btn cyan" data-theme="cyan"></button>
     </div>
 
-    <!-- Sidebar ZATAZ (gauche) -->
-    <aside class="cybersec-sidebar">
-      <div class="sidebar-header">
-        <i class="fas fa-shield-alt"></i><h3>Veille Cybersec - ZATAZ</h3>
-      </div>
-      <div class="news-container">
-        <div class="loading-spinner" id="loading-spinner-zataz">
-          <i class="fas fa-spinner fa-spin"></i><span>Chargement…</span>
-        </div>
-        <ul id="cybersec-news-list"></ul>
-      </div>
+    <!-- Sidebars RSS -->
+    <aside class="sidebar cybersec">
+      <h3><i class="fas fa-shield-alt"></i> Veille Cybersec – ZATAZ</h3>
+      <ul id="cybersec-feed"></ul>
     </aside>
 
-    <!-- Sidebar IT-Connect (droite) -->
-    <aside class="tech-news-sidebar">
-      <div class="sidebar-header">
-        <i class="fas fa-rss"></i><h3>Veille Tech - IT Connect</h3>
-      </div>
-      <div class="news-container">
-        <div class="loading-spinner" id="loading-spinner-tech">
-          <i class="fas fa-spinner fa-spin"></i><span>Chargement…</span>
-        </div>
-        <ul id="tech-news-list"></ul>
-      </div>
+    <aside class="sidebar tech">
+      <h3><i class="fas fa-rss"></i> Veille Tech – IT Connect</h3>
+      <ul id="tech-feed"></ul>
     </aside>
-
-    <div class="network-bg"></div>
-
-    <!-- Titre -->
-    <header class="header">
-      <h1 class="name">Alexandre Badouard</h1>
-      <p class="subtitle">
-        Apprenti Technicien Système et Réseau • Infrastructure • Support
-      </p>
-
-      <!-- PING -->
-      <div class="latency">
-        <span class="ping-dot"></span>
-        <span id="ping-value">-- ms</span>
-      </div>
-    </header>
-
-    <!-- Navigation -->
-    <nav class="navigation">
-      <div class="nav-tabs">
-        <button class="nav-tab active" data-tab="accueil">
-          <i class="fas fa-home"></i><span>Accueil</span>
-        </button>
-        <button class="nav-tab" data-tab="cv">
-          <i class="fas fa-file-alt"></i><span>CV</span>
-        </button>
-        <button class="nav-tab" data-tab="projets">
-          <i class="fas fa-network-wired"></i><span>Projets</span>
-        </button>
-        <button class="nav-tab" data-tab="gaming">
-          <i class="fas fa-gamepad"></i><span>Gaming</span>
-        </button>
-        <button class="nav-tab" data-tab="contact">
-          <i class="fas fa-envelope"></i><span>Contact</span>
-        </button>
-      </div>
-    </nav>
 
     <!-- Contenu principal -->
-    <main class="main-content">
+    <div class="main-content">
+      <header>
+        <h1>Alexandre Badouard</h1>
+        <p class="subtitle">Apprenti Technicien Système &amp; Réseau • Infrastructure • Support</p>
+        <div class="latency">
+          <span class="ping-dot"></span>
+          <span id="ping-value">-- ms</span>
+        </div>
+      </header>
+
+      <!-- Navigation -->
+      <nav>
+        <button class="tab-btn active" data-tab="home">Accueil</button>
+        <button class="tab-btn" data-tab="cv">CV</button>
+        <button class="tab-btn" data-tab="projects">Projets</button>
+        <button class="tab-btn" data-tab="gaming">Gaming</button>
+        <button class="tab-btn" data-tab="contact">Contact</button>
+      </nav>
 
       <!-- ACCUEIL -->
-      <section class="tab-content active" id="accueil">
-        <div class="profile-section">
-          <div class="network-border">
-            <p class="bio">
-              Apprenti passionné par les technologies système et réseau, actuellement
-              en formation pour développer mes compétences en infrastructure IT,
-              support utilisateur et administration système. Motivé par l’apprentissage
-              continu et les défis techniques.
-            </p>
-          </div>
+      <section id="home" class="tab active">
+        <div class="intro-card">
+          <h2>À propos</h2>
+          <p>Apprenti passionné par les technologies système et réseau, actuellement en formation pour développer mes compétences en infrastructure IT, support utilisateur et administration système.</p>
         </div>
 
-        <div class="skills-section">
-          <h2 class="section-title">Compétences Techniques</h2>
-          <div class="skills-grid">
-            <div class="skill-card">
-              <i class="fas fa-tools"></i>
-              <h3>Support Technique</h3>
-              <p>Maintenance • Dépannage • Installation</p>
-            </div>
-            <div class="skill-card">
-              <i class="fas fa-shield-alt"></i>
-              <h3>Sécurité</h3>
-              <p>Firewall • Antivirus • Sauvegarde</p>
-            </div>
-            <div class="skill-card">
-              <i class="fas fa-server"></i>
-              <h3>Systèmes</h3>
-              <p>Windows Server • Linux • Virtualisation</p>
+        <div class="home-grid">
+          <!-- Compétences -->
+          <div class="home-card">
+            <i class="fas fa-tools"></i>
+            <h3>Support Technique</h3>
+            <p>Maintenance • Dépannage • Installation • Troubleshooting</p>
+          </div>
+
+          <div class="home-card">
+            <i class="fas fa-shield-alt"></i>
+            <h3>Sécurité</h3>
+            <p>Firewall • Antivirus • Sauvegarde • Monitoring</p>
+          </div>
+
+          <div class="home-card">
+            <i class="fas fa-server"></i>
+            <h3>Systèmes</h3>
+            <p>Windows Server • Linux • Virtualisation • Docker</p>
+          </div>
+
+          <!-- Réseaux sociaux -->
+          <div class="home-card social-buttons-card">
+            <i class="fas fa-share-alt"></i>
+            <h3>Réseaux sociaux</h3>
+            <p>Retrouvez-moi sur mes profils professionnels</p>
+
+            <div class="social-buttons-home">
+              <a href="https://github.com/vaerad" target="_blank" class="btn-home github">
+                <i class="fab fa-github"></i> GitHub
+              </a>
+              <a href="https://www.linkedin.com/in/alexandre-badouard-158306279/" target="_blank" class="btn-home linkedin">
+                <i class="fab fa-linkedin-in"></i> LinkedIn
+              </a>
             </div>
           </div>
-        </div>
 
-        <div class="social-section">
-          <h2 class="section-title">Réseaux</h2>
-          <div class="social-buttons">
-            <a href="https://github.com/vaerad" class="social-btn github">
-              <i class="fab fa-github"></i><span>GitHub</span>
-            </a>
-            <a href="https://www.linkedin.com/in/alexandre-badouard-158306279/" class="social-btn linkedin">
-              <i class="fab fa-linkedin-in"></i><span>LinkedIn</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="music-section">
-          <h2 class="section-title">Ambiance 🎵</h2>
-          <div class="network-border">
-            <div class="music-player-compact">
-              <iframe style="border-radius:12px"
-                      src="https://open.spotify.com/embed/track/5H1sKFMzDeMtXwND3V6hRY?utm_source=generator&theme=0"
-                      width="100%" height="352" frameborder="0"
-                      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                      loading="lazy"></iframe>
-            </div>
+          <!-- Musique -->
+          <div class="home-card music-card">
+            <i class="fas fa-music"></i>
+            <h3>Ambiance musicale 🎵</h3>
+            <iframe style="border-radius:8px" src="https://open.spotify.com/embed/track/5H1sKFMzDeMtXwND3V6hRY?utm_source=generator&amp;theme=0" width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
           </div>
         </div>
       </section>
 
       <!-- CV -->
-      <section class="tab-content" id="cv">
-        <div class="cv-section">
-          <h2 class="section-title">Curriculum Vitae</h2>
-          <div class="network-border">
-            <div class="cv-download-section">
-              <div class="cv-icon"><i class="fas fa-file-pdf"></i></div>
-              <h3>Mon CV Complet</h3>
-              <p>Consultez mon parcours, mes compétences et mes expériences détaillées.</p>
-              <a href="cv-alexandre-badouard.pdf" target="_blank" class="download-btn">
-                <i class="fas fa-eye"></i>Voir
+      <section id="cv" class="tab">
+        <h2>Curriculum Vitae</h2>
+        <div class="cv-container-centered">
+          <div class="cv-card">
+            <i class="fas fa-file-pdf"></i>
+            <h3>Mon CV Complet</h3>
+            <p>Consultez mon parcours, mes compétences et mes expériences détaillées.</p>
+
+            <div class="cv-actions">
+              <a href="cv-alexandre-badouard.pdf" target="_blank" class="btn primary">
+                <i class="fas fa-eye"></i> Voir mon CV
               </a>
-              <a href="cv-alexandre-badouard.pdf" download class="download-btn secondary">
-                <i class="fas fa-download"></i>Télécharger
+              <a href="cv-alexandre-badouard.pdf" download class="btn secondary">
+                <i class="fas fa-download"></i> Télécharger
               </a>
             </div>
           </div>
@@ -170,122 +124,98 @@
       </section>
 
       <!-- PROJETS -->
-      <section class="tab-content" id="projets">
-        <div class="projects-section">
-          <h2 class="section-title">Projets & Réalisations</h2>
-          <div class="projects-grid">
-            <div class="project-card">
-              <div class="project-icon"><i class="fas fa-desktop"></i></div>
-              <h3>Déploiement de Postes</h3>
-              <p>Installation et configuration de 20+ postes de travail avec intégration au domaine.</p>
-            </div>
-            <div class="project-card">
-              <div class="project-icon"><i class="fas fa-network-wired"></i></div>
-              <h3>Configuration Réseau</h3>
-              <p>Mise en place de VLAN et configuration de switches managés.</p>
-            </div>
-            <div class="project-card">
-              <div class="project-icon"><i class="fas fa-life-ring"></i></div>
-              <h3>Support Utilisateur</h3>
-              <p>Résolution de tickets incidents et maintenance préventive quotidienne.</p>
-            </div>
+      <section id="projects" class="tab">
+        <h2>Projets &amp; Réalisations</h2>
+        <div class="project-grid">
+          <div class="project-card">
+            <i class="fas fa-desktop"></i>
+            <h3>Déploiement de Postes</h3>
+            <p>Installation et configuration de 20+ postes de travail avec intégration au domaine.</p>
+          </div>
+          <div class="project-card">
+            <i class="fas fa-network-wired"></i>
+            <h3>Configuration Réseau</h3>
+            <p>Mise en place de VLAN et configuration de switches managés.</p>
+          </div>
+          <div class="project-card">
+            <i class="fas fa-life-ring"></i>
+            <h3>Support Utilisateur</h3>
+            <p>Résolution de tickets incidents et maintenance préventive quotidienne.</p>
           </div>
         </div>
       </section>
 
       <!-- GAMING -->
-      <section class="tab-content" id="gaming">
-        <div class="gaming-section">
-          <h2 class="section-title">Gaming & Passion</h2>
+      <section id="gaming" class="tab">
+        <h2>Gaming &amp; Passion</h2>
 
-          <div class="network-border gaming-setup">
-            <h3>Configuration Gaming</h3>
-            <div class="setup-specs">
-              <div class="spec-item"><i class="fas fa-microchip"></i><span>AMD Ryzen 5 5600X</span></div>
-              <div class="spec-item"><i class="fas fa-memory"></i><span>NVIDIA RTX 3080</span></div>
-              <div class="spec-item"><i class="fas fa-hdd"></i><span>32 Go DDR4 3200 MHz</span></div>
-              <div class="spec-item"><i class="fas fa-desktop"></i><span>1440p + 1080p</span></div>
+        <div class="gaming-setup-card">
+          <h3>Configuration Gaming</h3>
+          <div class="gaming-specs">
+            <div class="spec"><i class="fas fa-microchip"></i> AMD Ryzen 5 5600X</div>
+            <div class="spec"><i class="fas fa-memory"></i> NVIDIA RTX 3080</div>
+            <div class="spec"><i class="fas fa-hdd"></i> 32 Go DDR4 3200 MHz</div>
+            <div class="spec"><i class="fas fa-desktop"></i> Écran 1440p + 1080p</div>
+          </div>
+        </div>
+
+        <div class="games-grid">
+          <div class="game-category-card">
+            <h4><i class="fas fa-dragon"></i> MMORPG</h4>
+            <div class="game featured">
+              <strong>Dofus</strong> – MMORPG français emblématique, créateur de souvenirs inoubliables !
             </div>
+            <div class="game"><strong>World of Warcraft</strong> – PvE, Raids, Donjons mythiques</div>
           </div>
 
-          <div class="games-categories">
-            <div class="game-category">
-              <div class="category-header"><i class="fas fa-dragon"></i><h3>MMORPG</h3></div>
-              <div class="games-list">
-                <div class="game-item featured-game">
-                  <i class="fas fa-shield-alt"></i>
-                  <div class="game-info">
-                    <h4>Dofus</h4>
-                    <p class="game-description">
-                      MMORPG français emblématique ; malgré ses imperfections,
-                      il reste créateur de souvenirs et de liens sociaux durables.
-                    </p>
-                    <span class="game-tag">Nostalgie</span>
-                  </div>
-                </div>
-                <div class="game-item">
-                  <i class="fas fa-sword"></i>
-                  <div class="game-info"><h4>World of Warcraft</h4><p>Raids • Donjons MM</p></div>
-                </div>
-              </div>
-            </div>
+          <div class="game-category-card">
+            <h4><i class="fas fa-crosshairs"></i> FPS</h4>
+            <div class="game"><strong>Counter-Strike 2</strong> – Compétitif, Stratégie d’équipe</div>
+            <div class="game"><strong>Battlefield</strong> – Conquête, Multijoueur massif</div>
+          </div>
 
-            <div class="game-category">
-              <div class="category-header"><i class="fas fa-crosshairs"></i><h3>FPS</h3></div>
-              <div class="games-list">
-                <div class="game-item">
-                  <i class="fas fa-bomb"></i>
-                  <div class="game-info"><h4>Counter-Strike 2</h4><p>Compétitif • Teamplay</p></div>
-                </div>
-                <div class="game-item">
-                  <i class="fas fa-fighter-jet"></i>
-                  <div class="game-info"><h4>Battlefield</h4><p>Conquête • 128 joueurs</p></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="game-category">
-              <div class="category-header"><i class="fas fa-car"></i><h3>Course</h3></div>
-              <div class="games-list">
-                <div class="game-item">
-                  <i class="fas fa-flag-checkered"></i>
-                  <div class="game-info"><h4>Forza</h4><p>Simulation • Tuning</p></div>
-                </div>
-                <div class="game-item">
-                  <i class="fas fa-tachometer-alt"></i>
-                  <div class="game-info"><h4>Need for Speed</h4><p>Arcade • Urbain</p></div>
-                </div>
-              </div>
-            </div>
+          <div class="game-category-card">
+            <h4><i class="fas fa-car"></i> Course</h4>
+            <div class="game"><strong>Forza</strong> – Simulation, Tuning avancé</div>
+            <div class="game"><strong>Need for Speed</strong> – Arcade, Course urbaine</div>
           </div>
         </div>
       </section>
 
       <!-- CONTACT -->
-      <section class="tab-content" id="contact">
-        <div class="contact-section">
-          <h2 class="section-title">Contact</h2>
-          <div class="network-border">
-            <div class="contact-info">
-              <div class="contact-item"><i class="fas fa-envelope"></i><span>al.bad@outlook.fr</span></div>
-              <div class="contact-item"><i class="fas fa-phone"></i><span>06 93 53 99 75</span></div>
-              <div class="contact-item"><i class="fas fa-map-marker-alt"></i><span>Réunion</span></div>
-            </div>
+      <section id="contact" class="tab">
+        <h2>Contactez-moi</h2>
+        <div class="contact-container">
+          <div class="contact-form-card">
+            <form action="https://formspree.io/f/xnnzbejk" method="POST">
+              <label for="email">Votre email :</label>
+              <input type="email" id="email" name="email" required placeholder="exemple@email.com">
+
+              <label for="message">Votre message :</label>
+              <textarea id="message" name="message" rows="5" required placeholder="Écrivez votre message ici…"></textarea>
+
+              <button type="submit" class="btn primary">Envoyer</button>
+            </form>
+          </div>
+
+          <div class="contact-info-card">
+            <h3>Informations de contact</h3>
+            <div class="contact-item"><i class="fas fa-envelope"></i><span>al.bad@outlook.fr</span></div>
+            <div class="contact-item"><i class="fas fa-phone"></i><span>06 93 53 99 75</span></div>
+            <div class="contact-item"><i class="fas fa-map-marker-alt"></i><span>La Réunion</span></div>
           </div>
         </div>
       </section>
+    </div>
 
-    </main>
+    <footer>
+      <p>Discord : <a href="https://discord.com/users/vaerad" target="_blank"><i class="fab fa-discord"></i> vaerad</a></p>
+    </footer>
   </div>
-
-  <!-- Discord footer -->
-  <footer class="footer">
-      <i class="fab fa-discord"></i> vaerad
-    </a>
-  </footer>
 
   <script src="script.js"></script>
 </body>
 </html>
+
 
 
