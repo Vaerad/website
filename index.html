@@ -18,6 +18,21 @@
             <div class="theme-btn cyan" data-theme="cyan" title="Cyan/Turquoise"></div>
         </div>
 
+        <!-- Sidebar Veille Technologique -->
+        <aside class="tech-news-sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-rss"></i>
+                <h3>Veille Tech - IT Connect</h3>
+            </div>
+            <div class="news-container">
+                <div class="loading-spinner" id="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Chargement...</span>
+                </div>
+                <ul id="tech-news-list"></ul>
+            </div>
+        </aside>
+
         <div class="network-bg"></div>
 
         <!-- En-tête -->
@@ -91,14 +106,11 @@
                 <div class="social-section">
                     <h2 class="section-title">Réseaux</h2>
                     <div class="social-buttons">
-                        <a href="#" class="social-btn github">
+                        <a href="https://github.com/vaerad" class="social-btn github">
                             <i class="fab fa-github"></i><span>GitHub</span>
                         </a>
-                        <a href="#" class="social-btn linkedin">
+                        <a href="https://www.linkedin.com/in/alexandre-badouard-158306279/" class="social-btn linkedin">
                             <i class="fab fa-linkedin-in"></i><span>LinkedIn</span>
-                        </a>
-                        <a href="#" class="social-btn twitter">
-                            <i class="fab fa-twitter"></i><span>Twitter</span>
                         </a>
                     </div>
                 </div>
@@ -170,17 +182,25 @@
                 <div class="gaming-section">
                     <h2 class="section-title">Gaming & Passion</h2>
                     
-                    <!-- Setups gaming -->
+                    <!-- Setup gaming avec specs complètes -->
                     <div class="network-border gaming-setup">
-                        <h3>Mon Setup Gaming</h3>
+                        <h3>Configuration Gaming</h3>
                         <div class="setup-specs">
+                            <div class="spec-item">
+                                <i class="fas fa-microchip"></i>
+                                <span>AMD Ryzen 5 5600X</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-memory"></i>
+                                <span>NVIDIA RTX 3080</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-hdd"></i>
+                                <span>32GB DDR4 3200MHz</span>
+                            </div>
                             <div class="spec-item">
                                 <i class="fas fa-desktop"></i>
                                 <span>Écran principal 1440p + secondaire 1080p</span>
-                            </div>
-                            <div class="spec-item">
-                                <i class="fas fa-cogs"></i>
-                                <span>Optimisation performances & modding</span>
                             </div>
                         </div>
                     </div>
@@ -193,11 +213,17 @@
                                 <h3>MMORPG</h3>
                             </div>
                             <div class="games-list">
-                                <div class="game-item">
+                                <div class="game-item featured-game">
                                     <i class="fas fa-shield-alt"></i>
                                     <div class="game-info">
                                         <h4>Dofus</h4>
-                                        <p>Stratégies de classe • Gestion multi-comptes</p>
+                                        <p class="game-description">
+                                            Dofus représente le MMORPG français emblématique qui a marqué toute 
+                                            une génération. Malgré ses imperfections techniques connues, ce titre 
+                                            demeure un créateur de souvenirs inoubliables et de liens sociaux 
+                                            durables entre joueurs. Une expérience nostalgique riche en émotions.
+                                        </p>
+                                        <span class="game-tag">Nostalgie</span>
                                     </div>
                                 </div>
                                 <div class="game-item">
@@ -287,3 +313,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+
