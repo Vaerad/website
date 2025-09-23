@@ -2,336 +2,384 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Portfolio – Alexandre Badouard</title>
-  <meta name="description" content="Portfolio d'Alexandre Badouard, apprenti technicien système et réseau. Découvrez mes compétences, mon CV, mes projets, mes scripts et mes passions.">
+  <meta name="description" content="Portfolio d'Alexandre Badouard, apprenti technicien système et réseau. CV, projets, scripts et contact.">
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <!-- Sélecteur de thème -->
-  <div class="theme-selector">
-    <button class="theme-btn blue active" data-theme="blue"></button>
-    <button class="theme-btn red" data-theme="red"></button>
-    <button class="theme-btn purple" data-theme="purple"></button>
-    <button class="theme-btn orange" data-theme="orange"></button>
-    <button class="theme-btn cyan" data-theme="cyan"></button>
-  </div>
-
-  <div class="layout">
-    <!-- COLONNE GAUCHE -->
-    <aside class="sidebar left">
-      <h1><span>Alexandre</span><br>Badouard</h1>
-      <p class="subtitle">Apprenti Technicien<br>Système & Réseau<br>Infrastructure • Support</p>
-      <div class="latency">
-        <span class="ping-dot"></span>
-        <span id="ping-value">-- ms</span>
+  <header class="site-header">
+    <div class="brand">
+      <div class="logo-dot"></div>
+      <div class="brand-text">
+        <strong>Alexandre Badouard</strong>
+        <span>Apprenti Technicien Système & Réseau</span>
       </div>
-    </aside>
+    </div>
 
-    <!-- COLONNE CENTRALE -->
-    <main class="center">
-      <nav class="tabs">
-        <button class="tab-btn active" data-tab="home">Accueil</button>
-        <button class="tab-btn" data-tab="cv">CV</button>
-        <button class="tab-btn" data-tab="projects">Projets</button>
-        <button class="tab-btn" data-tab="gaming">Gaming</button>
-        <button class="tab-btn" data-tab="scripts">Scripts</button>
-        <button class="tab-btn" data-tab="contact">Contact</button>
-      </nav>
+    <nav class="nav-tabs" aria-label="Navigation principale">
+      <button class="tab-btn active" data-tab="home">Accueil</button>
+      <button class="tab-btn" data-tab="cv">CV</button>
+      <button class="tab-btn" data-tab="projects">Projets</button>
+      <button class="tab-btn" data-tab="gaming">Gaming</button>
+      <button class="tab-btn" data-tab="scripts">Scripts</button>
+      <button class="tab-btn" data-tab="contact">Contact</button>
 
-      <!-- ACCUEIL -->
-      <section id="home" class="tab active">
+      <!-- Sélecteur mobile -->
+      <select class="tabs-select" aria-label="Navigation mobile">
+        <option value="home" selected>Accueil</option>
+        <option value="cv">CV</option>
+        <option value="projects">Projets</option>
+        <option value="gaming">Gaming</option>
+        <option value="scripts">Scripts</option>
+        <option value="contact">Contact</option>
+      </select>
+    </nav>
+
+    <div class="theme-switcher" aria-label="Choix du thème">
+      <button class="theme-chip active" data-color="#4f46e5" title="Indigo"></button>
+      <button class="theme-chip" data-color="#16a34a" title="Vert"></button>
+      <button class="theme-chip" data-color="#f59e0b" title="Orange"></button>
+      <button class="theme-chip" data-color="#ef4444" title="Rouge"></button>
+      <button class="theme-chip" data-color="#06b6d4" title="Cyan"></button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="grid">
+      <!-- Colonne gauche -->
+      <aside class="col aside">
         <div class="card">
-          <h2>Bienvenue 👋</h2>
-          <p>Je suis passionné par l’informatique et les technologies réseau. Découvrez mon parcours, mes projets, mes outils et mes passions.</p>
+          <h2 class="card-title">Statut</h2>
+          <div class="latency">
+            <span class="ping-dot"></span>
+            <span id="ping-value">-- ms</span>
+          </div>
+          <p class="muted">Uptime simulé, ping rafraîchi toutes les 2s.</p>
         </div>
+
+        <div class="card">
+          <h2 class="card-title">À propos</h2>
+          <p>Passionné d’infra IT, d’admin système et de support. J’apprends vite, j’automatise quand c’est possible, et j’aime les environnements bien monitorés.</p>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Réseaux sociaux</h2>
+          <div class="btn-row">
+            <a class="btn ghost" target="_blank" href="https://github.com/vaerad">
+              <i class="fab fa-github"></i> GitHub
+            </a>
+            <a class="btn ghost" target="_blank" href="https://linkedin.com/in/alexandre-badouard-158306279">
+              <i class="fab fa-linkedin-in"></i> LinkedIn
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Colonne centrale (contenu par onglets) -->
+      <section class="col content">
+        <section id="home" class="tab active">
+          <div class="card">
+            <h2 class="card-title">Bienvenue 👋</h2>
+            <p>Découvre mon parcours, mes projets et un script PowerShell “boîte à outils” pour diagnostiquer et corriger rapidement un poste Windows.</p>
+          </div>
+        </section>
+
+        <section id="cv" class="tab">
+          <div class="card">
+            <h2 class="card-title">CV</h2>
+            <p>Consulte mon CV au format PDF :</p>
+            <div class="btn-row">
+              <a href="cv-alexandre-badouard.pdf" class="btn primary" target="_blank"><i class="fas fa-eye"></i> Voir</a>
+              <a href="cv-alexandre-badouard.pdf" class="btn" download><i class="fas fa-download"></i> Télécharger</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="projects" class="tab">
+          <div class="card">
+            <h2 class="card-title">Projets</h2>
+            <ul class="list">
+              <li><i class="fas fa-desktop"></i> Déploiement de 20+ postes (domaine AD, profils, GPO)</li>
+              <li><i class="fas fa-network-wired"></i> VLAN & switches managés (segmentation, QoS de base)</li>
+              <li><i class="fas fa-shield-alt"></i> Supervision et sauvegardes (scripts & planification)</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="gaming" class="tab">
+          <div class="card">
+            <h2 class="card-title">Gaming 🎮</h2>
+            <p>Ryzen 5 5600X • RTX 3080 • 32 Go • 1440p + 1080p. Jeux : Dofus, WoW, CS2, Forza.</p>
+          </div>
+        </section>
+
+        <section id="scripts" class="tab">
+          <div class="card">
+            <h2 class="card-title">AB-Toolbox (PowerShell)</h2>
+            <p>Un seul script PowerShell **ultra complet** avec menu interactif : réseau, réparations Windows, services, disque, logs, pare-feu, Wi-Fi, inventaire, etc.</p>
+            <div class="btn-row">
+              <button class="btn primary copy-btn" data-target="#ps-toolbox">Copier le script</button>
+            </div>
+            <pre class="code"><code id="ps-toolbox">
+# =========================
+#  AB-Toolbox.ps1 (Windows 10/11)
+#  Auteur : Alexandre Badouard (portfolio)
+#  Description : Menu interactif de maintenance/diagnostic
+# =========================
+
+# --- Vérif élévation ---
+$principal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+$IsAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
+if (-not $IsAdmin) {
+  Write-Host "[!] Le script doit être exécuté en tant qu'administrateur. Relance en admin..." -ForegroundColor Yellow
+  Start-Process -FilePath "powershell.exe" -Verb RunAs -ArgumentList "-ExecutionPolicy Bypass -File `"$PSCommandPath`""
+  exit
+}
+
+# --- Préférences ---
+$ErrorActionPreference = "Stop"
+$host.UI.RawUI.WindowTitle = "AB-Toolbox - Outils Système & Réseau"
+$LogPath = Join-Path $env:TEMP ("AB-Toolbox_" + (Get-Date -f 'yyyyMMdd_HHmmss') + ".log")
+
+function Log($msg) {
+  $line = "[{0}] {1}" -f (Get-Date -f 'yyyy-MM-dd HH:mm:ss'), $msg
+  $line | Tee-Object -FilePath $LogPath -Append
+}
+
+function Pause() {
+  Write-Host ""
+  Read-Host "Appuie sur Entrée pour continuer"
+}
+
+function Section($title) {
+  Write-Host ("`n=== {0} ===`n" -f $title) -ForegroundColor Cyan
+}
+
+# --- Outils Réseau ---
+function Flush-DNSRenew-IP {
+  Section "Nettoyage DNS / Renouvellement IP"
+  ipconfig /flushdns | Out-Null
+  ipconfig /release | Out-Null
+  ipconfig /renew | Out-Null
+  Log "DNS flush + IP renew effectués."
+  Write-Host "OK." -ForegroundColor Green
+}
+
+function Reset-Network-Stack {
+  Section "Réinitialisation réseau (Winsock, TCP/IP, IPv4/IPv6)"
+  netsh winsock reset | Out-Null
+  netsh int ip reset | Out-Null
+  netsh int ipv4 reset | Out-Null
+  netsh int ipv6 reset | Out-Null
+  Log "Stack réseau réinitialisée. Un redémarrage est recommandé."
+  Write-Host "Réinitialisation effectuée. Pense à redémarrer." -ForegroundColor Green
+}
+
+function Show-Network-Info {
+  Section "Infos réseau"
+  ipconfig /all
+  Write-Host ""
+  try { Get-NetIPConfiguration | Where-Object {$_.IPv4Address} | Format-Table InterfaceAlias,IPv4Address,DNSServer -Auto } catch {}
+  Log "Infos réseau affichées."
+}
+
+function Quick-Ping {
+  Section "Test de connexion"
+  Test-Connection -ComputerName 8.8.8.8 -Count 4 | Select Address,Latency,Status | Format-Table -Auto
+  Log "Ping vers 8.8.8.8 effectué."
+}
+
+function Wifi-Report {
+  Section "Rapport Wi-Fi (HTML)"
+  netsh wlan show wlanreport | Out-Null
+  $path = Join-Path $env:ProgramData "Microsoft\Windows\WlanReport\wlan-report-latest.html"
+  if (Test-Path $path) { Log "Rapport Wi-Fi : $path"; Write-Host "Rapport généré : $path" -ForegroundColor Green } else { Write-Host "Impossible de localiser le rapport." -ForegroundColor Yellow }
+}
+
+# --- Système & Réparations ---
+function SFC-Scan {
+  Section "Vérification fichiers système (SFC)"
+  sfc /scannow
+  Log "SFC effectué."
+}
+
+function DISM-Repair {
+  Section "Réparation composant Windows (DISM)"
+  DISM /Online /Cleanup-Image /RestoreHealth
+  Log "DISM RestoreHealth effectué."
+}
+
+function Check-Disk {
+  Section "Vérification du disque C:"
+  chkdsk C:
+  Log "CHKDSK C: exécuté (lecture)."
+}
+
+function Cleanup-Updates {
+  Section "Nettoyage composants Windows Update"
+  Dism.exe /Online /Cleanup-Image /StartComponentCleanup
+  Log "StartComponentCleanup exécuté."
+}
+
+function Clean-Temp {
+  Section "Nettoyage des fichiers temporaires"
+  Get-ChildItem "$env:TEMP" -Force -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+  Log "Temp utilisateur nettoyé."
+  Write-Host "Temp nettoyé." -ForegroundColor Green
+}
+
+# --- Services / Pare-feu ---
+function Restart-Spooler {
+  Section "Redémarrer le spouleur d'impression"
+  Stop-Service -Name Spooler -Force -ErrorAction SilentlyContinue
+  Start-Service -Name Spooler
+  Log "Spooler redémarré."
+  Write-Host "Spooler OK." -ForegroundColor Green
+}
+
+function Enable-RDP {
+  Section "Activer RDP + règle pare-feu"
+  Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name 'fDenyTSConnections' -Value 0
+  Enable-NetFirewallRule -DisplayGroup 'Remote Desktop'
+  Log "RDP activé et règle pare-feu ouverte."
+  Write-Host "RDP activé." -ForegroundColor Green
+}
+
+function Open-Firewall-Port {
+  Section "Ouvrir port pare-feu"
+  $port = Read-Host "Numéro de port TCP à ouvrir"
+  if ($port -match '^\d+$') {
+    New-NetFirewallRule -DisplayName "AB-Toolbox TCP $port" -Direction Inbound -Protocol TCP -LocalPort $port -Action Allow | Out-Null
+    Log "Port $port ouvert."
+    Write-Host "Port $port autorisé." -ForegroundColor Green
+  } else {
+    Write-Host "Port invalide." -ForegroundColor Yellow
+  }
+}
+
+# --- Inventaire / Logs ---
+function Drivers-List {
+  Section "Pilotes installés"
+  driverquery /v /fo table
+  Log "DriverQuery affiché."
+}
+
+function Packages-List {
+  Section "Packages installés (si disponibles)"
+  try { Get-Package | Sort-Object Name | Format-Table Name,Version -Auto } catch { Write-Host "Get-Package indisponible." -ForegroundColor Yellow }
+  Log "Packages listés."
+}
+
+function Recent-Errors {
+  Section "Événements Système (erreurs/critique - 20 derniers)"
+  try {
+    Get-WinEvent -FilterHashtable @{LogName='System'; Level=1,2} -MaxEvents 20 |
+      Format-Table TimeCreated, Id, LevelDisplayName, ProviderName -Auto
+    Log "Événements système affichés."
+  } catch { Write-Host "Lecture des journaux impossible." -ForegroundColor Yellow }
+}
+
+# --- Menu ---
+function Show-Menu {
+  Clear-Host
+  Write-Host "===== AB-Toolbox =====" -ForegroundColor Magenta
+  Write-Host "[1] Réseau : Flush DNS + Renew IP"
+  Write-Host "[2] Réseau : Reset stack (Winsock/TCP/IP)"
+  Write-Host "[3] Réseau : Infos + Ping 8.8.8.8"
+  Write-Host "[4] Réseau : Rapport Wi-Fi"
+  Write-Host "----"
+  Write-Host "[5] Système : SFC (fichiers système)"
+  Write-Host "[6] Système : DISM RestoreHealth"
+  Write-Host "[7] Système : CHKDSK C:"
+  Write-Host "[8] Système : Nettoyage Windows Update"
+  Write-Host "[9] Système : Nettoyage TEMP"
+  Write-Host "----"
+  Write-Host "[10] Services : Redémarrer Spooler"
+  Write-Host "[11] Pare-feu : Activer RDP"
+  Write-Host "[12] Pare-feu : Ouvrir un port TCP"
+  Write-Host "----"
+  Write-Host "[13] Inventaire : Pilotes"
+  Write-Host "[14] Inventaire : Packages"
+  Write-Host "[15] Logs : Erreurs récentes"
+  Write-Host "----"
+  Write-Host "[0] Quitter"
+  Write-Host "Log : $LogPath" -ForegroundColor DarkGray
+}
+
+do {
+  Show-Menu
+  $choice = Read-Host "Choix"
+  try {
+    switch ($choice) {
+      1 { Flush-DNSRenew-IP }
+      2 { Reset-Network-Stack }
+      3 { Show-Network-Info; Quick-Ping }
+      4 { Wifi-Report }
+      5 { SFC-Scan }
+      6 { DISM-Repair }
+      7 { Check-Disk }
+      8 { Cleanup-Updates }
+      9 { Clean-Temp }
+      10 { Restart-Spooler }
+      11 { Enable-RDP }
+      12 { Open-Firewall-Port }
+      13 { Drivers-List }
+      14 { Packages-List }
+      15 { Recent-Errors }
+      0 { break }
+      default { Write-Host "Choix invalide." -ForegroundColor Yellow }
+    }
+  } catch {
+    Log "Erreur : $($_.Exception.Message)"
+    Write-Host "Une erreur est survenue : $($_.Exception.Message)" -ForegroundColor Red
+  }
+  Pause
+} while ($true)
+
+Write-Host "Au revoir." -ForegroundColor Cyan
+</code></pre>
+            <p class="muted">Enregistre comme <code>AB-Toolbox.ps1</code>, ouvre PowerShell en admin, et exécute : <code>powershell.exe -ExecutionPolicy Bypass -File .\AB-Toolbox.ps1</code></p>
+          </div>
+        </section>
+
+        <section id="contact" class="tab">
+          <div class="card">
+            <h2 class="card-title">Contact</h2>
+            <form action="https://formspree.io/f/xnnzbejk" method="POST" class="form">
+              <input type="email" name="email" placeholder="Votre email" required>
+              <textarea name="message" rows="5" placeholder="Votre message..." required></textarea>
+              <button type="submit" class="btn primary">Envoyer</button>
+            </form>
+          </div>
+        </section>
       </section>
 
-      <!-- CV -->
-      <section id="cv" class="tab">
+      <!-- Colonne droite -->
+      <aside class="col aside">
         <div class="card">
-          <h2>Mon CV</h2>
-          <p>Consultez mon CV complet :</p>
-          <a href="cv-alexandre-badouard.pdf" target="_blank" class="btn primary">
-            <i class="fas fa-eye"></i> Voir
-          </a>
-          <a href="cv-alexandre-badouard.pdf" download class="btn secondary">
-            <i class="fas fa-download"></i> Télécharger
-          </a>
-        </div>
-      </section>
-
-      <!-- PROJETS -->
-      <section id="projects" class="tab">
-        <div class="card">
-          <h2>Projets</h2>
-          <ul>
-            <li><i class="fas fa-desktop"></i> Déploiement de 20+ postes</li>
-            <li><i class="fas fa-network-wired"></i> VLAN &amp; switches managés</li>
-            <li><i class="fas fa-life-ring"></i> Support utilisateurs quotidien</li>
+          <h2 class="card-title">Compétences</h2>
+          <ul class="list">
+            <li><i class="fas fa-tools"></i> Support technique</li>
+            <li><i class="fas fa-server"></i> Windows / Linux</li>
+            <li><i class="fas fa-network-wired"></i> Réseau (VLAN, DHCP, DNS)</li>
+            <li><i class="fas fa-shield-alt"></i> Sécurité & sauvegardes</li>
           </ul>
         </div>
-      </section>
-
-      <!-- GAMING -->
-      <section id="gaming" class="tab">
         <div class="card">
-          <h2>Gaming 🎮</h2>
-          <p>Ma config : Ryzen 5 5600X • RTX 3080 • 32Go RAM</p>
-          <p>Jeux préférés : Dofus, WoW, Counter-Strike 2, Forza</p>
+          <h2 class="card-title">Musique</h2>
+          <iframe style="border-radius:8px;width:100%;height:152px" src="https://open.spotify.com/embed/track/5H1sKFMzDeMtXwND3V6hRY?utm_source=generator&theme=0" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
-      </section>
+      </aside>
+    </section>
+  </main>
 
-      <!-- SCRIPTS (ULTRA FOURNI) -->
-      <section id="scripts" class="tab">
-        <div class="card">
-          <h2>Scripts Utiles ⚙️</h2>
-
-          <!-- ===== RÉSEAU / CONNECTIVITÉ ===== -->
-          <div class="script-card">
-            <h3>Nettoyage DNS</h3>
-            <p>Vide le cache DNS et renouvelle l’adresse IP (CMD).</p>
-            <pre><code>ipconfig /flushdns
-ipconfig /release
-ipconfig /renew</code></pre>
-            <button class="btn secondary copy-btn" data-code="ipconfig /flushdns&#10;ipconfig /release&#10;ipconfig /renew">Copier</button>
-          </div>
-
-          <div class="script-card">
-            <h3>Réinitialisation réseau avancée</h3>
-            <p>Reset Winsock, stack TCP/IP, IPv4/IPv6 puis reboot (CMD, admin).</p>
-            <pre><code>netsh winsock reset
-netsh int ip reset
-netsh int ipv4 reset
-netsh int ipv6 reset
-shutdown /r /t 5</code></pre>
-            <button class="btn secondary copy-btn" data-code="netsh winsock reset&#10;netsh int ip reset&#10;netsh int ipv4 reset&#10;netsh int ipv6 reset&#10;shutdown /r /t 5">Copier</button>
-          </div>
-
-          <div class="script-card">
-            <h3>Infos réseau détaillées</h3>
-            <p>Configuration réseau complète (CMD).</p>
-            <pre><code>ipconfig /all</code></pre>
-            <button class="btn secondary copy-btn" data-code="ipconfig /all">Copier</button>
-          </div>
-
-          <div class="script-card">
-            <h3>Test de connexion</h3>
-            <p>Ping Google DNS (CMD).</p>
-            <pre><code>ping 8.8.8.8 -n 4</code></pre>
-            <button class="btn secondary copy-btn" data-code="ping 8.8.8.8 -n 4">Copier</button>
-          </div>
-
-          <div class="script-card">
-            <h3>Rapport Wi-Fi Windows</h3>
-            <p>Génère un rapport HTML de la connectivité sans fil (CMD).</p>
-            <pre><code>netsh wlan show wlanreport</code></pre>
-            <button class="btn secondary copy-btn" data-code="netsh wlan show wlanreport">Copier</button>
-          </div>
-
-          <!-- ===== SYSTÈME / INTÉGRITÉ ===== -->
-          <div class="script-card">
-            <h3>Vérification des fichiers système</h3>
-            <p>Répare les fichiers corrompus (CMD, admin).</p>
-            <pre><code>sfc /scannow</code></pre>
-            <button class="btn secondary copy-btn" data-code="sfc /scannow">Copier</button>
-          </div>
-
-          <div class="script-card">
-            <h3>Réparation composant Windows</h3>
-            <p>DISM RestoreHealth (CMD, admin).</p>
-            <pre><code>DISM /Online /Cleanup-Image /RestoreHealth</code></pre>
-            <button class="btn secondary copy-btn" data-code="DISM /Online /Cleanup-Image /RestoreHealth">Copier</button>
-          </div>
-
-          <div class="script-card">
-            <h3>Vérification du disque</h3>
-            <p>Check disque lecteur C: (CMD).</p>
-            <pre><code>chkdsk C:</code></pre>
-            <button class="btn secondary copy-btn" data-code="chkdsk C:">Copier</button>
-          </div>
-
-          <div class="script-card">
-            <h3>Infos système (PowerShell)</h3>
-            <p>Résumé de la machine (PS).</p>
-            <pre><code>Get-ComputerInfo</code></pre>
-            <button class="btn secondary copy-btn" data-code="Get-ComputerInfo">Copier</button>
-          </div>
-
-          <div class="script-card">
-            <h3>Liste des drivers</h3>
-            <p>Inventaire des pilotes installés (CMD).</p>
-            <pre><code>driverquery /v /fo table</code></pre>
-            <button class="btn secondary copy-btn" data-code="driverquery /v /fo table">Copier</button>
-          </div>
-
-          <!-- ===== PROCESSUS / SERVICES ===== -->
-          <div class="script-card">
-            <h3>Processus en cours</h3>
-            <p>Liste des processus (CMD).</p>
-            <pre><code>tasklist</code></pre>
-            <button class="btn secondary copy-btn" data-code="tasklist">Copier</button>
-          </div>
-
-          <div class="script-card">
-            <h3>Kill processus par nom</h3>
-            <p>Termine un processus (CMD). Remplace <code>notepad.exe</code> au besoin.</p>
-            <pre><code>taskkill /IM notepad.exe /F</code></pre>
-            <button class="btn secondary copy-btn" data-code="taskkill /IM notepad.exe /F">Copier</button>
-          </div>
-
-          <div class="script-card">
-            <h3>Redémarrer le spouleur d’impression</h3>
-            <p>Corrige certains soucis d’impression (CMD, admin).</p>
-            <pre><code>net stop spooler
-net start spooler</code></pre>
-            <button class="btn secondary copy-btn" data-code="net stop spooler&#10;net start spooler">Copier</button>
-          </div>
-
-          <!-- ===== NETTOYAGE / MAINTENANCE ===== -->
-          <div class="script-card">
-            <h3>Nettoyage fichiers temporaires</h3>
-            <p>Supprime les fichiers Temp de l’utilisateur (CMD).</p>
-            <pre><code>del /q/f/s %TEMP%\*</code></pre>
-            <button class="btn secondary copy-btn" data-code="del /q/f/s %TEMP%\*">Copier</button>
-          </div>
-
-          <div class="script-card">
-            <h3>Nettoyage Windows Update (PS)</h3>
-            <p>Libère de l’espace lié à Windows Update (PowerShell, admin).</p>
-            <pre><code>Dism.exe /Online /Cleanup-Image /StartComponentCleanup</code></pre>
-            <button class="btn secondary copy-btn" data-code="Dism.exe /Online /Cleanup-Image /StartComponentCleanup">Copier</button>
-          </div>
-
-          <div class="script-card">
-            <h3>Démarrage en mode nettoyage disque</h3>
-            <p>Lance l’outil propre disque en mode avancé (CMD).</p>
-            <pre><code>cleanmgr /sageset:1 &amp; cleanmgr /sagerun:1</code></pre>
-            <button class="btn secondary copy-btn" data-code="cleanmgr /sageset:1 &amp; cleanmgr /sagerun:1">Copier</button>
-          </div>
-
-          <!-- ===== SÉCURITÉ / RDP / PARE-FEU ===== -->
-          <div class="script-card">
-            <h3>Activer le Bureau à distance (RDP)</h3>
-            <p>Active RDP et ouvre le port 3389 (PowerShell, admin).</p>
-            <pre><code>Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name 'fDenyTSConnections' -Value 0
-Enable-NetFirewallRule -DisplayGroup 'Remote Desktop'</code></pre>
-            <button class="btn secondary copy-btn" data-code="Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name 'fDenyTSConnections' -Value 0&#10;Enable-NetFirewallRule -DisplayGroup 'Remote Desktop'">Copier</button>
-          </div>
-
-          <div class="script-card">
-            <h3>Ouvrir un port pare-feu</h3>
-            <p>Exemple : ouvre TCP 8080 (PowerShell, admin).</p>
-            <pre><code>New-NetFirewallRule -DisplayName &quot;App 8080&quot; -Direction Inbound -Protocol TCP -LocalPort 8080 -Action Allow</code></pre>
-            <button class="btn secondary copy-btn" data-code="New-NetFirewallRule -DisplayName &quot;App 8080&quot; -Direction Inbound -Protocol TCP -LocalPort 8080 -Action Allow">Copier</button>
-          </div>
-
-          <!-- ===== INVENTAIRE / LOGS ===== -->
-          <div class="script-card">
-            <h3>Logiciels installés (PS)</h3>
-            <p>Liste (si dispo) des packages installés.</p>
-            <pre><code>Get-Package | Sort-Object Name | Format-Table Name, Version -Auto</code></pre>
-            <button class="btn secondary copy-btn" data-code="Get-Package | Sort-Object Name | Format-Table Name, Version -Auto">Copier</button>
-          </div>
-
-          <div class="script-card">
-            <h3>Evénements système récents</h3>
-            <p>20 derniers événements critiques/erreurs (PS).</p>
-            <pre><code>Get-WinEvent -FilterHashtable @{LogName='System'; Level=1,2} -MaxEvents 20 | Format-Table TimeCreated, Id, LevelDisplayName, ProviderName, Message -Auto</code></pre>
-            <button class="btn secondary copy-btn" data-code="Get-WinEvent -FilterHashtable @{LogName='System'; Level=1,2} -MaxEvents 20 | Format-Table TimeCreated, Id, LevelDisplayName, ProviderName, Message -Auto">Copier</button>
-          </div>
-
-          <!-- ===== RÉSEAUX / IP & ARP ===== -->
-          <div class="script-card">
-            <h3>Table ARP</h3>
-            <p>Voir les IP/MAC connues (CMD).</p>
-            <pre><code>arp -a</code></pre>
-            <button class="btn secondary copy-btn" data-code="arp -a">Copier</button>
-          </div>
-
-          <div class="script-card">
-            <h3>Ports en écoute</h3>
-            <p>Affiche les ports ouverts avec processus (CMD).</p>
-            <pre><code>netstat -abno</code></pre>
-            <button class="btn secondary copy-btn" data-code="netstat -abno">Copier</button>
-          </div>
-
-          <!-- ===== UTILITAIRES RAPIDES ===== -->
-          <div class="script-card">
-            <h3>Heure &amp; NTP (PS)</h3>
-            <p>Vérifie l’état du service de temps.</p>
-            <pre><code>Get-Service W32Time | Format-Table Status, Name, DisplayName</code></pre>
-            <button class="btn secondary copy-btn" data-code="Get-Service W32Time | Format-Table Status, Name, DisplayName">Copier</button>
-          </div>
-
-          <div class="script-card">
-            <h3>Variables IP (PS)</h3>
-            <p>Liste les interfaces actives avec IP.</p>
-            <pre><code>Get-NetIPConfiguration | Where-Object {$_.IPv4Address} | Format-Table InterfaceAlias, IPv4Address, DNSServer -Auto</code></pre>
-            <button class="btn secondary copy-btn" data-code="Get-NetIPConfiguration | Where-Object {$_.IPv4Address} | Format-Table InterfaceAlias, IPv4Address, DNSServer -Auto">Copier</button>
-          </div>
-
-          <!-- ===== (BONUS) BASH / WSL ===== -->
-          <div class="script-card">
-            <h3>Traceroute (Bash/WSL)</h3>
-            <p>Trajet réseau jusqu’à 8.8.8.8 (Linux).</p>
-            <pre><code>traceroute 8.8.8.8</code></pre>
-            <button class="btn secondary copy-btn" data-code="traceroute 8.8.8.8">Copier</button>
-          </div>
-
-          <div class="script-card">
-            <h3>Top 10 connexions (Bash)</h3>
-            <p>Résumé netstat (Linux).</p>
-            <pre><code>ss -tunap | head -n 10</code></pre>
-            <button class="btn secondary copy-btn" data-code="ss -tunap | head -n 10">Copier</button>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- CONTACT -->
-      <section id="contact" class="tab">
-        <div class="card">
-          <h2>Contact</h2>
-          <form action="https://formspree.io/f/xnnzbejk" method="POST">
-            <input type="email" name="email" placeholder="Votre email" required>
-            <textarea name="message" rows="5" placeholder="Votre message..." required></textarea>
-            <button type="submit" class="btn primary">Envoyer</button>
-          </form>
-        </div>
-      </section>
-    </main>
-
-    <!-- COLONNE DROITE -->
-    <aside class="sidebar right">
-      <div class="card">
-        <h3>À propos</h3>
-        <p>Apprenti en infrastructure IT, support utilisateur et administration système.</p>
-      </div>
-      <div class="card">
-        <h3>Compétences</h3>
-        <p><i class="fas fa-tools"></i> Support technique</p>
-        <p><i class="fas fa-shield-alt"></i> Sécurité</p>
-        <p><i class="fas fa-server"></i> Systèmes</p>
-      </div>
-      <div class="card">
-        <h3>Réseaux sociaux</h3>
-        <a href="https://github.com/vaerad" target="_blank" class="btn-home github">
-          <i class="fab fa-github"></i> GitHub
-        </a>
-        <a href="https://linkedin.com/in/alexandre-badouard-158306279" target="_blank" class="btn-home linkedin">
-          <i class="fab fa-linkedin-in"></i> LinkedIn
-        </a>
-      </div>
-    </aside>
-  </div>
-
-  <footer>
-    <p>&copy; 2025 Alexandre Badouard – Tous droits réservés</p>
+  <footer class="site-footer">
+    <p>© 2025 Alexandre Badouard — Tous droits réservés</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
