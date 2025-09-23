@@ -45,7 +45,7 @@
       <section id="home" class="tab active">
         <div class="card">
           <h2>Bienvenue 👋</h2>
-          <p>Je suis passionné par l’informatique et les technologies réseau. Découvrez mon parcours, mes projets et mes passions.</p>
+          <p>Je suis passionné par l’informatique et les technologies réseau. Découvrez mon parcours, mes projets, mes outils et mes passions.</p>
         </div>
       </section>
 
@@ -69,7 +69,7 @@
           <h2>Projets</h2>
           <ul>
             <li><i class="fas fa-desktop"></i> Déploiement de 20+ postes</li>
-            <li><i class="fas fa-network-wired"></i> VLAN & switches managés</li>
+            <li><i class="fas fa-network-wired"></i> VLAN &amp; switches managés</li>
             <li><i class="fas fa-life-ring"></i> Support utilisateurs quotidien</li>
           </ul>
         </div>
@@ -84,34 +84,208 @@
         </div>
       </section>
 
-      <!-- SCRIPTS -->
+      <!-- SCRIPTS (ULTRA FOURNI) -->
       <section id="scripts" class="tab">
         <div class="card">
           <h2>Scripts Utiles ⚙️</h2>
 
+          <!-- ===== RÉSEAU / CONNECTIVITÉ ===== -->
           <div class="script-card">
             <h3>Nettoyage DNS</h3>
-            <p>Vide le cache DNS et renouvelle l’adresse IP.</p>
+            <p>Vide le cache DNS et renouvelle l’adresse IP (CMD).</p>
             <pre><code>ipconfig /flushdns
 ipconfig /release
 ipconfig /renew</code></pre>
-            <button class="btn secondary copy-btn" data-code="ipconfig /flushdns&#10;ipconfig /release&#10;ipconfig /renew">
-              Copier
-            </button>
+            <button class="btn secondary copy-btn" data-code="ipconfig /flushdns&#10;ipconfig /release&#10;ipconfig /renew">Copier</button>
           </div>
 
           <div class="script-card">
-            <h3>Infos Réseau</h3>
-            <p>Affiche les infos détaillées de la configuration réseau.</p>
+            <h3>Réinitialisation réseau avancée</h3>
+            <p>Reset Winsock, stack TCP/IP, IPv4/IPv6 puis reboot (CMD, admin).</p>
+            <pre><code>netsh winsock reset
+netsh int ip reset
+netsh int ipv4 reset
+netsh int ipv6 reset
+shutdown /r /t 5</code></pre>
+            <button class="btn secondary copy-btn" data-code="netsh winsock reset&#10;netsh int ip reset&#10;netsh int ipv4 reset&#10;netsh int ipv6 reset&#10;shutdown /r /t 5">Copier</button>
+          </div>
+
+          <div class="script-card">
+            <h3>Infos réseau détaillées</h3>
+            <p>Configuration réseau complète (CMD).</p>
             <pre><code>ipconfig /all</code></pre>
             <button class="btn secondary copy-btn" data-code="ipconfig /all">Copier</button>
           </div>
 
           <div class="script-card">
             <h3>Test de connexion</h3>
-            <p>Envoie 4 pings vers Google.</p>
+            <p>Ping Google DNS (CMD).</p>
             <pre><code>ping 8.8.8.8 -n 4</code></pre>
             <button class="btn secondary copy-btn" data-code="ping 8.8.8.8 -n 4">Copier</button>
+          </div>
+
+          <div class="script-card">
+            <h3>Rapport Wi-Fi Windows</h3>
+            <p>Génère un rapport HTML de la connectivité sans fil (CMD).</p>
+            <pre><code>netsh wlan show wlanreport</code></pre>
+            <button class="btn secondary copy-btn" data-code="netsh wlan show wlanreport">Copier</button>
+          </div>
+
+          <!-- ===== SYSTÈME / INTÉGRITÉ ===== -->
+          <div class="script-card">
+            <h3>Vérification des fichiers système</h3>
+            <p>Répare les fichiers corrompus (CMD, admin).</p>
+            <pre><code>sfc /scannow</code></pre>
+            <button class="btn secondary copy-btn" data-code="sfc /scannow">Copier</button>
+          </div>
+
+          <div class="script-card">
+            <h3>Réparation composant Windows</h3>
+            <p>DISM RestoreHealth (CMD, admin).</p>
+            <pre><code>DISM /Online /Cleanup-Image /RestoreHealth</code></pre>
+            <button class="btn secondary copy-btn" data-code="DISM /Online /Cleanup-Image /RestoreHealth">Copier</button>
+          </div>
+
+          <div class="script-card">
+            <h3>Vérification du disque</h3>
+            <p>Check disque lecteur C: (CMD).</p>
+            <pre><code>chkdsk C:</code></pre>
+            <button class="btn secondary copy-btn" data-code="chkdsk C:">Copier</button>
+          </div>
+
+          <div class="script-card">
+            <h3>Infos système (PowerShell)</h3>
+            <p>Résumé de la machine (PS).</p>
+            <pre><code>Get-ComputerInfo</code></pre>
+            <button class="btn secondary copy-btn" data-code="Get-ComputerInfo">Copier</button>
+          </div>
+
+          <div class="script-card">
+            <h3>Liste des drivers</h3>
+            <p>Inventaire des pilotes installés (CMD).</p>
+            <pre><code>driverquery /v /fo table</code></pre>
+            <button class="btn secondary copy-btn" data-code="driverquery /v /fo table">Copier</button>
+          </div>
+
+          <!-- ===== PROCESSUS / SERVICES ===== -->
+          <div class="script-card">
+            <h3>Processus en cours</h3>
+            <p>Liste des processus (CMD).</p>
+            <pre><code>tasklist</code></pre>
+            <button class="btn secondary copy-btn" data-code="tasklist">Copier</button>
+          </div>
+
+          <div class="script-card">
+            <h3>Kill processus par nom</h3>
+            <p>Termine un processus (CMD). Remplace <code>notepad.exe</code> au besoin.</p>
+            <pre><code>taskkill /IM notepad.exe /F</code></pre>
+            <button class="btn secondary copy-btn" data-code="taskkill /IM notepad.exe /F">Copier</button>
+          </div>
+
+          <div class="script-card">
+            <h3>Redémarrer le spouleur d’impression</h3>
+            <p>Corrige certains soucis d’impression (CMD, admin).</p>
+            <pre><code>net stop spooler
+net start spooler</code></pre>
+            <button class="btn secondary copy-btn" data-code="net stop spooler&#10;net start spooler">Copier</button>
+          </div>
+
+          <!-- ===== NETTOYAGE / MAINTENANCE ===== -->
+          <div class="script-card">
+            <h3>Nettoyage fichiers temporaires</h3>
+            <p>Supprime les fichiers Temp de l’utilisateur (CMD).</p>
+            <pre><code>del /q/f/s %TEMP%\*</code></pre>
+            <button class="btn secondary copy-btn" data-code="del /q/f/s %TEMP%\*">Copier</button>
+          </div>
+
+          <div class="script-card">
+            <h3>Nettoyage Windows Update (PS)</h3>
+            <p>Libère de l’espace lié à Windows Update (PowerShell, admin).</p>
+            <pre><code>Dism.exe /Online /Cleanup-Image /StartComponentCleanup</code></pre>
+            <button class="btn secondary copy-btn" data-code="Dism.exe /Online /Cleanup-Image /StartComponentCleanup">Copier</button>
+          </div>
+
+          <div class="script-card">
+            <h3>Démarrage en mode nettoyage disque</h3>
+            <p>Lance l’outil propre disque en mode avancé (CMD).</p>
+            <pre><code>cleanmgr /sageset:1 &amp; cleanmgr /sagerun:1</code></pre>
+            <button class="btn secondary copy-btn" data-code="cleanmgr /sageset:1 &amp; cleanmgr /sagerun:1">Copier</button>
+          </div>
+
+          <!-- ===== SÉCURITÉ / RDP / PARE-FEU ===== -->
+          <div class="script-card">
+            <h3>Activer le Bureau à distance (RDP)</h3>
+            <p>Active RDP et ouvre le port 3389 (PowerShell, admin).</p>
+            <pre><code>Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name 'fDenyTSConnections' -Value 0
+Enable-NetFirewallRule -DisplayGroup 'Remote Desktop'</code></pre>
+            <button class="btn secondary copy-btn" data-code="Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name 'fDenyTSConnections' -Value 0&#10;Enable-NetFirewallRule -DisplayGroup 'Remote Desktop'">Copier</button>
+          </div>
+
+          <div class="script-card">
+            <h3>Ouvrir un port pare-feu</h3>
+            <p>Exemple : ouvre TCP 8080 (PowerShell, admin).</p>
+            <pre><code>New-NetFirewallRule -DisplayName &quot;App 8080&quot; -Direction Inbound -Protocol TCP -LocalPort 8080 -Action Allow</code></pre>
+            <button class="btn secondary copy-btn" data-code="New-NetFirewallRule -DisplayName &quot;App 8080&quot; -Direction Inbound -Protocol TCP -LocalPort 8080 -Action Allow">Copier</button>
+          </div>
+
+          <!-- ===== INVENTAIRE / LOGS ===== -->
+          <div class="script-card">
+            <h3>Logiciels installés (PS)</h3>
+            <p>Liste (si dispo) des packages installés.</p>
+            <pre><code>Get-Package | Sort-Object Name | Format-Table Name, Version -Auto</code></pre>
+            <button class="btn secondary copy-btn" data-code="Get-Package | Sort-Object Name | Format-Table Name, Version -Auto">Copier</button>
+          </div>
+
+          <div class="script-card">
+            <h3>Evénements système récents</h3>
+            <p>20 derniers événements critiques/erreurs (PS).</p>
+            <pre><code>Get-WinEvent -FilterHashtable @{LogName='System'; Level=1,2} -MaxEvents 20 | Format-Table TimeCreated, Id, LevelDisplayName, ProviderName, Message -Auto</code></pre>
+            <button class="btn secondary copy-btn" data-code="Get-WinEvent -FilterHashtable @{LogName='System'; Level=1,2} -MaxEvents 20 | Format-Table TimeCreated, Id, LevelDisplayName, ProviderName, Message -Auto">Copier</button>
+          </div>
+
+          <!-- ===== RÉSEAUX / IP & ARP ===== -->
+          <div class="script-card">
+            <h3>Table ARP</h3>
+            <p>Voir les IP/MAC connues (CMD).</p>
+            <pre><code>arp -a</code></pre>
+            <button class="btn secondary copy-btn" data-code="arp -a">Copier</button>
+          </div>
+
+          <div class="script-card">
+            <h3>Ports en écoute</h3>
+            <p>Affiche les ports ouverts avec processus (CMD).</p>
+            <pre><code>netstat -abno</code></pre>
+            <button class="btn secondary copy-btn" data-code="netstat -abno">Copier</button>
+          </div>
+
+          <!-- ===== UTILITAIRES RAPIDES ===== -->
+          <div class="script-card">
+            <h3>Heure &amp; NTP (PS)</h3>
+            <p>Vérifie l’état du service de temps.</p>
+            <pre><code>Get-Service W32Time | Format-Table Status, Name, DisplayName</code></pre>
+            <button class="btn secondary copy-btn" data-code="Get-Service W32Time | Format-Table Status, Name, DisplayName">Copier</button>
+          </div>
+
+          <div class="script-card">
+            <h3>Variables IP (PS)</h3>
+            <p>Liste les interfaces actives avec IP.</p>
+            <pre><code>Get-NetIPConfiguration | Where-Object {$_.IPv4Address} | Format-Table InterfaceAlias, IPv4Address, DNSServer -Auto</code></pre>
+            <button class="btn secondary copy-btn" data-code="Get-NetIPConfiguration | Where-Object {$_.IPv4Address} | Format-Table InterfaceAlias, IPv4Address, DNSServer -Auto">Copier</button>
+          </div>
+
+          <!-- ===== (BONUS) BASH / WSL ===== -->
+          <div class="script-card">
+            <h3>Traceroute (Bash/WSL)</h3>
+            <p>Trajet réseau jusqu’à 8.8.8.8 (Linux).</p>
+            <pre><code>traceroute 8.8.8.8</code></pre>
+            <button class="btn secondary copy-btn" data-code="traceroute 8.8.8.8">Copier</button>
+          </div>
+
+          <div class="script-card">
+            <h3>Top 10 connexions (Bash)</h3>
+            <p>Résumé netstat (Linux).</p>
+            <pre><code>ss -tunap | head -n 10</code></pre>
+            <button class="btn secondary copy-btn" data-code="ss -tunap | head -n 10">Copier</button>
           </div>
 
         </div>
