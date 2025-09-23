@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Alexandre Badouard – Apprenti Technicien Système & Réseau</title>
   <meta name="description" content="Portfolio d'Alexandre Badouard, apprenti technicien système et réseau. Découvrez mon CV, mes projets, mes passions et contactez-moi.">
-  <link rel="stylesheet" href="style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
 </head>
 <body>
   <div class="container">
@@ -23,46 +23,35 @@
       <button class="theme-btn cyan" data-theme="cyan" aria-label="Thème cyan"></button>
     </div>
 
-    <!-- Sidebars RSS -->
-    <aside class="sidebar cybersec">
-      <h3><i class="fas fa-shield-alt"></i> Veille Cybersec – ZATAZ</h3>
-      <ul id="cybersec-feed" aria-live="polite"></ul>
-    </aside>
+    <!-- HEADER -->
+    <header>
+      <h1>Alexandre Badouard</h1>
+      <p class="subtitle">Apprenti Technicien Système & Réseau • Infrastructure • Support</p>
+      <div class="latency">
+        <span class="ping-dot"></span>
+        <span id="ping-value">-- ms</span>
+      </div>
+    </header>
 
-    <aside class="sidebar tech">
-      <h3><i class="fas fa-rss"></i> Veille Tech – IT Connect</h3>
-      <ul id="tech-feed" aria-live="polite"></ul>
-    </aside>
+    <!-- NAVIGATION -->
+    <nav>
+      <button class="tab-btn active" data-tab="home">Accueil</button>
+      <button class="tab-btn" data-tab="cv">CV</button>
+      <button class="tab-btn" data-tab="projects">Projets</button>
+      <button class="tab-btn" data-tab="gaming">Gaming</button>
+      <button class="tab-btn" data-tab="contact">Contact</button>
+    </nav>
 
-    <!-- Contenu principal -->
-    <div class="main-content">
-      <header>
-        <h1>Alexandre Badouard</h1>
-        <p class="subtitle">Apprenti Technicien Système &amp; Réseau • Infrastructure • Support</p>
-        <div class="latency" aria-label="Ping en temps réel">
-          <span class="ping-dot"></span>
-          <span id="ping-value">-- ms</span>
-        </div>
-      </header>
-
-      <!-- Navigation -->
-      <nav>
-        <button class="tab-btn active" data-tab="home" aria-controls="home">Accueil</button>
-        <button class="tab-btn" data-tab="cv" aria-controls="cv">CV</button>
-        <button class="tab-btn" data-tab="projects" aria-controls="projects">Projets</button>
-        <button class="tab-btn" data-tab="gaming" aria-controls="gaming">Gaming</button>
-        <button class="tab-btn" data-tab="contact" aria-controls="contact">Contact</button>
-      </nav>
-
-      <!-- ACCUEIL -->
-      <section id="home" class="tab active" aria-label="Accueil">
+    <!-- SECTIONS -->
+    <main>
+      <!-- Accueil -->
+      <section id="home" class="tab active">
         <div class="intro-card fade-in">
           <h2>À propos</h2>
           <p>Apprenti passionné par les technologies système et réseau, actuellement en formation pour développer mes compétences en infrastructure IT, support utilisateur et administration système.</p>
         </div>
 
         <div class="home-grid">
-          <!-- Compétences -->
           <div class="home-card hover-glow">
             <i class="fas fa-tools"></i>
             <h3>Support Technique</h3>
@@ -81,8 +70,7 @@
             <p>Windows Server • Linux • Virtualisation • Docker</p>
           </div>
 
-          <!-- Réseaux sociaux -->
-          <div class="home-card social-buttons-card hover-glow">
+          <div class="home-card hover-glow">
             <i class="fas fa-share-alt"></i>
             <h3>Réseaux sociaux</h3>
             <p>Retrouvez-moi sur mes profils professionnels</p>
@@ -96,8 +84,7 @@
             </div>
           </div>
 
-          <!-- Musique -->
-          <div class="home-card music-card hover-glow">
+          <div class="home-card hover-glow">
             <i class="fas fa-music"></i>
             <h3>Ambiance musicale 🎵</h3>
             <iframe style="border-radius:8px" src="https://open.spotify.com/embed/track/5H1sKFMzDeMtXwND3V6hRY?utm_source=generator&amp;theme=0" width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
@@ -106,7 +93,7 @@
       </section>
 
       <!-- CV -->
-      <section id="cv" class="tab" aria-label="Curriculum Vitae">
+      <section id="cv" class="tab">
         <h2>Curriculum Vitae</h2>
         <div class="cv-container-centered">
           <div class="cv-card hover-glow">
@@ -126,8 +113,8 @@
       </section>
 
       <!-- PROJETS -->
-      <section id="projects" class="tab" aria-label="Projets et Réalisations">
-        <h2>Projets &amp; Réalisations</h2>
+      <section id="projects" class="tab">
+        <h2>Projets & Réalisations</h2>
         <div class="project-grid">
           <div class="project-card hover-glow">
             <i class="fas fa-desktop"></i>
@@ -148,8 +135,8 @@
       </section>
 
       <!-- GAMING -->
-      <section id="gaming" class="tab" aria-label="Gaming et Passion">
-        <h2>Gaming &amp; Passion</h2>
+      <section id="gaming" class="tab">
+        <h2>Gaming & Passion</h2>
         <div class="gaming-setup-card hover-glow">
           <h3>Configuration Gaming</h3>
           <div class="gaming-specs">
@@ -159,36 +146,16 @@
             <div class="spec"><i class="fas fa-desktop"></i> Écran 1440p + 1080p</div>
           </div>
         </div>
-
-        <div class="games-grid">
-          <div class="game-category-card hover-glow">
-            <h4><i class="fas fa-dragon"></i> MMORPG</h4>
-            <div class="game featured"><strong>Dofus</strong> – MMORPG français emblématique, créateur de souvenirs inoubliables !</div>
-            <div class="game"><strong>World of Warcraft</strong> – PvE, Raids, Donjons mythiques</div>
-          </div>
-
-          <div class="game-category-card hover-glow">
-            <h4><i class="fas fa-crosshairs"></i> FPS</h4>
-            <div class="game"><strong>Counter-Strike 2</strong> – Compétitif, Stratégie d’équipe</div>
-            <div class="game"><strong>Battlefield</strong> – Conquête, Multijoueur massif</div>
-          </div>
-
-          <div class="game-category-card hover-glow">
-            <h4><i class="fas fa-car"></i> Course</h4>
-            <div class="game"><strong>Forza</strong> – Simulation, Tuning avancé</div>
-            <div class="game"><strong>Need for Speed</strong> – Arcade, Course urbaine</div>
-          </div>
-        </div>
       </section>
 
       <!-- CONTACT -->
-      <section id="contact" class="tab" aria-label="Contact">
+      <section id="contact" class="tab">
         <h2>Contactez-moi</h2>
         <div class="contact-container">
           <div class="contact-form-card hover-glow">
             <form action="https://formspree.io/f/xnnzbejk" method="POST">
               <label for="email">Votre email :</label>
-              <input type="email" id="email" name="email" required placeholder="exemple@email.com">
+              <input type="email" id="email" name="email" required placeholder="exemple@email.com" />
 
               <label for="message">Votre message :</label>
               <textarea id="message" name="message" rows="5" required placeholder="Écrivez votre message ici…"></textarea>
@@ -196,7 +163,6 @@
               <button type="submit" class="btn primary">Envoyer</button>
             </form>
           </div>
-
           <div class="contact-info-card hover-glow">
             <h3>Informations de contact</h3>
             <div class="contact-item"><i class="fas fa-envelope"></i><span>al.bad@outlook.fr</span></div>
@@ -205,14 +171,13 @@
           </div>
         </div>
       </section>
-    </div>
+    </main>
 
     <footer>
       <p>Discord : <a href="https://discord.com/users/vaerad" target="_blank" rel="noopener"><i class="fab fa-discord"></i> vaerad</a></p>
       <p>&copy; 2025 Alexandre Badouard – Tous droits réservés</p>
     </footer>
   </div>
-
   <script src="script.js" defer></script>
 </body>
 </html>
