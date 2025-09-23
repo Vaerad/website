@@ -3,181 +3,161 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Alexandre Badouard – Apprenti Technicien Système & Réseau</title>
-  <meta name="description" content="Portfolio d'Alexandre Badouard, apprenti technicien système et réseau. Découvrez mon CV, mes projets, mes passions et contactez-moi.">
+  <title>Portfolio – Alexandre Badouard</title>
+  <meta name="description" content="Portfolio d'Alexandre Badouard, apprenti technicien système et réseau. Découvrez mes compétences, mon CV, mes projets, mes scripts et mes passions.">
   <link rel="stylesheet" href="style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
+  <!-- Sélecteur de thème -->
+  <div class="theme-selector">
+    <button class="theme-btn blue active" data-theme="blue"></button>
+    <button class="theme-btn red" data-theme="red"></button>
+    <button class="theme-btn purple" data-theme="purple"></button>
+    <button class="theme-btn orange" data-theme="orange"></button>
+    <button class="theme-btn cyan" data-theme="cyan"></button>
+  </div>
 
-    <!-- Sélecteur de thème -->
-    <div class="theme-selector" aria-label="Choix du thème">
-      <button class="theme-btn blue active" data-theme="default" aria-label="Thème bleu"></button>
-      <button class="theme-btn red" data-theme="red" aria-label="Thème rouge"></button>
-      <button class="theme-btn purple" data-theme="purple" aria-label="Thème violet"></button>
-      <button class="theme-btn orange" data-theme="orange" aria-label="Thème orange"></button>
-      <button class="theme-btn cyan" data-theme="cyan" aria-label="Thème cyan"></button>
-    </div>
-
-    <!-- HEADER -->
-    <header>
-      <h1>Alexandre Badouard</h1>
-      <p class="subtitle">Apprenti Technicien Système & Réseau • Infrastructure • Support</p>
+  <div class="layout">
+    <!-- COLONNE GAUCHE -->
+    <aside class="sidebar left">
+      <h1><span>Alexandre</span><br>Badouard</h1>
+      <p class="subtitle">Apprenti Technicien<br>Système & Réseau<br>Infrastructure • Support</p>
       <div class="latency">
         <span class="ping-dot"></span>
         <span id="ping-value">-- ms</span>
       </div>
-    </header>
+    </aside>
 
-    <!-- NAVIGATION -->
-    <nav>
-      <button class="tab-btn active" data-tab="home">Accueil</button>
-      <button class="tab-btn" data-tab="cv">CV</button>
-      <button class="tab-btn" data-tab="projects">Projets</button>
-      <button class="tab-btn" data-tab="gaming">Gaming</button>
-      <button class="tab-btn" data-tab="contact">Contact</button>
-    </nav>
+    <!-- COLONNE CENTRALE -->
+    <main class="center">
+      <nav class="tabs">
+        <button class="tab-btn active" data-tab="home">Accueil</button>
+        <button class="tab-btn" data-tab="cv">CV</button>
+        <button class="tab-btn" data-tab="projects">Projets</button>
+        <button class="tab-btn" data-tab="gaming">Gaming</button>
+        <button class="tab-btn" data-tab="scripts">Scripts</button>
+        <button class="tab-btn" data-tab="contact">Contact</button>
+      </nav>
 
-    <!-- SECTIONS -->
-    <main>
-      <!-- Accueil -->
+      <!-- ACCUEIL -->
       <section id="home" class="tab active">
-        <div class="intro-card fade-in">
-          <h2>À propos</h2>
-          <p>Apprenti passionné par les technologies système et réseau, actuellement en formation pour développer mes compétences en infrastructure IT, support utilisateur et administration système.</p>
-        </div>
-
-        <div class="home-grid">
-          <div class="home-card hover-glow">
-            <i class="fas fa-tools"></i>
-            <h3>Support Technique</h3>
-            <p>Maintenance • Dépannage • Installation • Troubleshooting</p>
-          </div>
-
-          <div class="home-card hover-glow">
-            <i class="fas fa-shield-alt"></i>
-            <h3>Sécurité</h3>
-            <p>Firewall • Antivirus • Sauvegarde • Monitoring</p>
-          </div>
-
-          <div class="home-card hover-glow">
-            <i class="fas fa-server"></i>
-            <h3>Systèmes</h3>
-            <p>Windows Server • Linux • Virtualisation • Docker</p>
-          </div>
-
-          <div class="home-card hover-glow">
-            <i class="fas fa-share-alt"></i>
-            <h3>Réseaux sociaux</h3>
-            <p>Retrouvez-moi sur mes profils professionnels</p>
-            <div class="social-buttons-home">
-              <a href="https://github.com/vaerad" target="_blank" rel="noopener" class="btn-home github">
-                <i class="fab fa-github"></i> GitHub
-              </a>
-              <a href="https://www.linkedin.com/in/alexandre-badouard-158306279/" target="_blank" rel="noopener" class="btn-home linkedin">
-                <i class="fab fa-linkedin-in"></i> LinkedIn
-              </a>
-            </div>
-          </div>
-
-          <div class="home-card hover-glow">
-            <i class="fas fa-music"></i>
-            <h3>Ambiance musicale 🎵</h3>
-            <iframe style="border-radius:8px" src="https://open.spotify.com/embed/track/5H1sKFMzDeMtXwND3V6hRY?utm_source=generator&amp;theme=0" width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-          </div>
+        <div class="card">
+          <h2>Bienvenue 👋</h2>
+          <p>Je suis passionné par l’informatique et les technologies réseau. Découvrez mon parcours, mes projets et mes passions.</p>
         </div>
       </section>
 
       <!-- CV -->
       <section id="cv" class="tab">
-        <h2>Curriculum Vitae</h2>
-        <div class="cv-container-centered">
-          <div class="cv-card hover-glow">
-            <i class="fas fa-file-pdf"></i>
-            <h3>Mon CV Complet</h3>
-            <p>Consultez mon parcours, mes compétences et mes expériences détaillées.</p>
-            <div class="cv-actions">
-              <a href="cv-alexandre-badouard.pdf" target="_blank" rel="noopener" class="btn primary">
-                <i class="fas fa-eye"></i> Voir mon CV
-              </a>
-              <a href="cv-alexandre-badouard.pdf" download class="btn secondary">
-                <i class="fas fa-download"></i> Télécharger
-              </a>
-            </div>
-          </div>
+        <div class="card">
+          <h2>Mon CV</h2>
+          <p>Consultez mon CV complet :</p>
+          <a href="cv-alexandre-badouard.pdf" target="_blank" class="btn primary">
+            <i class="fas fa-eye"></i> Voir
+          </a>
+          <a href="cv-alexandre-badouard.pdf" download class="btn secondary">
+            <i class="fas fa-download"></i> Télécharger
+          </a>
         </div>
       </section>
 
       <!-- PROJETS -->
       <section id="projects" class="tab">
-        <h2>Projets & Réalisations</h2>
-        <div class="project-grid">
-          <div class="project-card hover-glow">
-            <i class="fas fa-desktop"></i>
-            <h3>Déploiement de Postes</h3>
-            <p>Installation et configuration de 20+ postes de travail avec intégration au domaine.</p>
-          </div>
-          <div class="project-card hover-glow">
-            <i class="fas fa-network-wired"></i>
-            <h3>Configuration Réseau</h3>
-            <p>Mise en place de VLAN et configuration de switches managés.</p>
-          </div>
-          <div class="project-card hover-glow">
-            <i class="fas fa-life-ring"></i>
-            <h3>Support Utilisateur</h3>
-            <p>Résolution de tickets incidents et maintenance préventive quotidienne.</p>
-          </div>
+        <div class="card">
+          <h2>Projets</h2>
+          <ul>
+            <li><i class="fas fa-desktop"></i> Déploiement de 20+ postes</li>
+            <li><i class="fas fa-network-wired"></i> VLAN & switches managés</li>
+            <li><i class="fas fa-life-ring"></i> Support utilisateurs quotidien</li>
+          </ul>
         </div>
       </section>
 
       <!-- GAMING -->
       <section id="gaming" class="tab">
-        <h2>Gaming & Passion</h2>
-        <div class="gaming-setup-card hover-glow">
-          <h3>Configuration Gaming</h3>
-          <div class="gaming-specs">
-            <div class="spec"><i class="fas fa-microchip"></i> AMD Ryzen 5 5600X</div>
-            <div class="spec"><i class="fas fa-memory"></i> NVIDIA RTX 3080</div>
-            <div class="spec"><i class="fas fa-hdd"></i> 32 Go DDR4 3200 MHz</div>
-            <div class="spec"><i class="fas fa-desktop"></i> Écran 1440p + 1080p</div>
+        <div class="card">
+          <h2>Gaming 🎮</h2>
+          <p>Ma config : Ryzen 5 5600X • RTX 3080 • 32Go RAM</p>
+          <p>Jeux préférés : Dofus, WoW, Counter-Strike 2, Forza</p>
+        </div>
+      </section>
+
+      <!-- SCRIPTS -->
+      <section id="scripts" class="tab">
+        <div class="card">
+          <h2>Scripts Utiles ⚙️</h2>
+
+          <div class="script-card">
+            <h3>Nettoyage DNS</h3>
+            <p>Vide le cache DNS et renouvelle l’adresse IP.</p>
+            <pre><code>ipconfig /flushdns
+ipconfig /release
+ipconfig /renew</code></pre>
+            <button class="btn secondary copy-btn" data-code="ipconfig /flushdns&#10;ipconfig /release&#10;ipconfig /renew">
+              Copier
+            </button>
           </div>
+
+          <div class="script-card">
+            <h3>Infos Réseau</h3>
+            <p>Affiche les infos détaillées de la configuration réseau.</p>
+            <pre><code>ipconfig /all</code></pre>
+            <button class="btn secondary copy-btn" data-code="ipconfig /all">Copier</button>
+          </div>
+
+          <div class="script-card">
+            <h3>Test de connexion</h3>
+            <p>Envoie 4 pings vers Google.</p>
+            <pre><code>ping 8.8.8.8 -n 4</code></pre>
+            <button class="btn secondary copy-btn" data-code="ping 8.8.8.8 -n 4">Copier</button>
+          </div>
+
         </div>
       </section>
 
       <!-- CONTACT -->
       <section id="contact" class="tab">
-        <h2>Contactez-moi</h2>
-        <div class="contact-container">
-          <div class="contact-form-card hover-glow">
-            <form action="https://formspree.io/f/xnnzbejk" method="POST">
-              <label for="email">Votre email :</label>
-              <input type="email" id="email" name="email" required placeholder="exemple@email.com" />
-
-              <label for="message">Votre message :</label>
-              <textarea id="message" name="message" rows="5" required placeholder="Écrivez votre message ici…"></textarea>
-
-              <button type="submit" class="btn primary">Envoyer</button>
-            </form>
-          </div>
-          <div class="contact-info-card hover-glow">
-            <h3>Informations de contact</h3>
-            <div class="contact-item"><i class="fas fa-envelope"></i><span>al.bad@outlook.fr</span></div>
-            <div class="contact-item"><i class="fas fa-phone"></i><span>06 93 53 99 75</span></div>
-            <div class="contact-item"><i class="fas fa-map-marker-alt"></i><span>La Réunion</span></div>
-          </div>
+        <div class="card">
+          <h2>Contact</h2>
+          <form action="https://formspree.io/f/xnnzbejk" method="POST">
+            <input type="email" name="email" placeholder="Votre email" required>
+            <textarea name="message" rows="5" placeholder="Votre message..." required></textarea>
+            <button type="submit" class="btn primary">Envoyer</button>
+          </form>
         </div>
       </section>
     </main>
 
-    <footer>
-      <p>Discord : <a href="https://discord.com/users/vaerad" target="_blank" rel="noopener"><i class="fab fa-discord"></i> vaerad</a></p>
-      <p>&copy; 2025 Alexandre Badouard – Tous droits réservés</p>
-    </footer>
+    <!-- COLONNE DROITE -->
+    <aside class="sidebar right">
+      <div class="card">
+        <h3>À propos</h3>
+        <p>Apprenti en infrastructure IT, support utilisateur et administration système.</p>
+      </div>
+      <div class="card">
+        <h3>Compétences</h3>
+        <p><i class="fas fa-tools"></i> Support technique</p>
+        <p><i class="fas fa-shield-alt"></i> Sécurité</p>
+        <p><i class="fas fa-server"></i> Systèmes</p>
+      </div>
+      <div class="card">
+        <h3>Réseaux sociaux</h3>
+        <a href="https://github.com/vaerad" target="_blank" class="btn-home github">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+        <a href="https://linkedin.com/in/alexandre-badouard-158306279" target="_blank" class="btn-home linkedin">
+          <i class="fab fa-linkedin-in"></i> LinkedIn
+        </a>
+      </div>
+    </aside>
   </div>
-  <script src="script.js" defer></script>
+
+  <footer>
+    <p>&copy; 2025 Alexandre Badouard – Tous droits réservés</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
