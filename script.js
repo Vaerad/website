@@ -1,36 +1,55 @@
-// Onglets
-document.querySelectorAll(".tab-btn").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"))
-    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"))
-    btn.classList.add("active")
-    document.getElementById(btn.dataset.tab).classList.add("active")
-  })
-})
+// Tabs (boutons)
+const tabs = document.querySelectorAll(".tab-btn");
+const sections = document.querySelectorAll(".tab");
+function showTab(id){
+  tabs.forEach(b=>b.classList.toggle("active", b.dataset.tab===id));
+  sections.forEach(s=>s.classList.toggle("active", s.id===id));
+  // sync le select mobile
+  const sel = document.querySelector(".tabs-select");
+  if (sel && sel.value !== id) sel.value = id;
+}
+tabs.forEach(btn=>{
+  btn.addEventListener("click", ()=> showTab(btn.dataset.tab));
+});
 
-// Thèmes
-const themeButtons=document.querySelectorAll(".theme-btn")
-themeButtons.forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    themeButtons.forEach(b=>b.classList.remove("active"))
-    btn.classList.add("active")
-    document.documentElement.style.setProperty("--primary",btn.style.backgroundColor)
-  })
-})
+// Tabs (select mobile)
+const tabsSelect = document.querySelector(".tabs-select");
+if (tabsSelect){
+  tabsSelect.addEventListener("change", e => showTab(e.target.value));
+}
+
+// Theme chips
+const chips = document.querySelectorAll(".theme-chip");
+chips.forEach(chip=>{
+  chip.style.backgroundColor = chip.dataset.color;
+  chip.addEventListener("click", ()=>{
+    chips.forEach(c=>c.classList.remove("active"));
+    chip.classList.add("active");
+    document.documentElement.style.setProperty("--primary", chip.dataset.color);
+  });
+});
 
 // Ping simulation
 function updatePing(){
-  const ping=Math.floor(Math.random()*80)+20
-  document.getElementById("ping-value").textContent=ping+" ms"
+  const el = document.getElementById("ping-value");
+  if (!el) return;
+  const ping = Math.floor(Math.random()*60)+20; // 20–80 ms
+  el.textContent = ping + " ms";
 }
-setInterval(updatePing,2000)
+updatePing();
+setInterval(updatePing, 2000);
 
-// Copier script
+// Copier le script PowerShell
 document.querySelectorAll(".copy-btn").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    navigator.clipboard.writeText(btn.dataset.code).then(()=>{
-      btn.textContent="✅ Copié !"
-      setTimeout(()=>btn.textContent="Copier",1500)
-    })
-  })
-})
+  btn.addEventListener("click", ()=>{
+    const targetSel = btn.getAttribute("data-target");
+    const codeEl = document.querySelector(targetSel);
+    if(!codeEl) return;
+    const text = codeEl.textContent.replace(/\r?\n/g,"\r\n");
+    navigator.clipboard.writeText(text).then(()=>{
+      const old = btn.textContent;
+      btn.textContent = "✅ Copié !";
+      setTimeout(()=> btn.textContent = old, 1500);
+    });
+  });
+});
