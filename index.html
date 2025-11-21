@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comparateur Excel Automatique</title>
+    <title>Comparateur Excel Avancé</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- SheetJS pour lire et écrire des fichiers Excel -->
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
@@ -12,103 +12,129 @@
 <body class="bg-slate-50 min-h-screen font-sans text-slate-800">
 
     <!-- Header -->
-    <header class="bg-blue-600 text-white shadow-lg">
+    <header class="bg-blue-700 text-white shadow-lg">
         <div class="container mx-auto px-4 py-6">
             <h1 class="text-2xl font-bold flex items-center gap-2">
                 <i class="fa-solid fa-file-excel"></i>
-                Comparateur Excel Automatique
+                Comparateur Excel Avancé
             </h1>
-            <p class="text-blue-100 text-sm mt-1">Fusionne "TOTAL GERE" et "MACHINE SANS RC" via le numéro de série caché.</p>
+            <p class="text-blue-100 text-sm mt-1">Fusionne "TOTAL GERE" et "MACHINE SANS RC" avec filtres intelligents (Date, Zéros, Doublons).</p>
         </div>
     </header>
 
     <main class="container mx-auto px-4 py-8 max-w-4xl">
 
         <!-- Status Messages -->
-        <div id="statusMessage" class="hidden mb-6 p-4 rounded-lg"></div>
+        <div id="statusMessage" class="hidden mb-6 p-4 rounded-lg transition-all duration-300"></div>
 
         <!-- Upload Section -->
         <div class="grid md:grid-cols-2 gap-6 mb-8">
             
             <!-- Carte Fichier 1 -->
-            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200 hover:border-blue-400 transition-colors">
+            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200 hover:border-blue-400 transition-colors relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-bl-lg">REF</div>
                 <div class="flex justify-between items-start mb-4">
-                    <h2 class="font-bold text-lg text-slate-700">1. Fichier de Référence</h2>
-                    <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">TOTAL GERE</span>
+                    <h2 class="font-bold text-lg text-slate-700">1. Fichier TOTAL GERE</h2>
                 </div>
-                <p class="text-sm text-slate-500 mb-4">Contient les compteurs (Mono/Couleur) et les modèles.</p>
+                <p class="text-sm text-slate-500 mb-4">Contient les compteurs, modèles et <b>dates de collecte</b>.</p>
                 
-                <label class="block w-full cursor-pointer">
+                <label class="block w-full cursor-pointer group">
                     <input type="file" id="fileRef" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFile(this, 'refStatus')">
-                    <div class="w-full border-2 border-dashed border-slate-300 rounded-lg p-4 text-center hover:bg-slate-50 transition">
-                        <i class="fa-solid fa-upload text-2xl text-slate-400 mb-2"></i>
+                    <div class="w-full border-2 border-dashed border-slate-300 rounded-lg p-4 text-center group-hover:bg-blue-50 group-hover:border-blue-300 transition">
+                        <i class="fa-solid fa-upload text-2xl text-slate-400 mb-2 group-hover:text-blue-500"></i>
                         <p class="text-sm font-medium text-slate-600">Choisir le fichier</p>
-                        <p id="refStatus" class="text-xs text-slate-400 mt-1">Aucun fichier sélectionné</p>
+                        <p id="refStatus" class="text-xs text-slate-400 mt-1 truncate">Aucun fichier sélectionné</p>
                     </div>
                 </label>
             </div>
 
             <!-- Carte Fichier 2 -->
-            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200 hover:border-orange-400 transition-colors">
+            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200 hover:border-orange-400 transition-colors relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-orange-100 text-orange-800 text-xs font-bold px-3 py-1 rounded-bl-lg">CIBLE</div>
                 <div class="flex justify-between items-start mb-4">
-                    <h2 class="font-bold text-lg text-slate-700">2. Fichier à Compléter</h2>
-                    <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full">MACHINE SANS RC</span>
+                    <h2 class="font-bold text-lg text-slate-700">2. Fichier MACHINE SANS RC</h2>
                 </div>
-                <p class="text-sm text-slate-500 mb-4">Contient les commentaires avec les numéros de série cachés.</p>
+                <p class="text-sm text-slate-500 mb-4">Contient les erreurs et les numéros de série cachés.</p>
                 
-                <label class="block w-full cursor-pointer">
+                <label class="block w-full cursor-pointer group">
                     <input type="file" id="fileTarget" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFile(this, 'targetStatus')">
-                    <div class="w-full border-2 border-dashed border-slate-300 rounded-lg p-4 text-center hover:bg-slate-50 transition">
-                        <i class="fa-solid fa-upload text-2xl text-slate-400 mb-2"></i>
+                    <div class="w-full border-2 border-dashed border-slate-300 rounded-lg p-4 text-center group-hover:bg-orange-50 group-hover:border-orange-300 transition">
+                        <i class="fa-solid fa-upload text-2xl text-slate-400 mb-2 group-hover:text-orange-500"></i>
                         <p class="text-sm font-medium text-slate-600">Choisir le fichier</p>
-                        <p id="targetStatus" class="text-xs text-slate-400 mt-1">Aucun fichier sélectionné</p>
+                        <p id="targetStatus" class="text-xs text-slate-400 mt-1 truncate">Aucun fichier sélectionné</p>
                     </div>
                 </label>
             </div>
         </div>
 
-        <!-- Action Button -->
-        <div class="text-center mb-8">
-            <button onclick="processFiles()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition hover:-translate-y-1 active:scale-95 flex items-center gap-2 mx-auto disabled:opacity-50 disabled:cursor-not-allowed" id="processBtn">
-                <i class="fa-solid fa-gears"></i>
-                Lancer le traitement
-            </button>
+        <!-- Configuration Section -->
+        <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200 mb-8">
+            <h3 class="font-bold text-slate-700 mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-sliders"></i> Options de filtrage
+            </h3>
+            <div class="flex flex-col md:flex-row gap-4 items-end">
+                <div class="w-full md:w-1/2">
+                    <label for="dateFilter" class="block text-sm font-medium text-slate-600 mb-2">Filtrer par date de dernière collecte :</label>
+                    <div class="relative">
+                        <select id="dateFilter" class="block w-full pl-3 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md border bg-slate-50">
+                            <option value="999">Tout prendre (Pas de filtre date)</option>
+                            <option value="1" selected>Moins de 1 mois</option>
+                            <option value="2">Moins de 2 mois</option>
+                            <option value="3">Moins de 3 mois</option>
+                            <option value="6">Moins de 6 mois</option>
+                            <option value="12">Moins de 1 an</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-1">Les machines dont la date est plus ancienne seront exclues.</p>
+                </div>
+                
+                <div class="w-full md:w-1/2 pb-1">
+                     <button onclick="processFiles()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform transition hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none" id="processBtn">
+                        <i class="fa-solid fa-gears"></i>
+                        Lancer le traitement
+                    </button>
+                </div>
+            </div>
         </div>
 
         <!-- Results Section (Hidden initially) -->
-        <div id="resultSection" class="hidden bg-white rounded-xl shadow-lg overflow-hidden">
+        <div id="resultSection" class="hidden bg-white rounded-xl shadow-lg overflow-hidden animate-fade-in">
             <div class="p-4 bg-green-50 border-b border-green-100 flex justify-between items-center flex-wrap gap-4">
                 <div>
-                    <h3 class="font-bold text-green-800">Traitement terminé !</h3>
-                    <p class="text-sm text-green-600" id="resultCount">0 lignes traitées</p>
-                    <div id="resultDetails" class="text-xs text-slate-400 mt-1 italic flex gap-4">
+                    <h3 class="font-bold text-green-800 text-lg">Traitement terminé !</h3>
+                    <p class="text-sm text-green-700" id="resultCount">0 lignes générées</p>
+                    <div id="resultDetails" class="text-xs text-slate-500 mt-2 flex flex-col gap-1">
                         <!-- Details added by JS -->
                     </div>
                 </div>
-                <button onclick="downloadExcel()" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg shadow text-sm font-bold flex items-center gap-2">
+                <button onclick="downloadExcel()" class="bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-lg shadow text-sm font-bold flex items-center gap-2 transition-colors">
                     <i class="fa-solid fa-download"></i>
-                    Télécharger le fichier Excel
+                    Télécharger Excel
                 </button>
             </div>
             
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm text-left text-slate-600">
-                    <thead class="text-xs text-slate-700 uppercase bg-slate-100">
+            <div class="overflow-x-auto max-h-96">
+                <table class="w-full text-sm text-left text-slate-600 relative">
+                    <thead class="text-xs text-slate-700 uppercase bg-slate-100 sticky top-0 shadow-sm z-10">
                         <tr>
                             <th class="px-6 py-3">Client</th>
-                            <th class="px-6 py-3 text-blue-600">Série (Extraite)</th>
-                            <th class="px-6 py-3 text-green-600">Modèle (Trouvé)</th>
-                            <th class="px-6 py-3">Total Mono</th>
-                            <th class="px-6 py-3">Total Couleur</th>
+                            <th class="px-6 py-3 text-blue-600">Série</th>
+                            <th class="px-6 py-3 text-green-600">Modèle</th>
+                            <th class="px-6 py-3 text-center">Mono</th>
+                            <th class="px-6 py-3 text-center">Couleur</th>
+                            <th class="px-6 py-3 text-slate-500">Collecte</th>
                         </tr>
                     </thead>
-                    <tbody id="previewBody">
+                    <tbody id="previewBody" class="divide-y divide-slate-100">
                         <!-- Rows will be inserted here -->
                     </tbody>
                 </table>
             </div>
-            <div class="p-3 text-center text-xs text-slate-400 bg-slate-50">
-                Aperçu des 5 premières lignes (filtrées)
+            <div class="p-3 text-center text-xs text-slate-400 bg-slate-50 border-t border-slate-100">
+                Aperçu des 10 premières lignes (filtrées)
             </div>
         </div>
 
@@ -119,38 +145,46 @@
         let dataTarget = null; // Données MACHINE SANS RC
         let finalData = null;  // Résultat
 
+        // Fonction utilitaire pour parser une date Excel (Nombre ou String)
+        function parseExcelDate(value) {
+            if (!value) return null;
+            
+            // Si c'est un nombre (format série Excel)
+            if (typeof value === 'number') {
+                // Excel date start: Dec 30 1899
+                const date = new Date(Math.round((value - 25569)*86400*1000));
+                return date;
+            }
+            
+            // Si c'est une chaine "2025-11-21 10:59:55"
+            if (typeof value === 'string') {
+                const d = new Date(value);
+                if (!isNaN(d.getTime())) return d;
+            }
+            
+            return null;
+        }
+
         // Fonction intelligente pour trouver la bonne feuille et la bonne ligne d'en-tête
         function findBestData(workbook, keywords) {
-            // On parcourt toutes les feuilles
             for (const sheetName of workbook.SheetNames) {
                 const sheet = workbook.Sheets[sheetName];
                 const rows = XLSX.utils.sheet_to_json(sheet, {header: 1, defval: ""});
                 
-                // On cherche dans les 20 premières lignes
                 for (let i = 0; i < Math.min(rows.length, 20); i++) {
                     if (!rows[i]) continue;
-                    
-                    // On convertit la ligne en texte minuscule pour chercher les mots clés
                     const rowStr = rows[i].map(c => String(c).toLowerCase().trim());
-                    
-                    // Est-ce que cette ligne contient un des mots clés ?
                     const match = keywords.some(k => rowStr.some(cell => cell.includes(k)));
                     
                     if (match) {
-                        console.log(`Trouvé dans feuille "${sheetName}" à la ligne ${i+1}`);
-                        // On retourne les données en coupant tout ce qui est avant l'en-tête
                         return rows.slice(i);
                     }
                 }
             }
-            
-            // Fallback : Si on ne trouve rien, on prend la première feuille telle quelle
-            console.warn("Aucun en-tête détecté, utilisation de la première feuille brute.");
             const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
             return XLSX.utils.sheet_to_json(firstSheet, {header: 1});
         }
 
-        // Gérer l'affichage du nom de fichier et lecture immédiate
         function handleFile(input, statusId) {
             const status = document.getElementById(statusId);
             if (input.files && input.files[0]) {
@@ -164,7 +198,6 @@
                         const data = new Uint8Array(e.target.result);
                         const workbook = XLSX.read(data, {type: 'array'});
                         
-                        // Mots-clés pour identifier les colonnes
                         let keywords = [];
                         if (statusId === 'refStatus') {
                             keywords = ["numéro de série", "numero de serie", "serie", "serial"];
@@ -172,25 +205,23 @@
                             keywords = ["commentaires", "message", "comment"];
                         }
 
-                        // Recherche intelligente
                         const cleanData = findBestData(workbook, keywords);
                         
                         if (statusId === 'refStatus') dataRef = cleanData;
                         else dataTarget = cleanData;
 
                     } catch (err) {
-                        console.error("Erreur lecture fichier:", err);
-                        showError("Erreur lors de la lecture du fichier " + file.name);
+                        console.error(err);
+                        showError("Erreur lecture: " + file.name);
                     }
                 };
                 reader.readAsArrayBuffer(file);
             }
         }
 
-        // Fonction principale de traitement
         function processFiles() {
             const msgDiv = document.getElementById('statusMessage');
-            msgDiv.className = "hidden mb-6 p-4 rounded-lg"; // Reset
+            msgDiv.className = "hidden mb-6 p-4 rounded-lg"; 
 
             if (!dataRef || !dataTarget) {
                 showError("Veuillez charger les deux fichiers avant de continuer.");
@@ -198,115 +229,144 @@
             }
 
             try {
-                // 1. Convertir TOTAL GERE en un dictionnaire pour recherche rapide
+                // --- CONFIGURATION DU FILTRE DATE ---
+                const monthsFilter = parseInt(document.getElementById('dateFilter').value);
+                let cutoffDate = null;
+                
+                if (monthsFilter !== 999) {
+                    cutoffDate = new Date();
+                    cutoffDate.setMonth(cutoffDate.getMonth() - monthsFilter);
+                    // On remet à minuit pour être propre
+                    cutoffDate.setHours(0,0,0,0);
+                }
+
+                // --- TRAITEMENT FICHIER REFERENCE (TOTAL GERE) ---
                 const headersRef = dataRef[0].map(h => String(h).trim().toLowerCase());
                 
-                // Index basés sur les noms
-                const idxSerieRef = headersRef.findIndex(h => h.includes("numéro de série") || h.includes("serie") || h.includes("serial"));
+                const idxSerieRef = headersRef.findIndex(h => h.includes("numéro de série") || h.includes("serie"));
                 const idxModele = headersRef.findIndex(h => h.includes("modèle") || h.includes("modele"));
                 const idxMono = headersRef.findIndex(h => h.includes("total mono") || h.includes("compteur noir"));
                 const idxCouleur = headersRef.findIndex(h => h.includes("total couleur"));
+                const idxDate = headersRef.findIndex(h => h.includes("dernière collecte") || h.includes("date") || h.includes("collecte"));
 
-                if (idxSerieRef === -1) {
-                    throw new Error("Colonne 'Numéro de série' introuvable dans le fichier de Référence (Total Géré). Vérifiez les en-têtes.");
-                }
+                if (idxSerieRef === -1) throw new Error("Colonne 'Numéro de série' introuvable dans Fichier 1.");
 
-                // Création de la Map: Serie -> {Modele, Mono, Couleur}
                 const refMap = new Map();
                 for (let i = 1; i < dataRef.length; i++) {
                     const row = dataRef[i];
                     if (!row[idxSerieRef]) continue;
                     
-                    // Nettoyage série (Majuscule, sans espace)
                     const serieClean = String(row[idxSerieRef]).trim().toUpperCase();
                     
+                    // Récupération et parsing de la date
+                    let rawDate = idxDate !== -1 ? row[idxDate] : null;
+                    let parsedDate = parseExcelDate(rawDate);
+
                     refMap.set(serieClean, {
                         modele: idxModele !== -1 ? row[idxModele] : "N/A",
                         mono: idxMono !== -1 ? row[idxMono] : 0,
-                        couleur: idxCouleur !== -1 ? row[idxCouleur] : 0
+                        couleur: idxCouleur !== -1 ? row[idxCouleur] : 0,
+                        dateObj: parsedDate,
+                        dateStr: parsedDate ? parsedDate.toLocaleDateString('fr-FR') : "Inconnue"
                     });
                 }
 
-                // 2. Traiter MACHINE SANS RC
+                // --- TRAITEMENT FICHIER CIBLE (SANS RC) ---
                 const headersTarget = dataTarget[0].map(h => String(h).trim().toLowerCase());
                 const idxComment = headersTarget.findIndex(h => h.includes("commentaires") || h.includes("message"));
                 const idxClient = headersTarget.findIndex(h => h.includes("client"));
 
-                if (idxComment === -1) {
-                    throw new Error("Colonne 'Commentaires' introuvable dans le fichier 2 (Machine sans RC). Vérifiez les en-têtes.");
-                }
+                if (idxComment === -1) throw new Error("Colonne 'Commentaires' introuvable dans Fichier 2.");
 
                 const processedRows = [];
-                
-                // En-têtes du fichier final
-                processedRows.push(["Client", "Série Extraite", "Modèle", "Total Mono", "Total Couleur"]);
+                // Ajout de la colonne Date dans le fichier de sortie
+                processedRows.push(["Client", "Série Extraite", "Modèle", "Total Mono", "Total Couleur", "Dernière Collecte"]);
 
-                let filteredCount = 0; // Compteur pour les 0/0
-                let duplicatesCount = 0; // Compteur pour les doublons
-                const seenSerials = new Set(); // Set pour suivre les numéros de série déjà ajoutés
+                let stats = {
+                    zeros: 0,
+                    doublons: 0,
+                    vieux: 0,
+                    kept: 0
+                };
+                const seenSerials = new Set();
 
                 for (let i = 1; i < dataTarget.length; i++) {
                     const row = dataTarget[i];
-                    // Skip empty rows
                     if (!row || row.length === 0) continue;
 
                     const comment = row[idxComment] ? String(row[idxComment]) : "";
                     const client = idxClient !== -1 ? row[idxClient] : "";
 
-                    // Extraction Regex JS
+                    // Extraction Regex
                     let serieExtraite = "Non trouvé";
                     const match = comment.match(/du bien "([^"]+)"/i);
                     
                     if (match && match[1]) {
                         let contenu = match[1];
-                        if (contenu.includes("/")) {
-                            contenu = contenu.split("/").pop();
-                        }
+                        if (contenu.includes("/")) contenu = contenu.split("/").pop();
                         serieExtraite = contenu.trim().toUpperCase();
                     }
 
                     // RechercheV
-                    let info = { modele: "Non trouvé dans F1", mono: 0, couleur: 0 };
+                    let info = { modele: "Non trouvé dans F1", mono: 0, couleur: 0, dateObj: null, dateStr: "" };
+                    let foundInRef = false;
+
                     if (serieExtraite !== "Non trouvé" && refMap.has(serieExtraite)) {
                         info = refMap.get(serieExtraite);
+                        foundInRef = true;
                     }
 
-                    // --- 1. FILTRE COMPTEURS À ZÉRO ---
+                    // --- FILTRE 1: COMPTEURS À ZÉRO ---
                     const valMono = parseFloat(info.mono) || 0;
                     const valCouleur = parseFloat(info.couleur) || 0;
-
                     if (valMono === 0 && valCouleur === 0) {
-                        filteredCount++;
-                        continue; // On saute cette ligne
+                        stats.zeros++;
+                        continue;
                     }
 
-                    // --- 2. FILTRE DOUBLONS ---
-                    // Si on a un vrai numéro de série et qu'on l'a déjà vu, on saute
+                    // --- FILTRE 2: DATE ANCIENNE ---
+                    // On ne filtre que si on a trouvé la machine dans le fichier réf ET qu'un filtre date est actif
+                    if (cutoffDate && foundInRef) {
+                        if (!info.dateObj) {
+                            // Si pas de date, on décide de garder ou jeter ? 
+                            // Ici on jette par sécurité si on est strict sur la période
+                            // stats.vieux++; 
+                            // continue;
+                            // OPTION: On garde ceux sans date par défaut, ou on exclut ? 
+                            // Pour l'instant on garde en marquant "Inconnue"
+                        } else if (info.dateObj < cutoffDate) {
+                            stats.vieux++;
+                            continue; // Trop vieux
+                        }
+                    }
+
+                    // --- FILTRE 3: DOUBLONS ---
                     if (serieExtraite !== "Non trouvé") {
                         if (seenSerials.has(serieExtraite)) {
-                            duplicatesCount++;
-                            continue; // On saute ce doublon
+                            stats.doublons++;
+                            continue;
                         }
-                        // Sinon on l'ajoute à la liste des vus
                         seenSerials.add(serieExtraite);
                     }
 
-                    // Si tout est bon, on ajoute la ligne
+                    // Ajout
                     processedRows.push([
                         client,
                         serieExtraite,
                         info.modele,
                         valMono,
-                        valCouleur
+                        valCouleur,
+                        info.dateStr // Nouvelle colonne
                     ]);
+                    stats.kept++;
                 }
 
                 finalData = processedRows;
-                showSuccess(processedRows.length - 1, filteredCount, duplicatesCount);
+                showSuccess(stats);
                 renderPreview(processedRows);
 
             } catch (e) {
-                showError("Erreur lors du traitement : " + e.message);
+                showError("Erreur : " + e.message);
                 console.error(e);
             }
         }
@@ -314,30 +374,29 @@
         function renderPreview(rows) {
             const tbody = document.getElementById('previewBody');
             tbody.innerHTML = "";
-            // Afficher max 5 lignes
-            const max = Math.min(rows.length, 6); // 1 header + 5 data
+            const max = Math.min(rows.length, 11); 
             
             if (rows.length <= 1) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400 italic">Aucune donnée trouvée après filtrage.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400 italic bg-slate-50">Aucune donnée trouvée après filtrage.</td></tr>`;
                 return;
             }
 
             for (let i = 1; i < max; i++) {
                 const row = rows[i];
                 const tr = document.createElement('tr');
-                tr.className = "bg-white border-b hover:bg-slate-50";
+                tr.className = "bg-white hover:bg-blue-50 transition-colors group";
                 
-                // Client, Série, Modèle, Mono, Couleur (Indices 0, 1, 2, 3, 4)
-                // Le modèle reçoit une couleur spéciale si trouvé
                 const found = row[2] !== "Non trouvé dans F1";
-                const modelClass = found ? "text-green-600 font-medium" : "text-red-400 italic";
+                const modelClass = found ? "text-green-600 font-semibold" : "text-red-400 italic";
+                const serieClass = found ? "text-blue-600 bg-blue-50 px-2 py-1 rounded" : "text-slate-400";
 
                 tr.innerHTML = `
-                    <td class="px-6 py-4 font-medium text-slate-900 whitespace-nowrap">${row[0] || ''}</td>
-                    <td class="px-6 py-4 text-blue-600 bg-blue-50 rounded-lg">${row[1]}</td>
-                    <td class="px-6 py-4 ${modelClass}">${row[2]}</td>
-                    <td class="px-6 py-4 font-mono">${row[3]}</td>
-                    <td class="px-6 py-4 font-mono">${row[4]}</td>
+                    <td class="px-6 py-3 font-medium text-slate-700 whitespace-nowrap">${row[0] || ''}</td>
+                    <td class="px-6 py-3"><span class="${serieClass}">${row[1]}</span></td>
+                    <td class="px-6 py-3 ${modelClass}">${row[2]}</td>
+                    <td class="px-6 py-3 text-center font-mono text-slate-600">${row[3]}</td>
+                    <td class="px-6 py-3 text-center font-mono text-slate-600">${row[4]}</td>
+                    <td class="px-6 py-3 text-xs text-slate-500">${row[5]}</td>
                 `;
                 tbody.appendChild(tr);
             }
@@ -346,43 +405,33 @@
 
         function downloadExcel() {
             if (!finalData) return;
-            
-            // Création Workbook
             const wb = XLSX.utils.book_new();
             const ws = XLSX.utils.aoa_to_sheet(finalData);
-            
-            // Auto-fit columns width (basic)
-            const wscols = [
-                {wch: 30}, // Client
-                {wch: 20}, // Serie
-                {wch: 25}, // Modele
-                {wch: 15}, // Mono
-                {wch: 15}, // Couleur
-            ];
+            const wscols = [{wch: 30}, {wch: 20}, {wch: 25}, {wch: 10}, {wch: 10}, {wch: 15}];
             ws['!cols'] = wscols;
-
             XLSX.utils.book_append_sheet(wb, ws, "Resultat");
             XLSX.writeFile(wb, "RESULTAT_COMPARAISON.xlsx");
         }
 
         function showError(msg) {
             const el = document.getElementById('statusMessage');
-            el.className = "mb-6 p-4 rounded-lg bg-red-100 text-red-700 border border-red-200 flex items-center gap-2";
-            el.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${msg}`;
+            el.className = "mb-6 p-4 rounded-lg bg-red-100 text-red-700 border-l-4 border-red-500 flex items-center gap-3 shadow-sm";
+            el.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-xl"></i> <span>${msg}</span>`;
             el.classList.remove('hidden');
         }
 
-        function showSuccess(count, filtered, duplicates) {
+        function showSuccess(stats) {
             const el = document.getElementById('statusMessage');
-            // On le cache car le tableau de résultat s'affiche, mais on met à jour le compteur
-            document.getElementById('resultCount').innerHTML = `<b>${count}</b> machines conservées`;
+            document.getElementById('resultCount').innerHTML = `<b>${stats.kept}</b> lignes générées`;
             
             document.getElementById('resultDetails').innerHTML = `
-                <span><i class="fa-solid fa-filter"></i> <b>${filtered}</b> masquées (compteurs 0)</span>
-                <span><i class="fa-solid fa-clone"></i> <b>${duplicates}</b> doublons supprimés</span>
+                <div class="flex gap-4 flex-wrap">
+                    <span class="flex items-center gap-1 text-orange-600" title="Compteurs à 0"><i class="fa-solid fa-filter"></i> <b>${stats.zeros}</b> vides</span>
+                    <span class="flex items-center gap-1 text-purple-600" title="Doublons"><i class="fa-solid fa-clone"></i> <b>${stats.doublons}</b> doublons</span>
+                    <span class="flex items-center gap-1 text-red-600" title="Hors délai"><i class="fa-regular fa-calendar-xmark"></i> <b>${stats.vieux}</b> trop vieux</span>
+                </div>
             `;
         }
-
     </script>
 </body>
 </html>
