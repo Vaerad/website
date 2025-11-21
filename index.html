@@ -1,116 +1,128 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="light"> <!-- Classe par défaut -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comparateur Excel Avancé</title>
+    
+    <!-- Configuration Tailwind pour activer le Dark Mode via une classe -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Active le mode sombre quand la classe 'dark' est présente
+        }
+    </script>
+
     <!-- SheetJS pour lire et écrire des fichiers Excel -->
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
-    <!-- Configuration des variables CSS pour le thème -->
+    <!-- Variables CSS -->
     <style>
         :root {
-            /* Valeurs par défaut (Bleu) */
-            --theme-primary: #1d4ed8;      /* blue-700 */
-            --theme-secondary: #2563eb;    /* blue-600 */
-            --theme-hover: #1e40af;        /* blue-800 */
-            --theme-light: #eff6ff;        /* blue-50 */
-            --theme-text: #1d4ed8;         /* blue-700 */
-            --theme-border: #93c5fd;       /* blue-300 */
+            /* Couleurs de marque (Le bleu reste l'accent principal) */
+            --brand-color: #2563eb;     /* blue-600 */
+            --brand-hover: #1d4ed8;     /* blue-700 */
+        }
+        
+        /* Transitions douces pour le changement de thème */
+        body, header, div, span, button, input, select, table, tr, td, th {
+            transition-property: background-color, border-color, color, fill, stroke;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 300ms;
         }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen font-sans text-slate-800 transition-colors duration-300">
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300 font-sans min-h-screen">
 
     <!-- Header -->
-    <header class="bg-[var(--theme-primary)] text-white shadow-lg transition-colors duration-300">
-        <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+    <!-- En mode jour : Bleu. En mode nuit : Gris très sombre (Slate-800) pour le confort -->
+    <header class="bg-[var(--brand-color)] dark:bg-slate-800 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-4">
             
             <!-- Logo & Titre -->
             <div class="flex items-center gap-4 w-full md:w-auto">
-                <!-- Logo -->
                 <img src="https://raw.githubusercontent.com/Vaerad/website/main/images.png"
                      alt="Logo"
-                     class="h-14 w-auto rounded-lg shadow-md bg-white object-contain p-1 transition-transform duration-300 hover:scale-105"
-                     onerror="this.onerror=null;this.parentElement.innerHTML='<div class=\'h-14 w-14 rounded-lg shadow-md bg-white flex items-center justify-center text-[var(--theme-primary)] text-3xl transition-colors duration-300\'><i class=\'fa-solid fa-robot\'></i></div>'">
+                     class="h-12 w-auto rounded-lg shadow-md bg-white object-contain p-1 hover:scale-105 transition-transform"
+                     onerror="this.onerror=null;this.parentElement.innerHTML='<div class=\'h-12 w-12 rounded-lg shadow-md bg-white flex items-center justify-center text-blue-600 text-2xl\'><i class=\'fa-solid fa-robot\'></i></div>'">
                 <div>
-                    <h1 class="text-2xl font-bold flex items-center gap-2">
+                    <h1 class="text-xl md:text-2xl font-bold flex items-center gap-2">
                         Comparateur Excel
                     </h1>
-                    <p class="text-blue-100 text-xs opacity-90">Fusion & Analyse de parc</p>
+                    <p class="text-blue-100 text-xs opacity-90 dark:text-slate-400">Fusion & Analyse de parc</p>
                 </div>
             </div>
 
-            <!-- Sélecteur de couleur -->
-            <div class="flex items-center gap-3 bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm">
-                <span class="text-xs font-medium opacity-80 uppercase tracking-wider mr-1">Thème</span>
-                <!-- Bleu (Défaut) -->
-                <button onclick="setTheme('blue')" class="w-6 h-6 rounded-full bg-blue-600 border-2 border-white/50 hover:scale-110 transition shadow-sm focus:outline-none ring-2 ring-offset-2 ring-offset-blue-700 ring-transparent focus:ring-white" title="Bleu"></button>
-                <!-- Rouge -->
-                <button onclick="setTheme('red')" class="w-6 h-6 rounded-full bg-red-600 border-2 border-white/50 hover:scale-110 transition shadow-sm focus:outline-none ring-2 ring-offset-2 ring-offset-red-700 ring-transparent focus:ring-white" title="Rouge"></button>
-                <!-- Orange -->
-                <button onclick="setTheme('orange')" class="w-6 h-6 rounded-full bg-orange-500 border-2 border-white/50 hover:scale-110 transition shadow-sm focus:outline-none ring-2 ring-offset-2 ring-offset-orange-600 ring-transparent focus:ring-white" title="Orange"></button>
-                <!-- Vert -->
-                <button onclick="setTheme('green')" class="w-6 h-6 rounded-full bg-emerald-600 border-2 border-white/50 hover:scale-110 transition shadow-sm focus:outline-none ring-2 ring-offset-2 ring-offset-emerald-700 ring-transparent focus:ring-white" title="Vert"></button>
-            </div>
+            <!-- Bouton Toggle Jour / Nuit -->
+            <button onclick="toggleTheme()" 
+                    class="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-full backdrop-blur-sm transition border border-white/20 shadow-sm group">
+                <!-- Icône Soleil (visible en dark) -->
+                <i class="fa-solid fa-sun hidden dark:inline text-yellow-300 group-hover:rotate-90 transition-transform"></i>
+                <!-- Icône Lune (visible en light) -->
+                <i class="fa-solid fa-moon inline dark:hidden text-blue-100 group-hover:-rotate-12 transition-transform"></i>
+                
+                <span class="text-sm font-medium tracking-wide">
+                    <span class="inline dark:hidden">Mode Nuit</span>
+                    <span class="hidden dark:inline">Mode Jour</span>
+                </span>
+            </button>
         </div>
     </header>
 
     <main class="container mx-auto px-4 py-8 max-w-4xl">
 
         <!-- Status Messages -->
-        <div id="statusMessage" class="hidden mb-6 p-4 rounded-lg transition-all duration-300 shadow-sm"></div>
+        <div id="statusMessage" class="hidden mb-6 p-4 rounded-lg shadow-sm"></div>
 
         <!-- Upload Section -->
         <div class="grid md:grid-cols-2 gap-6 mb-8">
             <!-- Fichier 1 -->
-            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200 hover:border-[var(--theme-border)] transition-colors relative overflow-hidden group">
-                <div class="absolute top-0 right-0 bg-slate-100 text-slate-600 text-xs font-bold px-3 py-1 rounded-bl-lg group-hover:bg-[var(--theme-light)] group-hover:text-[var(--theme-text)] transition-colors">REF</div>
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-md border border-slate-200 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-500 transition-colors relative overflow-hidden group">
+                <div class="absolute top-0 right-0 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-bold px-3 py-1 rounded-bl-lg">REF</div>
                 <div class="flex justify-between items-start mb-4">
-                    <h2 class="font-bold text-lg text-slate-700 group-hover:text-[var(--theme-text)] transition-colors">1. Fichier TOTAL GERE</h2>
+                    <h2 class="font-bold text-lg text-slate-700 dark:text-slate-200">1. Fichier TOTAL GERE</h2>
                 </div>
-                <p class="text-sm text-slate-500 mb-4">Contient les compteurs et dates.</p>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Contient les compteurs et dates.</p>
                 <label class="block w-full cursor-pointer">
                     <input type="file" id="fileRef" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFile(this, 'refStatus')">
-                    <div class="w-full border-2 border-dashed border-slate-300 rounded-lg p-4 text-center group-hover:bg-[var(--theme-light)] group-hover:border-[var(--theme-border)] transition-all">
-                        <i class="fa-solid fa-upload text-2xl text-slate-400 mb-2 group-hover:text-[var(--theme-text)]"></i>
-                        <p id="refStatus" class="text-xs text-slate-400 mt-1 truncate group-hover:text-[var(--theme-text)]">Choisir le fichier</p>
+                    <div class="w-full border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-4 text-center group-hover:bg-blue-50 dark:group-hover:bg-slate-700 group-hover:border-blue-300 dark:group-hover:border-blue-500 transition-all">
+                        <i class="fa-solid fa-upload text-2xl text-slate-400 dark:text-slate-500 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400"></i>
+                        <p id="refStatus" class="text-xs text-slate-400 dark:text-slate-400 mt-1 truncate group-hover:text-blue-600 dark:group-hover:text-blue-300">Choisir le fichier</p>
                     </div>
                 </label>
             </div>
 
             <!-- Fichier 2 -->
-            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200 hover:border-[var(--theme-border)] transition-colors relative overflow-hidden group">
-                <div class="absolute top-0 right-0 bg-slate-100 text-slate-600 text-xs font-bold px-3 py-1 rounded-bl-lg group-hover:bg-[var(--theme-light)] group-hover:text-[var(--theme-text)] transition-colors">CIBLE</div>
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-md border border-slate-200 dark:border-slate-700 hover:border-orange-400 dark:hover:border-orange-500 transition-colors relative overflow-hidden group">
+                <div class="absolute top-0 right-0 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-bold px-3 py-1 rounded-bl-lg">CIBLE</div>
                 <div class="flex justify-between items-start mb-4">
-                    <h2 class="font-bold text-lg text-slate-700 group-hover:text-[var(--theme-text)] transition-colors">2. Fichier MACHINE SANS RC</h2>
+                    <h2 class="font-bold text-lg text-slate-700 dark:text-slate-200">2. Fichier MACHINE SANS RC</h2>
                 </div>
-                <p class="text-sm text-slate-500 mb-4">Contient les erreurs.</p>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Contient les erreurs.</p>
                 <label class="block w-full cursor-pointer">
                     <input type="file" id="fileTarget" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFile(this, 'targetStatus')">
-                    <div class="w-full border-2 border-dashed border-slate-300 rounded-lg p-4 text-center group-hover:bg-[var(--theme-light)] group-hover:border-[var(--theme-border)] transition-all">
-                        <i class="fa-solid fa-upload text-2xl text-slate-400 mb-2 group-hover:text-[var(--theme-text)]"></i>
-                        <p id="targetStatus" class="text-xs text-slate-400 mt-1 truncate group-hover:text-[var(--theme-text)]">Choisir le fichier</p>
+                    <div class="w-full border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-4 text-center group-hover:bg-orange-50 dark:group-hover:bg-slate-700 group-hover:border-orange-300 dark:group-hover:border-orange-500 transition-all">
+                        <i class="fa-solid fa-upload text-2xl text-slate-400 dark:text-slate-500 mb-2 group-hover:text-orange-600 dark:group-hover:text-orange-400"></i>
+                        <p id="targetStatus" class="text-xs text-slate-400 dark:text-slate-400 mt-1 truncate group-hover:text-orange-600 dark:group-hover:text-orange-300">Choisir le fichier</p>
                     </div>
                 </label>
             </div>
         </div>
 
         <!-- Configuration Section -->
-        <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200 mb-8">
-            <h3 class="font-bold text-slate-700 mb-4 flex items-center gap-2">
-                <i class="fa-solid fa-sliders text-[var(--theme-text)]"></i> Options de filtrage
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-md border border-slate-200 dark:border-slate-700 mb-8">
+            <h3 class="font-bold text-slate-700 dark:text-slate-200 mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-sliders text-blue-600 dark:text-blue-400"></i> Options de filtrage
             </h3>
             <div class="grid md:grid-cols-2 gap-6">
                 
                 <!-- Colonne Gauche -->
                 <div class="flex flex-col gap-4">
                     <div>
-                        <label for="dateFilter" class="block text-sm font-medium text-slate-600 mb-1">Période de collecte :</label>
+                        <label for="dateFilter" class="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1">Période de collecte :</label>
                         <div class="relative">
-                            <select id="dateFilter" class="block w-full pl-3 pr-10 py-2 text-sm border-gray-300 focus:ring-[var(--theme-secondary)] focus:border-[var(--theme-secondary)] rounded-md border bg-slate-50 focus:outline-none focus:ring-1 transition-all">
+                            <select id="dateFilter" class="block w-full pl-3 pr-10 py-2 text-sm border-gray-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-white focus:ring-blue-500 focus:border-blue-500 rounded-md focus:outline-none transition-all">
                                 <option value="999">Tout prendre</option>
                                 <option value="1" selected>Moins de 1 mois</option>
                                 <option value="2">Moins de 2 mois</option>
@@ -124,41 +136,41 @@
 
                 <!-- Colonne Droite (Checkboxes) -->
                 <div class="flex flex-col gap-3 justify-center">
-                    <div class="flex items-center gap-3 p-2 border border-slate-100 rounded bg-slate-50 hover:border-[var(--theme-border)] transition-colors">
-                        <input type="checkbox" id="showZeros" class="w-4 h-4 text-[var(--theme-secondary)] rounded focus:ring-[var(--theme-secondary)] border-gray-300">
+                    <div class="flex items-center gap-3 p-2 border border-slate-100 dark:border-slate-700 rounded bg-slate-50 dark:bg-slate-700 hover:border-blue-300 dark:hover:border-blue-500 transition-colors">
+                        <input type="checkbox" id="showZeros" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 border-gray-300 dark:border-slate-500 dark:bg-slate-600">
                         <div>
-                            <label for="showZeros" class="font-medium text-slate-700 cursor-pointer text-sm select-none">
+                            <label for="showZeros" class="font-medium text-slate-700 dark:text-slate-200 cursor-pointer text-sm select-none">
                                 Inclure les machines à 0
                             </label>
-                            <p class="text-xs text-slate-400">Affiche Mono=0 et Couleur=0 (en rouge).</p>
+                            <p class="text-xs text-slate-400 dark:text-slate-400">Affiche Mono=0 et Couleur=0 (en rouge).</p>
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-3 p-2 border border-orange-100 rounded bg-orange-50">
-                        <input type="checkbox" id="genNotFound" checked class="w-4 h-4 text-orange-600 rounded focus:ring-orange-500 border-gray-300">
+                    <div class="flex items-center gap-3 p-2 border border-orange-100 dark:border-slate-700 rounded bg-orange-50 dark:bg-slate-700/50 hover:border-orange-300 dark:hover:border-orange-500 transition-colors">
+                        <input type="checkbox" id="genNotFound" checked class="w-4 h-4 text-orange-600 rounded focus:ring-orange-500 border-gray-300 dark:border-slate-500 dark:bg-slate-600">
                         <div>
-                            <label for="genNotFound" class="font-medium text-slate-700 cursor-pointer text-sm select-none">
+                            <label for="genNotFound" class="font-medium text-slate-700 dark:text-slate-200 cursor-pointer text-sm select-none">
                                 Générer le fichier des Inconnus
                             </label>
-                            <p class="text-xs text-slate-400">Liste séparée des séries introuvables dans le fichier 1.</p>
+                            <p class="text-xs text-slate-400 dark:text-slate-400">Liste séparée des séries introuvables.</p>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <button onclick="processFiles()" class="w-full bg-[var(--theme-secondary)] hover:bg-[var(--theme-hover)] text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 mt-6 transform hover:-translate-y-0.5" id="processBtn">
+            <button onclick="processFiles()" class="w-full bg-[var(--brand-color)] hover:bg-[var(--brand-hover)] text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 mt-6 transform hover:-translate-y-0.5" id="processBtn">
                 <i class="fa-solid fa-gears"></i>
                 Lancer le traitement
             </button>
         </div>
 
         <!-- Results Section -->
-        <div id="resultSection" class="hidden bg-white rounded-xl shadow-lg overflow-hidden animate-fade-in">
-            <div class="p-4 bg-slate-50 border-b border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div id="resultSection" class="hidden bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden animate-fade-in border border-slate-100 dark:border-slate-700">
+            <div class="p-4 bg-slate-50 dark:bg-slate-700 border-b border-slate-200 dark:border-slate-600 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h3 class="font-bold text-slate-800">Résultats</h3>
-                    <p class="text-sm text-slate-600" id="resultCount"></p>
-                    <div id="resultDetails" class="text-xs text-slate-500 mt-1"></div>
+                    <h3 class="font-bold text-slate-800 dark:text-white">Résultats</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-300" id="resultCount"></p>
+                    <div id="resultDetails" class="text-xs text-slate-500 dark:text-slate-400 mt-1"></div>
                 </div>
                 
                 <div class="flex gap-2">
@@ -172,18 +184,18 @@
             </div>
             
             <div class="overflow-x-auto max-h-96">
-                <table class="w-full text-sm text-left text-slate-600 relative">
-                    <thead class="text-xs text-slate-700 uppercase bg-slate-100 sticky top-0 shadow-sm z-10">
+                <table class="w-full text-sm text-left text-slate-600 dark:text-slate-300 relative">
+                    <thead class="text-xs text-slate-700 dark:text-slate-200 uppercase bg-slate-100 dark:bg-slate-700 sticky top-0 shadow-sm z-10">
                         <tr>
                             <th class="px-6 py-3">Client</th>
-                            <th class="px-6 py-3 text-[var(--theme-text)]">Série</th>
-                            <th class="px-6 py-3 text-green-600">Modèle</th>
+                            <th class="px-6 py-3 text-blue-600 dark:text-blue-400">Série</th>
+                            <th class="px-6 py-3 text-green-600 dark:text-green-400">Modèle</th>
                             <th class="px-6 py-3 text-center">Mono</th>
                             <th class="px-6 py-3 text-center">Couleur</th>
-                            <th class="px-6 py-3 text-slate-500">Collecte</th>
+                            <th class="px-6 py-3 text-slate-500 dark:text-slate-400">Collecte</th>
                         </tr>
                     </thead>
-                    <tbody id="previewBody" class="divide-y divide-slate-100"></tbody>
+                    <tbody id="previewBody" class="divide-y divide-slate-100 dark:divide-slate-700"></tbody>
                 </table>
             </div>
         </div>
@@ -191,56 +203,26 @@
     </main>
 
     <script>
-        // --- GESTION DU THEME ---
-        function setTheme(color) {
-            const root = document.documentElement;
-            
-            const themes = {
-                blue: {
-                    primary: '#1d4ed8',   // blue-700
-                    secondary: '#2563eb', // blue-600
-                    hover: '#1e40af',     // blue-800
-                    light: '#eff6ff',     // blue-50
-                    text: '#1d4ed8',      // blue-700
-                    border: '#93c5fd'     // blue-300
-                },
-                red: {
-                    primary: '#b91c1c',   // red-700
-                    secondary: '#dc2626', // red-600
-                    hover: '#991b1b',     // red-800
-                    light: '#fef2f2',     // red-50
-                    text: '#b91c1c',      // red-700
-                    border: '#fca5a5'     // red-300
-                },
-                orange: {
-                    primary: '#c2410c',   // orange-700
-                    secondary: '#ea580c', // orange-600
-                    hover: '#9a3412',     // orange-800
-                    light: '#fff7ed',     // orange-50
-                    text: '#c2410c',      // orange-700
-                    border: '#fdba74'     // orange-300
-                },
-                green: {
-                    primary: '#15803d',   // emerald-700
-                    secondary: '#16a34a', // emerald-600
-                    hover: '#14532d',     // emerald-800
-                    light: '#f0fdf4',     // emerald-50
-                    text: '#15803d',      // emerald-700
-                    border: '#86efac'     // emerald-300
-                }
-            };
-
-            const t = themes[color] || themes.blue;
-
-            root.style.setProperty('--theme-primary', t.primary);
-            root.style.setProperty('--theme-secondary', t.secondary);
-            root.style.setProperty('--theme-hover', t.hover);
-            root.style.setProperty('--theme-light', t.light);
-            root.style.setProperty('--theme-text', t.text);
-            root.style.setProperty('--theme-border', t.border);
+        // --- GESTION DU DARK MODE ---
+        
+        // Au chargement, vérifier si l'utilisateur a déjà une préférence ou préfère le sombre par défaut système
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
         }
 
-        // --- LOGIQUE EXISTANTE ---
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        }
+
+        // --- LOGIQUE METIER (Inchangée) ---
         let dataRef = null;    
         let dataTarget = null; 
         let finalData = null;
@@ -278,8 +260,7 @@
             if (input.files && input.files[0]) {
                 const file = input.files[0];
                 status.textContent = file.name;
-                status.classList.add('text-[var(--theme-text)]', 'font-bold');
-                status.style.color = 'var(--theme-text)'; // Force dynamic color
+                status.classList.add('text-blue-600', 'dark:text-blue-400', 'font-bold');
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     const data = new Uint8Array(e.target.result);
@@ -423,7 +404,7 @@
             tbody.innerHTML = "";
             
             if (rows.length <= 1) {
-                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400 italic bg-slate-50">Aucune donnée trouvée.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400 dark:text-slate-500 italic bg-slate-50 dark:bg-slate-700/30">Aucune donnée trouvée.</td></tr>`;
                 return;
             }
 
@@ -433,19 +414,25 @@
                 const row = rows[i];
                 const isZero = row[6]; 
 
-                const rowClass = isZero ? "bg-red-50 border-l-4 border-red-400" : "bg-white hover:bg-[var(--theme-light)]";
-                const monoClass = isZero ? "text-red-600 font-bold" : "text-slate-600";
+                // Couleurs lignes : Différentes en Dark Mode
+                const rowClass = isZero 
+                    ? "bg-red-50 dark:bg-red-900/20 border-l-4 border-red-400 dark:border-red-500" 
+                    : "bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-slate-700/50";
+                
+                const monoClass = isZero 
+                    ? "text-red-600 dark:text-red-400 font-bold" 
+                    : "text-slate-600 dark:text-slate-300";
                 
                 const tr = document.createElement('tr');
-                tr.className = `${rowClass} transition-colors border-b border-slate-100`;
+                tr.className = `${rowClass} transition-colors border-b border-slate-100 dark:border-slate-700`;
 
                 tr.innerHTML = `
-                    <td class="px-6 py-3 font-medium text-slate-700 whitespace-nowrap">${row[0] || ''}</td>
-                    <td class="px-6 py-3 text-[var(--theme-secondary)]" style="color: var(--theme-secondary)">${row[1]}</td>
-                    <td class="px-6 py-3 text-green-600">${row[2]}</td>
+                    <td class="px-6 py-3 font-medium text-slate-700 dark:text-slate-200 whitespace-nowrap">${row[0] || ''}</td>
+                    <td class="px-6 py-3 text-blue-600 dark:text-blue-400">${row[1]}</td>
+                    <td class="px-6 py-3 text-green-600 dark:text-green-400">${row[2]}</td>
                     <td class="px-6 py-3 text-center font-mono ${monoClass}">${row[3]}</td>
                     <td class="px-6 py-3 text-center font-mono ${monoClass}">${row[4]}</td>
-                    <td class="px-6 py-3 text-xs text-slate-500">${row[5]}</td>
+                    <td class="px-6 py-3 text-xs text-slate-500 dark:text-slate-400">${row[5]}</td>
                 `;
                 tbody.appendChild(tr);
             }
@@ -472,23 +459,27 @@
 
         function showError(msg) {
             const el = document.getElementById('statusMessage');
-            el.className = "mb-6 p-4 rounded-lg bg-red-100 text-red-700 border-l-4 border-red-500 flex items-center gap-3 shadow-sm";
+            el.className = "mb-6 p-4 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 border-l-4 border-red-500 flex items-center gap-3 shadow-sm";
             el.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-xl"></i> <span>${msg}</span>`;
             el.classList.remove('hidden');
         }
 
         function showSuccess(stats) {
             const el = document.getElementById('statusMessage');
+            el.className = "mb-6 p-4 rounded-lg bg-blue-50 dark:bg-slate-700/50 border-l-4 border-blue-500 shadow-sm";
+            
             document.getElementById('resultCount').innerHTML = `<b>${stats.kept}</b> machines traitées avec succès.`;
             
             document.getElementById('resultDetails').innerHTML = `
                 <div class="flex gap-4 flex-wrap items-center">
-                    <span class="text-orange-600"><i class="fa-solid fa-filter"></i> <b>${stats.zeros}</b> masquées (0/0)</span>
-                    <span class="text-purple-600"><i class="fa-solid fa-clone"></i> <b>${stats.doublons}</b> doublons</span>
-                    <span class="text-red-600"><i class="fa-regular fa-calendar-xmark"></i> <b>${stats.vieux}</b> hors délai</span>
-                    ${stats.unknown > 0 ? `<span class="bg-orange-100 text-orange-800 px-2 py-1 rounded font-bold border border-orange-200"><i class="fa-solid fa-circle-question"></i> ${stats.unknown} inconnus</span>` : ''}
+                    <span class="text-orange-600 dark:text-orange-400"><i class="fa-solid fa-filter"></i> <b>${stats.zeros}</b> masquées (0/0)</span>
+                    <span class="text-purple-600 dark:text-purple-400"><i class="fa-solid fa-clone"></i> <b>${stats.doublons}</b> doublons</span>
+                    <span class="text-red-600 dark:text-red-400"><i class="fa-regular fa-calendar-xmark"></i> <b>${stats.vieux}</b> hors délai</span>
+                    ${stats.unknown > 0 ? `<span class="bg-orange-100 dark:bg-orange-900/40 text-orange-800 dark:text-orange-300 px-2 py-1 rounded font-bold border border-orange-200 dark:border-orange-700"><i class="fa-solid fa-circle-question"></i> ${stats.unknown} inconnus</span>` : ''}
                 </div>
             `;
+            
+            el.classList.remove('hidden');
             
             if (stats.unknown > 0) {
                 document.getElementById('btnDownloadNotFound').classList.remove('hidden');
