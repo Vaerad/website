@@ -8,55 +8,91 @@
     <!-- SheetJS pour lire et écrire des fichiers Excel -->
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Configuration des variables CSS pour le thème -->
+    <style>
+        :root {
+            /* Valeurs par défaut (Bleu) */
+            --theme-primary: #1d4ed8;      /* blue-700 */
+            --theme-secondary: #2563eb;    /* blue-600 */
+            --theme-hover: #1e40af;        /* blue-800 */
+            --theme-light: #eff6ff;        /* blue-50 */
+            --theme-text: #1d4ed8;         /* blue-700 */
+            --theme-border: #93c5fd;       /* blue-300 */
+        }
+    </style>
 </head>
-<body class="bg-slate-50 min-h-screen font-sans text-slate-800">
+<body class="bg-slate-50 min-h-screen font-sans text-slate-800 transition-colors duration-300">
 
     <!-- Header -->
-    <header class="bg-blue-700 text-white shadow-lg">
-        <div class="container mx-auto px-4 py-6">
-            <h1 class="text-2xl font-bold flex items-center gap-2">
-                <i class="fa-solid fa-file-excel"></i>
-                Comparateur Excel Avancé
-            </h1>
-            <p class="text-blue-100 text-sm mt-1">Fusionne un export total kpax et votre tableau croisé avec détection des inconnus.</p>
+    <header class="bg-[var(--theme-primary)] text-white shadow-lg transition-colors duration-300">
+        <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            
+            <!-- Logo & Titre -->
+            <div class="flex items-center gap-4 w-full md:w-auto">
+                <!-- Logo -->
+                <img src="https://raw.githubusercontent.com/Vaerad/website/main/images.png"
+                     alt="Logo"
+                     class="h-14 w-auto rounded-lg shadow-md bg-white object-contain p-1 transition-transform duration-300 hover:scale-105"
+                     onerror="this.onerror=null;this.parentElement.innerHTML='<div class=\'h-14 w-14 rounded-lg shadow-md bg-white flex items-center justify-center text-[var(--theme-primary)] text-3xl transition-colors duration-300\'><i class=\'fa-solid fa-robot\'></i></div>'">
+                <div>
+                    <h1 class="text-2xl font-bold flex items-center gap-2">
+                        Comparateur Excel
+                    </h1>
+                    <p class="text-blue-100 text-xs opacity-90">Fusion & Analyse de parc</p>
+                </div>
+            </div>
+
+            <!-- Sélecteur de couleur -->
+            <div class="flex items-center gap-3 bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm">
+                <span class="text-xs font-medium opacity-80 uppercase tracking-wider mr-1">Thème</span>
+                <!-- Bleu (Défaut) -->
+                <button onclick="setTheme('blue')" class="w-6 h-6 rounded-full bg-blue-600 border-2 border-white/50 hover:scale-110 transition shadow-sm focus:outline-none ring-2 ring-offset-2 ring-offset-blue-700 ring-transparent focus:ring-white" title="Bleu"></button>
+                <!-- Rouge -->
+                <button onclick="setTheme('red')" class="w-6 h-6 rounded-full bg-red-600 border-2 border-white/50 hover:scale-110 transition shadow-sm focus:outline-none ring-2 ring-offset-2 ring-offset-red-700 ring-transparent focus:ring-white" title="Rouge"></button>
+                <!-- Orange -->
+                <button onclick="setTheme('orange')" class="w-6 h-6 rounded-full bg-orange-500 border-2 border-white/50 hover:scale-110 transition shadow-sm focus:outline-none ring-2 ring-offset-2 ring-offset-orange-600 ring-transparent focus:ring-white" title="Orange"></button>
+                <!-- Vert -->
+                <button onclick="setTheme('green')" class="w-6 h-6 rounded-full bg-emerald-600 border-2 border-white/50 hover:scale-110 transition shadow-sm focus:outline-none ring-2 ring-offset-2 ring-offset-emerald-700 ring-transparent focus:ring-white" title="Vert"></button>
+            </div>
         </div>
     </header>
 
     <main class="container mx-auto px-4 py-8 max-w-4xl">
 
         <!-- Status Messages -->
-        <div id="statusMessage" class="hidden mb-6 p-4 rounded-lg transition-all duration-300"></div>
+        <div id="statusMessage" class="hidden mb-6 p-4 rounded-lg transition-all duration-300 shadow-sm"></div>
 
         <!-- Upload Section -->
         <div class="grid md:grid-cols-2 gap-6 mb-8">
             <!-- Fichier 1 -->
-            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200 hover:border-blue-400 transition-colors relative overflow-hidden">
-                <div class="absolute top-0 right-0 bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-bl-lg">REF</div>
+            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200 hover:border-[var(--theme-border)] transition-colors relative overflow-hidden group">
+                <div class="absolute top-0 right-0 bg-slate-100 text-slate-600 text-xs font-bold px-3 py-1 rounded-bl-lg group-hover:bg-[var(--theme-light)] group-hover:text-[var(--theme-text)] transition-colors">REF</div>
                 <div class="flex justify-between items-start mb-4">
-                    <h2 class="font-bold text-lg text-slate-700">1. Fichier TOTAL GERE</h2>
+                    <h2 class="font-bold text-lg text-slate-700 group-hover:text-[var(--theme-text)] transition-colors">1. Fichier TOTAL GERE</h2>
                 </div>
                 <p class="text-sm text-slate-500 mb-4">Contient les compteurs et dates.</p>
-                <label class="block w-full cursor-pointer group">
+                <label class="block w-full cursor-pointer">
                     <input type="file" id="fileRef" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFile(this, 'refStatus')">
-                    <div class="w-full border-2 border-dashed border-slate-300 rounded-lg p-4 text-center group-hover:bg-blue-50 group-hover:border-blue-300 transition">
-                        <i class="fa-solid fa-upload text-2xl text-slate-400 mb-2 group-hover:text-blue-500"></i>
-                        <p id="refStatus" class="text-xs text-slate-400 mt-1 truncate">Choisir le fichier</p>
+                    <div class="w-full border-2 border-dashed border-slate-300 rounded-lg p-4 text-center group-hover:bg-[var(--theme-light)] group-hover:border-[var(--theme-border)] transition-all">
+                        <i class="fa-solid fa-upload text-2xl text-slate-400 mb-2 group-hover:text-[var(--theme-text)]"></i>
+                        <p id="refStatus" class="text-xs text-slate-400 mt-1 truncate group-hover:text-[var(--theme-text)]">Choisir le fichier</p>
                     </div>
                 </label>
             </div>
 
             <!-- Fichier 2 -->
-            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200 hover:border-orange-400 transition-colors relative overflow-hidden">
-                <div class="absolute top-0 right-0 bg-orange-100 text-orange-800 text-xs font-bold px-3 py-1 rounded-bl-lg">CIBLE</div>
+            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200 hover:border-[var(--theme-border)] transition-colors relative overflow-hidden group">
+                <div class="absolute top-0 right-0 bg-slate-100 text-slate-600 text-xs font-bold px-3 py-1 rounded-bl-lg group-hover:bg-[var(--theme-light)] group-hover:text-[var(--theme-text)] transition-colors">CIBLE</div>
                 <div class="flex justify-between items-start mb-4">
-                    <h2 class="font-bold text-lg text-slate-700">2. Fichier MACHINE SANS RC</h2>
+                    <h2 class="font-bold text-lg text-slate-700 group-hover:text-[var(--theme-text)] transition-colors">2. Fichier MACHINE SANS RC</h2>
                 </div>
                 <p class="text-sm text-slate-500 mb-4">Contient les erreurs.</p>
-                <label class="block w-full cursor-pointer group">
+                <label class="block w-full cursor-pointer">
                     <input type="file" id="fileTarget" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFile(this, 'targetStatus')">
-                    <div class="w-full border-2 border-dashed border-slate-300 rounded-lg p-4 text-center group-hover:bg-orange-50 group-hover:border-orange-300 transition">
-                        <i class="fa-solid fa-upload text-2xl text-slate-400 mb-2 group-hover:text-orange-500"></i>
-                        <p id="targetStatus" class="text-xs text-slate-400 mt-1 truncate">Choisir le fichier</p>
+                    <div class="w-full border-2 border-dashed border-slate-300 rounded-lg p-4 text-center group-hover:bg-[var(--theme-light)] group-hover:border-[var(--theme-border)] transition-all">
+                        <i class="fa-solid fa-upload text-2xl text-slate-400 mb-2 group-hover:text-[var(--theme-text)]"></i>
+                        <p id="targetStatus" class="text-xs text-slate-400 mt-1 truncate group-hover:text-[var(--theme-text)]">Choisir le fichier</p>
                     </div>
                 </label>
             </div>
@@ -65,7 +101,7 @@
         <!-- Configuration Section -->
         <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200 mb-8">
             <h3 class="font-bold text-slate-700 mb-4 flex items-center gap-2">
-                <i class="fa-solid fa-sliders"></i> Options de filtrage
+                <i class="fa-solid fa-sliders text-[var(--theme-text)]"></i> Options de filtrage
             </h3>
             <div class="grid md:grid-cols-2 gap-6">
                 
@@ -74,7 +110,7 @@
                     <div>
                         <label for="dateFilter" class="block text-sm font-medium text-slate-600 mb-1">Période de collecte :</label>
                         <div class="relative">
-                            <select id="dateFilter" class="block w-full pl-3 pr-10 py-2 text-sm border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-md border bg-slate-50">
+                            <select id="dateFilter" class="block w-full pl-3 pr-10 py-2 text-sm border-gray-300 focus:ring-[var(--theme-secondary)] focus:border-[var(--theme-secondary)] rounded-md border bg-slate-50 focus:outline-none focus:ring-1 transition-all">
                                 <option value="999">Tout prendre</option>
                                 <option value="1" selected>Moins de 1 mois</option>
                                 <option value="2">Moins de 2 mois</option>
@@ -88,8 +124,8 @@
 
                 <!-- Colonne Droite (Checkboxes) -->
                 <div class="flex flex-col gap-3 justify-center">
-                    <div class="flex items-center gap-3 p-2 border border-slate-100 rounded bg-slate-50">
-                        <input type="checkbox" id="showZeros" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 border-gray-300">
+                    <div class="flex items-center gap-3 p-2 border border-slate-100 rounded bg-slate-50 hover:border-[var(--theme-border)] transition-colors">
+                        <input type="checkbox" id="showZeros" class="w-4 h-4 text-[var(--theme-secondary)] rounded focus:ring-[var(--theme-secondary)] border-gray-300">
                         <div>
                             <label for="showZeros" class="font-medium text-slate-700 cursor-pointer text-sm select-none">
                                 Inclure les machines à 0
@@ -110,7 +146,7 @@
                 </div>
             </div>
             
-            <button onclick="processFiles()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition active:scale-95 flex items-center justify-center gap-2 mt-6" id="processBtn">
+            <button onclick="processFiles()" class="w-full bg-[var(--theme-secondary)] hover:bg-[var(--theme-hover)] text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 mt-6 transform hover:-translate-y-0.5" id="processBtn">
                 <i class="fa-solid fa-gears"></i>
                 Lancer le traitement
             </button>
@@ -126,10 +162,10 @@
                 </div>
                 
                 <div class="flex gap-2">
-                    <button onclick="downloadExcel()" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg shadow text-sm font-bold flex items-center gap-2">
+                    <button onclick="downloadExcel()" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg shadow text-sm font-bold flex items-center gap-2 transition-colors">
                         <i class="fa-solid fa-download"></i> Résultat Principal
                     </button>
-                    <button id="btnDownloadNotFound" onclick="downloadNotFoundExcel()" class="hidden bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-lg shadow text-sm font-bold flex items-center gap-2">
+                    <button id="btnDownloadNotFound" onclick="downloadNotFoundExcel()" class="hidden bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-lg shadow text-sm font-bold flex items-center gap-2 transition-colors">
                         <i class="fa-solid fa-file-circle-question"></i> Télécharger les Inconnus
                     </button>
                 </div>
@@ -140,7 +176,7 @@
                     <thead class="text-xs text-slate-700 uppercase bg-slate-100 sticky top-0 shadow-sm z-10">
                         <tr>
                             <th class="px-6 py-3">Client</th>
-                            <th class="px-6 py-3 text-blue-600">Série</th>
+                            <th class="px-6 py-3 text-[var(--theme-text)]">Série</th>
                             <th class="px-6 py-3 text-green-600">Modèle</th>
                             <th class="px-6 py-3 text-center">Mono</th>
                             <th class="px-6 py-3 text-center">Couleur</th>
@@ -155,10 +191,60 @@
     </main>
 
     <script>
+        // --- GESTION DU THEME ---
+        function setTheme(color) {
+            const root = document.documentElement;
+            
+            const themes = {
+                blue: {
+                    primary: '#1d4ed8',   // blue-700
+                    secondary: '#2563eb', // blue-600
+                    hover: '#1e40af',     // blue-800
+                    light: '#eff6ff',     // blue-50
+                    text: '#1d4ed8',      // blue-700
+                    border: '#93c5fd'     // blue-300
+                },
+                red: {
+                    primary: '#b91c1c',   // red-700
+                    secondary: '#dc2626', // red-600
+                    hover: '#991b1b',     // red-800
+                    light: '#fef2f2',     // red-50
+                    text: '#b91c1c',      // red-700
+                    border: '#fca5a5'     // red-300
+                },
+                orange: {
+                    primary: '#c2410c',   // orange-700
+                    secondary: '#ea580c', // orange-600
+                    hover: '#9a3412',     // orange-800
+                    light: '#fff7ed',     // orange-50
+                    text: '#c2410c',      // orange-700
+                    border: '#fdba74'     // orange-300
+                },
+                green: {
+                    primary: '#15803d',   // emerald-700
+                    secondary: '#16a34a', // emerald-600
+                    hover: '#14532d',     // emerald-800
+                    light: '#f0fdf4',     // emerald-50
+                    text: '#15803d',      // emerald-700
+                    border: '#86efac'     // emerald-300
+                }
+            };
+
+            const t = themes[color] || themes.blue;
+
+            root.style.setProperty('--theme-primary', t.primary);
+            root.style.setProperty('--theme-secondary', t.secondary);
+            root.style.setProperty('--theme-hover', t.hover);
+            root.style.setProperty('--theme-light', t.light);
+            root.style.setProperty('--theme-text', t.text);
+            root.style.setProperty('--theme-border', t.border);
+        }
+
+        // --- LOGIQUE EXISTANTE ---
         let dataRef = null;    
         let dataTarget = null; 
         let finalData = null;
-        let finalDataNotFound = null; // Stockage pour le 2ème fichier
+        let finalDataNotFound = null; 
 
         function parseExcelDate(value) {
             if (!value) return null;
@@ -192,7 +278,8 @@
             if (input.files && input.files[0]) {
                 const file = input.files[0];
                 status.textContent = file.name;
-                status.classList.add('text-blue-600', 'font-bold');
+                status.classList.add('text-[var(--theme-text)]', 'font-bold');
+                status.style.color = 'var(--theme-text)'; // Force dynamic color
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     const data = new Uint8Array(e.target.result);
@@ -216,7 +303,6 @@
             }
 
             try {
-                // Options
                 const monthsFilter = parseInt(document.getElementById('dateFilter').value);
                 const showZeros = document.getElementById('showZeros').checked;
                 const genNotFound = document.getElementById('genNotFound').checked;
@@ -228,7 +314,6 @@
                     cutoffDate.setHours(0,0,0,0);
                 }
 
-                // Préparation Fichier 1
                 const headersRef = dataRef[0].map(h => String(h).trim().toLowerCase());
                 const idxSerieRef = headersRef.findIndex(h => h.includes("numéro de série") || h.includes("serie"));
                 const idxModele = headersRef.findIndex(h => h.includes("modèle") || h.includes("modele"));
@@ -254,14 +339,12 @@
                     });
                 }
 
-                // Préparation Fichier 2
                 const headersTarget = dataTarget[0].map(h => String(h).trim().toLowerCase());
                 const idxComment = headersTarget.findIndex(h => h.includes("commentaires") || h.includes("message"));
                 const idxClient = headersTarget.findIndex(h => h.includes("client"));
 
                 if (idxComment === -1) throw new Error("Colonne 'Commentaires' introuvable dans Fichier 2.");
 
-                // Listes de résultats
                 const processedRows = [];
                 processedRows.push(["Client", "Série Extraite", "Modèle", "Total Mono", "Total Couleur", "Dernière Collecte"]);
                 
@@ -270,7 +353,7 @@
 
                 let stats = { zeros: 0, doublons: 0, vieux: 0, kept: 0, unknown: 0 };
                 const seenSerials = new Set();
-                const seenSerialsNotFound = new Set(); // Pour éviter les doublons dans les inconnus aussi
+                const seenSerialsNotFound = new Set(); 
 
                 for (let i = 1; i < dataTarget.length; i++) {
                     const row = dataTarget[i];
@@ -287,31 +370,22 @@
                         serieExtraite = contenu.trim().toUpperCase();
                     }
 
-                    // Si on n'a même pas pu extraire de numéro de série, on ignore (ou on pourrait le mettre dans inconnus)
                     if (serieExtraite === "Non trouvé") continue;
 
-                    let foundInRef = false;
-                    
                     if (refMap.has(serieExtraite)) {
-                        // --- CAS 1 : TROUVÉ DANS FICHIER 1 ---
-                        foundInRef = true;
                         const info = refMap.get(serieExtraite);
-
                         const valMono = parseFloat(info.mono) || 0;
                         const valCouleur = parseFloat(info.couleur) || 0;
                         const isZero = (valMono === 0 && valCouleur === 0);
 
-                        // Filtre Zéro
                         if (isZero && !showZeros) {
                             stats.zeros++;
                             continue;
                         }
-                        // Filtre Date
                         if (cutoffDate && info.dateObj && info.dateObj < cutoffDate) {
                             stats.vieux++;
                             continue;
                         }
-                        // Filtre Doublons
                         if (seenSerials.has(serieExtraite)) {
                             stats.doublons++;
                             continue;
@@ -322,9 +396,7 @@
                         stats.kept++;
 
                     } else {
-                        // --- CAS 2 : NON TROUVÉ DANS FICHIER 1 (INCONNU) ---
                         if (genNotFound) {
-                            // On vérifie aussi les doublons pour les inconnus
                             if (!seenSerialsNotFound.has(serieExtraite)) {
                                 seenSerialsNotFound.add(serieExtraite);
                                 notFoundRows.push([client, serieExtraite, comment]);
@@ -334,7 +406,7 @@
                     }
                 }
 
-                finalData = processedRows.map(r => r.slice(0,6)); // On enlève le flag isZero pour l'export
+                finalData = processedRows.map(r => r.slice(0,6)); 
                 finalDataNotFound = notFoundRows;
 
                 showSuccess(stats);
@@ -359,9 +431,9 @@
 
             for (let i = 1; i < max; i++) {
                 const row = rows[i];
-                const isZero = row[6]; // Flag récupéré
+                const isZero = row[6]; 
 
-                const rowClass = isZero ? "bg-red-50 border-l-4 border-red-400" : "bg-white hover:bg-blue-50";
+                const rowClass = isZero ? "bg-red-50 border-l-4 border-red-400" : "bg-white hover:bg-[var(--theme-light)]";
                 const monoClass = isZero ? "text-red-600 font-bold" : "text-slate-600";
                 
                 const tr = document.createElement('tr');
@@ -369,7 +441,7 @@
 
                 tr.innerHTML = `
                     <td class="px-6 py-3 font-medium text-slate-700 whitespace-nowrap">${row[0] || ''}</td>
-                    <td class="px-6 py-3 text-blue-600">${row[1]}</td>
+                    <td class="px-6 py-3 text-[var(--theme-secondary)]" style="color: var(--theme-secondary)">${row[1]}</td>
                     <td class="px-6 py-3 text-green-600">${row[2]}</td>
                     <td class="px-6 py-3 text-center font-mono ${monoClass}">${row[3]}</td>
                     <td class="px-6 py-3 text-center font-mono ${monoClass}">${row[4]}</td>
@@ -418,7 +490,6 @@
                 </div>
             `;
             
-            // Afficher le bouton de téléchargement des inconnus si nécessaire
             if (stats.unknown > 0) {
                 document.getElementById('btnDownloadNotFound').classList.remove('hidden');
             }
