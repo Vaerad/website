@@ -1,385 +1,388 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Portfolio – Alexandre Badouard</title>
-  <meta name="description" content="Portfolio d'Alexandre Badouard, apprenti technicien système et réseau. CV, projets, scripts et contact.">
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparateur Excel Automatique</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- SheetJS pour lire et écrire des fichiers Excel -->
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-<body>
-  <header class="site-header">
-    <div class="brand">
-      <div class="logo-dot"></div>
-      <div class="brand-text">
-        <strong>Alexandre Badouard</strong>
-        <span>Apprenti Technicien Système & Réseau</span>
-      </div>
-    </div>
+<body class="bg-slate-50 min-h-screen font-sans text-slate-800">
 
-    <nav class="nav-tabs" aria-label="Navigation principale">
-      <button class="tab-btn active" data-tab="home">Accueil</button>
-      <button class="tab-btn" data-tab="cv">CV</button>
-      <button class="tab-btn" data-tab="projects">Projets</button>
-      <button class="tab-btn" data-tab="gaming">Gaming</button>
-      <button class="tab-btn" data-tab="scripts">Scripts</button>
-      <button class="tab-btn" data-tab="contact">Contact</button>
-
-      <!-- Sélecteur mobile -->
-      <select class="tabs-select" aria-label="Navigation mobile">
-        <option value="home" selected>Accueil</option>
-        <option value="cv">CV</option>
-        <option value="projects">Projets</option>
-        <option value="gaming">Gaming</option>
-        <option value="scripts">Scripts</option>
-        <option value="contact">Contact</option>
-      </select>
-    </nav>
-
-    <div class="theme-switcher" aria-label="Choix du thème">
-      <button class="theme-chip active" data-color="#4f46e5" title="Indigo"></button>
-      <button class="theme-chip" data-color="#16a34a" title="Vert"></button>
-      <button class="theme-chip" data-color="#f59e0b" title="Orange"></button>
-      <button class="theme-chip" data-color="#ef4444" title="Rouge"></button>
-      <button class="theme-chip" data-color="#06b6d4" title="Cyan"></button>
-    </div>
-  </header>
-
-  <main class="container">
-    <section class="grid">
-      <!-- Colonne gauche -->
-      <aside class="col aside">
-        <div class="card">
-          <h2 class="card-title">Statut</h2>
-          <div class="latency">
-            <span class="ping-dot"></span>
-            <span id="ping-value">-- ms</span>
-          </div>
-          <p class="muted">Uptime simulé, ping rafraîchi toutes les 2s.</p>
+    <!-- Header -->
+    <header class="bg-blue-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <h1 class="text-2xl font-bold flex items-center gap-2">
+                <i class="fa-solid fa-file-excel"></i>
+                Comparateur Excel Automatique
+            </h1>
+            <p class="text-blue-100 text-sm mt-1">Fusionne "TOTAL GERE" et "MACHINE SANS RC" via le numéro de série caché.</p>
         </div>
+    </header>
 
-        <div class="card">
-          <h2 class="card-title">À propos</h2>
-          <p>Passionné d’infra IT, d’admin système et de support. J’apprends vite, j’automatise quand c’est possible, et j’aime les environnements bien monitorés.</p>
-        </div>
+    <main class="container mx-auto px-4 py-8 max-w-4xl">
 
-        <div class="card">
-          <h2 class="card-title">Réseaux sociaux</h2>
-          <div class="btn-row">
-            <a class="btn ghost" target="_blank" href="https://github.com/vaerad">
-              <i class="fab fa-github"></i> GitHub
-            </a>
-            <a class="btn ghost" target="_blank" href="https://linkedin.com/in/alexandre-badouard-158306279">
-              <i class="fab fa-linkedin-in"></i> LinkedIn
-            </a>
-          </div>
-        </div>
-      </aside>
+        <!-- Status Messages -->
+        <div id="statusMessage" class="hidden mb-6 p-4 rounded-lg"></div>
 
-      <!-- Colonne centrale (contenu par onglets) -->
-      <section class="col content">
-        <section id="home" class="tab active">
-          <div class="card">
-            <h2 class="card-title">Bienvenue 👋</h2>
-            <p>Découvre mon parcours, mes projets et un script PowerShell “boîte à outils” pour diagnostiquer et corriger rapidement un poste Windows.</p>
-          </div>
-        </section>
-
-        <section id="cv" class="tab">
-          <div class="card">
-            <h2 class="card-title">CV</h2>
-            <p>Consulte mon CV au format PDF :</p>
-            <div class="btn-row">
-              <a href="cv-alexandre-badouard.pdf" class="btn primary" target="_blank"><i class="fas fa-eye"></i> Voir</a>
-              <a href="cv-alexandre-badouard.pdf" class="btn" download><i class="fas fa-download"></i> Télécharger</a>
+        <!-- Upload Section -->
+        <div class="grid md:grid-cols-2 gap-6 mb-8">
+            
+            <!-- Carte Fichier 1 -->
+            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200 hover:border-blue-400 transition-colors">
+                <div class="flex justify-between items-start mb-4">
+                    <h2 class="font-bold text-lg text-slate-700">1. Fichier de Référence</h2>
+                    <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">TOTAL GERE</span>
+                </div>
+                <p class="text-sm text-slate-500 mb-4">Contient les compteurs (Mono/Couleur) et les modèles.</p>
+                
+                <label class="block w-full cursor-pointer">
+                    <input type="file" id="fileRef" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFile(this, 'refStatus')">
+                    <div class="w-full border-2 border-dashed border-slate-300 rounded-lg p-4 text-center hover:bg-slate-50 transition">
+                        <i class="fa-solid fa-upload text-2xl text-slate-400 mb-2"></i>
+                        <p class="text-sm font-medium text-slate-600">Choisir le fichier</p>
+                        <p id="refStatus" class="text-xs text-slate-400 mt-1">Aucun fichier sélectionné</p>
+                    </div>
+                </label>
             </div>
-          </div>
-        </section>
 
-        <section id="projects" class="tab">
-          <div class="card">
-            <h2 class="card-title">Projets</h2>
-            <ul class="list">
-              <li><i class="fas fa-desktop"></i> Déploiement de 20+ postes (domaine AD, profils, GPO)</li>
-              <li><i class="fas fa-network-wired"></i> VLAN & switches managés (segmentation, QoS de base)</li>
-              <li><i class="fas fa-shield-alt"></i> Supervision et sauvegardes (scripts & planification)</li>
-            </ul>
-          </div>
-        </section>
-
-        <section id="gaming" class="tab">
-          <div class="card">
-            <h2 class="card-title">Gaming 🎮</h2>
-            <p>Ryzen 5 5600X • RTX 3080 • 32 Go • 1440p + 1080p. Jeux : Dofus, WoW, CS2, Forza.</p>
-          </div>
-        </section>
-
-        <section id="scripts" class="tab">
-          <div class="card">
-            <h2 class="card-title">AB-Toolbox (PowerShell)</h2>
-            <p>Un seul script PowerShell **ultra complet** avec menu interactif : réseau, réparations Windows, services, disque, logs, pare-feu, Wi-Fi, inventaire, etc.</p>
-            <div class="btn-row">
-              <button class="btn primary copy-btn" data-target="#ps-toolbox">Copier le script</button>
+            <!-- Carte Fichier 2 -->
+            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200 hover:border-orange-400 transition-colors">
+                <div class="flex justify-between items-start mb-4">
+                    <h2 class="font-bold text-lg text-slate-700">2. Fichier à Compléter</h2>
+                    <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full">MACHINE SANS RC</span>
+                </div>
+                <p class="text-sm text-slate-500 mb-4">Contient les commentaires avec les numéros de série cachés.</p>
+                
+                <label class="block w-full cursor-pointer">
+                    <input type="file" id="fileTarget" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFile(this, 'targetStatus')">
+                    <div class="w-full border-2 border-dashed border-slate-300 rounded-lg p-4 text-center hover:bg-slate-50 transition">
+                        <i class="fa-solid fa-upload text-2xl text-slate-400 mb-2"></i>
+                        <p class="text-sm font-medium text-slate-600">Choisir le fichier</p>
+                        <p id="targetStatus" class="text-xs text-slate-400 mt-1">Aucun fichier sélectionné</p>
+                    </div>
+                </label>
             </div>
-            <pre class="code"><code id="ps-toolbox">
-# =========================
-#  AB-Toolbox.ps1 (Windows 10/11)
-#  Auteur : Alexandre Badouard (portfolio)
-#  Description : Menu interactif de maintenance/diagnostic
-# =========================
-
-# --- Vérif élévation ---
-$principal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
-$IsAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
-if (-not $IsAdmin) {
-  Write-Host "[!] Le script doit être exécuté en tant qu'administrateur. Relance en admin..." -ForegroundColor Yellow
-  Start-Process -FilePath "powershell.exe" -Verb RunAs -ArgumentList "-ExecutionPolicy Bypass -File `"$PSCommandPath`""
-  exit
-}
-
-# --- Préférences ---
-$ErrorActionPreference = "Stop"
-$host.UI.RawUI.WindowTitle = "AB-Toolbox - Outils Système & Réseau"
-$LogPath = Join-Path $env:TEMP ("AB-Toolbox_" + (Get-Date -f 'yyyyMMdd_HHmmss') + ".log")
-
-function Log($msg) {
-  $line = "[{0}] {1}" -f (Get-Date -f 'yyyy-MM-dd HH:mm:ss'), $msg
-  $line | Tee-Object -FilePath $LogPath -Append
-}
-
-function Pause() {
-  Write-Host ""
-  Read-Host "Appuie sur Entrée pour continuer"
-}
-
-function Section($title) {
-  Write-Host ("`n=== {0} ===`n" -f $title) -ForegroundColor Cyan
-}
-
-# --- Outils Réseau ---
-function Flush-DNSRenew-IP {
-  Section "Nettoyage DNS / Renouvellement IP"
-  ipconfig /flushdns | Out-Null
-  ipconfig /release | Out-Null
-  ipconfig /renew | Out-Null
-  Log "DNS flush + IP renew effectués."
-  Write-Host "OK." -ForegroundColor Green
-}
-
-function Reset-Network-Stack {
-  Section "Réinitialisation réseau (Winsock, TCP/IP, IPv4/IPv6)"
-  netsh winsock reset | Out-Null
-  netsh int ip reset | Out-Null
-  netsh int ipv4 reset | Out-Null
-  netsh int ipv6 reset | Out-Null
-  Log "Stack réseau réinitialisée. Un redémarrage est recommandé."
-  Write-Host "Réinitialisation effectuée. Pense à redémarrer." -ForegroundColor Green
-}
-
-function Show-Network-Info {
-  Section "Infos réseau"
-  ipconfig /all
-  Write-Host ""
-  try { Get-NetIPConfiguration | Where-Object {$_.IPv4Address} | Format-Table InterfaceAlias,IPv4Address,DNSServer -Auto } catch {}
-  Log "Infos réseau affichées."
-}
-
-function Quick-Ping {
-  Section "Test de connexion"
-  Test-Connection -ComputerName 8.8.8.8 -Count 4 | Select Address,Latency,Status | Format-Table -Auto
-  Log "Ping vers 8.8.8.8 effectué."
-}
-
-function Wifi-Report {
-  Section "Rapport Wi-Fi (HTML)"
-  netsh wlan show wlanreport | Out-Null
-  $path = Join-Path $env:ProgramData "Microsoft\Windows\WlanReport\wlan-report-latest.html"
-  if (Test-Path $path) { Log "Rapport Wi-Fi : $path"; Write-Host "Rapport généré : $path" -ForegroundColor Green } else { Write-Host "Impossible de localiser le rapport." -ForegroundColor Yellow }
-}
-
-# --- Système & Réparations ---
-function SFC-Scan {
-  Section "Vérification fichiers système (SFC)"
-  sfc /scannow
-  Log "SFC effectué."
-}
-
-function DISM-Repair {
-  Section "Réparation composant Windows (DISM)"
-  DISM /Online /Cleanup-Image /RestoreHealth
-  Log "DISM RestoreHealth effectué."
-}
-
-function Check-Disk {
-  Section "Vérification du disque C:"
-  chkdsk C:
-  Log "CHKDSK C: exécuté (lecture)."
-}
-
-function Cleanup-Updates {
-  Section "Nettoyage composants Windows Update"
-  Dism.exe /Online /Cleanup-Image /StartComponentCleanup
-  Log "StartComponentCleanup exécuté."
-}
-
-function Clean-Temp {
-  Section "Nettoyage des fichiers temporaires"
-  Get-ChildItem "$env:TEMP" -Force -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
-  Log "Temp utilisateur nettoyé."
-  Write-Host "Temp nettoyé." -ForegroundColor Green
-}
-
-# --- Services / Pare-feu ---
-function Restart-Spooler {
-  Section "Redémarrer le spouleur d'impression"
-  Stop-Service -Name Spooler -Force -ErrorAction SilentlyContinue
-  Start-Service -Name Spooler
-  Log "Spooler redémarré."
-  Write-Host "Spooler OK." -ForegroundColor Green
-}
-
-function Enable-RDP {
-  Section "Activer RDP + règle pare-feu"
-  Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name 'fDenyTSConnections' -Value 0
-  Enable-NetFirewallRule -DisplayGroup 'Remote Desktop'
-  Log "RDP activé et règle pare-feu ouverte."
-  Write-Host "RDP activé." -ForegroundColor Green
-}
-
-function Open-Firewall-Port {
-  Section "Ouvrir port pare-feu"
-  $port = Read-Host "Numéro de port TCP à ouvrir"
-  if ($port -match '^\d+$') {
-    New-NetFirewallRule -DisplayName "AB-Toolbox TCP $port" -Direction Inbound -Protocol TCP -LocalPort $port -Action Allow | Out-Null
-    Log "Port $port ouvert."
-    Write-Host "Port $port autorisé." -ForegroundColor Green
-  } else {
-    Write-Host "Port invalide." -ForegroundColor Yellow
-  }
-}
-
-# --- Inventaire / Logs ---
-function Drivers-List {
-  Section "Pilotes installés"
-  driverquery /v /fo table
-  Log "DriverQuery affiché."
-}
-
-function Packages-List {
-  Section "Packages installés (si disponibles)"
-  try { Get-Package | Sort-Object Name | Format-Table Name,Version -Auto } catch { Write-Host "Get-Package indisponible." -ForegroundColor Yellow }
-  Log "Packages listés."
-}
-
-function Recent-Errors {
-  Section "Événements Système (erreurs/critique - 20 derniers)"
-  try {
-    Get-WinEvent -FilterHashtable @{LogName='System'; Level=1,2} -MaxEvents 20 |
-      Format-Table TimeCreated, Id, LevelDisplayName, ProviderName -Auto
-    Log "Événements système affichés."
-  } catch { Write-Host "Lecture des journaux impossible." -ForegroundColor Yellow }
-}
-
-# --- Menu ---
-function Show-Menu {
-  Clear-Host
-  Write-Host "===== AB-Toolbox =====" -ForegroundColor Magenta
-  Write-Host "[1] Réseau : Flush DNS + Renew IP"
-  Write-Host "[2] Réseau : Reset stack (Winsock/TCP/IP)"
-  Write-Host "[3] Réseau : Infos + Ping 8.8.8.8"
-  Write-Host "[4] Réseau : Rapport Wi-Fi"
-  Write-Host "----"
-  Write-Host "[5] Système : SFC (fichiers système)"
-  Write-Host "[6] Système : DISM RestoreHealth"
-  Write-Host "[7] Système : CHKDSK C:"
-  Write-Host "[8] Système : Nettoyage Windows Update"
-  Write-Host "[9] Système : Nettoyage TEMP"
-  Write-Host "----"
-  Write-Host "[10] Services : Redémarrer Spooler"
-  Write-Host "[11] Pare-feu : Activer RDP"
-  Write-Host "[12] Pare-feu : Ouvrir un port TCP"
-  Write-Host "----"
-  Write-Host "[13] Inventaire : Pilotes"
-  Write-Host "[14] Inventaire : Packages"
-  Write-Host "[15] Logs : Erreurs récentes"
-  Write-Host "----"
-  Write-Host "[0] Quitter"
-  Write-Host "Log : $LogPath" -ForegroundColor DarkGray
-}
-
-do {
-  Show-Menu
-  $choice = Read-Host "Choix"
-  try {
-    switch ($choice) {
-      1 { Flush-DNSRenew-IP }
-      2 { Reset-Network-Stack }
-      3 { Show-Network-Info; Quick-Ping }
-      4 { Wifi-Report }
-      5 { SFC-Scan }
-      6 { DISM-Repair }
-      7 { Check-Disk }
-      8 { Cleanup-Updates }
-      9 { Clean-Temp }
-      10 { Restart-Spooler }
-      11 { Enable-RDP }
-      12 { Open-Firewall-Port }
-      13 { Drivers-List }
-      14 { Packages-List }
-      15 { Recent-Errors }
-      0 { break }
-      default { Write-Host "Choix invalide." -ForegroundColor Yellow }
-    }
-  } catch {
-    Log "Erreur : $($_.Exception.Message)"
-    Write-Host "Une erreur est survenue : $($_.Exception.Message)" -ForegroundColor Red
-  }
-  Pause
-} while ($true)
-
-Write-Host "Au revoir." -ForegroundColor Cyan
-</code></pre>
-            <p class="muted">Enregistre comme <code>AB-Toolbox.ps1</code>, ouvre PowerShell en admin, et exécute : <code>powershell.exe -ExecutionPolicy Bypass -File .\AB-Toolbox.ps1</code></p>
-          </div>
-        </section>
-
-        <section id="contact" class="tab">
-          <div class="card">
-            <h2 class="card-title">Contact</h2>
-            <form action="https://formspree.io/f/xnnzbejk" method="POST" class="form">
-              <input type="email" name="email" placeholder="Votre email" required>
-              <textarea name="message" rows="5" placeholder="Votre message..." required></textarea>
-              <button type="submit" class="btn primary">Envoyer</button>
-            </form>
-          </div>
-        </section>
-      </section>
-
-      <!-- Colonne droite -->
-      <aside class="col aside">
-        <div class="card">
-          <h2 class="card-title">Compétences</h2>
-          <ul class="list">
-            <li><i class="fas fa-tools"></i> Support technique</li>
-            <li><i class="fas fa-server"></i> Windows / Linux</li>
-            <li><i class="fas fa-network-wired"></i> Réseau (VLAN, DHCP, DNS)</li>
-            <li><i class="fas fa-shield-alt"></i> Sécurité & sauvegardes</li>
-          </ul>
         </div>
-        <div class="card">
-          <h2 class="card-title">Musique</h2>
-          <iframe style="border-radius:8px;width:100%;height:152px" src="https://open.spotify.com/embed/track/5H1sKFMzDeMtXwND3V6hRY?utm_source=generator&theme=0" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+        <!-- Action Button -->
+        <div class="text-center mb-8">
+            <button onclick="processFiles()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition hover:-translate-y-1 active:scale-95 flex items-center gap-2 mx-auto disabled:opacity-50 disabled:cursor-not-allowed" id="processBtn">
+                <i class="fa-solid fa-gears"></i>
+                Lancer le traitement
+            </button>
         </div>
-      </aside>
-    </section>
-  </main>
 
-  <footer class="site-footer">
-    <p>© 2025 Alexandre Badouard — Tous droits réservés</p>
-  </footer>
+        <!-- Results Section (Hidden initially) -->
+        <div id="resultSection" class="hidden bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="p-4 bg-green-50 border-b border-green-100 flex justify-between items-center flex-wrap gap-4">
+                <div>
+                    <h3 class="font-bold text-green-800">Traitement terminé !</h3>
+                    <p class="text-sm text-green-600" id="resultCount">0 lignes traitées</p>
+                    <div id="resultDetails" class="text-xs text-slate-400 mt-1 italic flex gap-4">
+                        <!-- Details added by JS -->
+                    </div>
+                </div>
+                <button onclick="downloadExcel()" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg shadow text-sm font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-download"></i>
+                    Télécharger le fichier Excel
+                </button>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-slate-600">
+                    <thead class="text-xs text-slate-700 uppercase bg-slate-100">
+                        <tr>
+                            <th class="px-6 py-3">Client</th>
+                            <th class="px-6 py-3 text-blue-600">Série (Extraite)</th>
+                            <th class="px-6 py-3 text-green-600">Modèle (Trouvé)</th>
+                            <th class="px-6 py-3">Total Mono</th>
+                            <th class="px-6 py-3">Total Couleur</th>
+                        </tr>
+                    </thead>
+                    <tbody id="previewBody">
+                        <!-- Rows will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-3 text-center text-xs text-slate-400 bg-slate-50">
+                Aperçu des 5 premières lignes (filtrées)
+            </div>
+        </div>
 
-  <script src="script.js" defer></script>
+    </main>
+
+    <script>
+        let dataRef = null;    // Données TOTAL GERE
+        let dataTarget = null; // Données MACHINE SANS RC
+        let finalData = null;  // Résultat
+
+        // Fonction intelligente pour trouver la bonne feuille et la bonne ligne d'en-tête
+        function findBestData(workbook, keywords) {
+            // On parcourt toutes les feuilles
+            for (const sheetName of workbook.SheetNames) {
+                const sheet = workbook.Sheets[sheetName];
+                const rows = XLSX.utils.sheet_to_json(sheet, {header: 1, defval: ""});
+                
+                // On cherche dans les 20 premières lignes
+                for (let i = 0; i < Math.min(rows.length, 20); i++) {
+                    if (!rows[i]) continue;
+                    
+                    // On convertit la ligne en texte minuscule pour chercher les mots clés
+                    const rowStr = rows[i].map(c => String(c).toLowerCase().trim());
+                    
+                    // Est-ce que cette ligne contient un des mots clés ?
+                    const match = keywords.some(k => rowStr.some(cell => cell.includes(k)));
+                    
+                    if (match) {
+                        console.log(`Trouvé dans feuille "${sheetName}" à la ligne ${i+1}`);
+                        // On retourne les données en coupant tout ce qui est avant l'en-tête
+                        return rows.slice(i);
+                    }
+                }
+            }
+            
+            // Fallback : Si on ne trouve rien, on prend la première feuille telle quelle
+            console.warn("Aucun en-tête détecté, utilisation de la première feuille brute.");
+            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+            return XLSX.utils.sheet_to_json(firstSheet, {header: 1});
+        }
+
+        // Gérer l'affichage du nom de fichier et lecture immédiate
+        function handleFile(input, statusId) {
+            const status = document.getElementById(statusId);
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                status.textContent = file.name;
+                status.classList.add('text-blue-600', 'font-bold');
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const data = new Uint8Array(e.target.result);
+                        const workbook = XLSX.read(data, {type: 'array'});
+                        
+                        // Mots-clés pour identifier les colonnes
+                        let keywords = [];
+                        if (statusId === 'refStatus') {
+                            keywords = ["numéro de série", "numero de serie", "serie", "serial"];
+                        } else {
+                            keywords = ["commentaires", "message", "comment"];
+                        }
+
+                        // Recherche intelligente
+                        const cleanData = findBestData(workbook, keywords);
+                        
+                        if (statusId === 'refStatus') dataRef = cleanData;
+                        else dataTarget = cleanData;
+
+                    } catch (err) {
+                        console.error("Erreur lecture fichier:", err);
+                        showError("Erreur lors de la lecture du fichier " + file.name);
+                    }
+                };
+                reader.readAsArrayBuffer(file);
+            }
+        }
+
+        // Fonction principale de traitement
+        function processFiles() {
+            const msgDiv = document.getElementById('statusMessage');
+            msgDiv.className = "hidden mb-6 p-4 rounded-lg"; // Reset
+
+            if (!dataRef || !dataTarget) {
+                showError("Veuillez charger les deux fichiers avant de continuer.");
+                return;
+            }
+
+            try {
+                // 1. Convertir TOTAL GERE en un dictionnaire pour recherche rapide
+                const headersRef = dataRef[0].map(h => String(h).trim().toLowerCase());
+                
+                // Index basés sur les noms
+                const idxSerieRef = headersRef.findIndex(h => h.includes("numéro de série") || h.includes("serie") || h.includes("serial"));
+                const idxModele = headersRef.findIndex(h => h.includes("modèle") || h.includes("modele"));
+                const idxMono = headersRef.findIndex(h => h.includes("total mono") || h.includes("compteur noir"));
+                const idxCouleur = headersRef.findIndex(h => h.includes("total couleur"));
+
+                if (idxSerieRef === -1) {
+                    throw new Error("Colonne 'Numéro de série' introuvable dans le fichier de Référence (Total Géré). Vérifiez les en-têtes.");
+                }
+
+                // Création de la Map: Serie -> {Modele, Mono, Couleur}
+                const refMap = new Map();
+                for (let i = 1; i < dataRef.length; i++) {
+                    const row = dataRef[i];
+                    if (!row[idxSerieRef]) continue;
+                    
+                    // Nettoyage série (Majuscule, sans espace)
+                    const serieClean = String(row[idxSerieRef]).trim().toUpperCase();
+                    
+                    refMap.set(serieClean, {
+                        modele: idxModele !== -1 ? row[idxModele] : "N/A",
+                        mono: idxMono !== -1 ? row[idxMono] : 0,
+                        couleur: idxCouleur !== -1 ? row[idxCouleur] : 0
+                    });
+                }
+
+                // 2. Traiter MACHINE SANS RC
+                const headersTarget = dataTarget[0].map(h => String(h).trim().toLowerCase());
+                const idxComment = headersTarget.findIndex(h => h.includes("commentaires") || h.includes("message"));
+                const idxClient = headersTarget.findIndex(h => h.includes("client"));
+
+                if (idxComment === -1) {
+                    throw new Error("Colonne 'Commentaires' introuvable dans le fichier 2 (Machine sans RC). Vérifiez les en-têtes.");
+                }
+
+                const processedRows = [];
+                
+                // En-têtes du fichier final
+                processedRows.push(["Client", "Série Extraite", "Modèle", "Total Mono", "Total Couleur"]);
+
+                let filteredCount = 0; // Compteur pour les 0/0
+                let duplicatesCount = 0; // Compteur pour les doublons
+                const seenSerials = new Set(); // Set pour suivre les numéros de série déjà ajoutés
+
+                for (let i = 1; i < dataTarget.length; i++) {
+                    const row = dataTarget[i];
+                    // Skip empty rows
+                    if (!row || row.length === 0) continue;
+
+                    const comment = row[idxComment] ? String(row[idxComment]) : "";
+                    const client = idxClient !== -1 ? row[idxClient] : "";
+
+                    // Extraction Regex JS
+                    let serieExtraite = "Non trouvé";
+                    const match = comment.match(/du bien "([^"]+)"/i);
+                    
+                    if (match && match[1]) {
+                        let contenu = match[1];
+                        if (contenu.includes("/")) {
+                            contenu = contenu.split("/").pop();
+                        }
+                        serieExtraite = contenu.trim().toUpperCase();
+                    }
+
+                    // RechercheV
+                    let info = { modele: "Non trouvé dans F1", mono: 0, couleur: 0 };
+                    if (serieExtraite !== "Non trouvé" && refMap.has(serieExtraite)) {
+                        info = refMap.get(serieExtraite);
+                    }
+
+                    // --- 1. FILTRE COMPTEURS À ZÉRO ---
+                    const valMono = parseFloat(info.mono) || 0;
+                    const valCouleur = parseFloat(info.couleur) || 0;
+
+                    if (valMono === 0 && valCouleur === 0) {
+                        filteredCount++;
+                        continue; // On saute cette ligne
+                    }
+
+                    // --- 2. FILTRE DOUBLONS ---
+                    // Si on a un vrai numéro de série et qu'on l'a déjà vu, on saute
+                    if (serieExtraite !== "Non trouvé") {
+                        if (seenSerials.has(serieExtraite)) {
+                            duplicatesCount++;
+                            continue; // On saute ce doublon
+                        }
+                        // Sinon on l'ajoute à la liste des vus
+                        seenSerials.add(serieExtraite);
+                    }
+
+                    // Si tout est bon, on ajoute la ligne
+                    processedRows.push([
+                        client,
+                        serieExtraite,
+                        info.modele,
+                        valMono,
+                        valCouleur
+                    ]);
+                }
+
+                finalData = processedRows;
+                showSuccess(processedRows.length - 1, filteredCount, duplicatesCount);
+                renderPreview(processedRows);
+
+            } catch (e) {
+                showError("Erreur lors du traitement : " + e.message);
+                console.error(e);
+            }
+        }
+
+        function renderPreview(rows) {
+            const tbody = document.getElementById('previewBody');
+            tbody.innerHTML = "";
+            // Afficher max 5 lignes
+            const max = Math.min(rows.length, 6); // 1 header + 5 data
+            
+            if (rows.length <= 1) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400 italic">Aucune donnée trouvée après filtrage.</td></tr>`;
+                return;
+            }
+
+            for (let i = 1; i < max; i++) {
+                const row = rows[i];
+                const tr = document.createElement('tr');
+                tr.className = "bg-white border-b hover:bg-slate-50";
+                
+                // Client, Série, Modèle, Mono, Couleur (Indices 0, 1, 2, 3, 4)
+                // Le modèle reçoit une couleur spéciale si trouvé
+                const found = row[2] !== "Non trouvé dans F1";
+                const modelClass = found ? "text-green-600 font-medium" : "text-red-400 italic";
+
+                tr.innerHTML = `
+                    <td class="px-6 py-4 font-medium text-slate-900 whitespace-nowrap">${row[0] || ''}</td>
+                    <td class="px-6 py-4 text-blue-600 bg-blue-50 rounded-lg">${row[1]}</td>
+                    <td class="px-6 py-4 ${modelClass}">${row[2]}</td>
+                    <td class="px-6 py-4 font-mono">${row[3]}</td>
+                    <td class="px-6 py-4 font-mono">${row[4]}</td>
+                `;
+                tbody.appendChild(tr);
+            }
+            document.getElementById('resultSection').classList.remove('hidden');
+        }
+
+        function downloadExcel() {
+            if (!finalData) return;
+            
+            // Création Workbook
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(finalData);
+            
+            // Auto-fit columns width (basic)
+            const wscols = [
+                {wch: 30}, // Client
+                {wch: 20}, // Serie
+                {wch: 25}, // Modele
+                {wch: 15}, // Mono
+                {wch: 15}, // Couleur
+            ];
+            ws['!cols'] = wscols;
+
+            XLSX.utils.book_append_sheet(wb, ws, "Resultat");
+            XLSX.writeFile(wb, "RESULTAT_COMPARAISON.xlsx");
+        }
+
+        function showError(msg) {
+            const el = document.getElementById('statusMessage');
+            el.className = "mb-6 p-4 rounded-lg bg-red-100 text-red-700 border border-red-200 flex items-center gap-2";
+            el.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${msg}`;
+            el.classList.remove('hidden');
+        }
+
+        function showSuccess(count, filtered, duplicates) {
+            const el = document.getElementById('statusMessage');
+            // On le cache car le tableau de résultat s'affiche, mais on met à jour le compteur
+            document.getElementById('resultCount').innerHTML = `<b>${count}</b> machines conservées`;
+            
+            document.getElementById('resultDetails').innerHTML = `
+                <span><i class="fa-solid fa-filter"></i> <b>${filtered}</b> masquées (compteurs 0)</span>
+                <span><i class="fa-solid fa-clone"></i> <b>${duplicates}</b> doublons supprimés</span>
+            `;
+        }
+
+    </script>
 </body>
 </html>
