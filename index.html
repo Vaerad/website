@@ -18,7 +18,7 @@
                 <i class="fa-solid fa-file-excel"></i>
                 Comparateur Excel Avancé
             </h1>
-            <p class="text-blue-100 text-sm mt-1">Fusionne "TOTAL GERE" et "MACHINE SANS RC" avec filtres intelligents.</p>
+            <p class="text-blue-100 text-sm mt-1">Fusionne "TOTAL GERE" et "MACHINE SANS RC" avec détection des inconnus.</p>
         </div>
     </header>
 
@@ -67,52 +67,72 @@
             <h3 class="font-bold text-slate-700 mb-4 flex items-center gap-2">
                 <i class="fa-solid fa-sliders"></i> Options de filtrage
             </h3>
-            <div class="flex flex-col gap-4">
+            <div class="grid md:grid-cols-2 gap-6">
                 
-                <!-- Option Date -->
-                <div>
-                    <label for="dateFilter" class="block text-sm font-medium text-slate-600 mb-1">Période de collecte :</label>
-                    <div class="relative">
-                        <select id="dateFilter" class="block w-full pl-3 pr-10 py-2 text-sm border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-md border bg-slate-50">
-                            <option value="999">Tout prendre</option>
-                            <option value="1" selected>Moins de 1 mois</option>
-                            <option value="2">Moins de 2 mois</option>
-                            <option value="3">Moins de 3 mois</option>
-                            <option value="6">Moins de 6 mois</option>
-                            <option value="12">Moins de 1 an</option>
-                        </select>
+                <!-- Colonne Gauche -->
+                <div class="flex flex-col gap-4">
+                    <div>
+                        <label for="dateFilter" class="block text-sm font-medium text-slate-600 mb-1">Période de collecte :</label>
+                        <div class="relative">
+                            <select id="dateFilter" class="block w-full pl-3 pr-10 py-2 text-sm border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-md border bg-slate-50">
+                                <option value="999">Tout prendre</option>
+                                <option value="1" selected>Moins de 1 mois</option>
+                                <option value="2">Moins de 2 mois</option>
+                                <option value="3">Moins de 3 mois</option>
+                                <option value="6">Moins de 6 mois</option>
+                                <option value="12">Moins de 1 an</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Checkbox Zéro -->
-                <div class="flex items-center gap-3 p-3 border border-slate-100 rounded-lg bg-slate-50">
-                    <input type="checkbox" id="showZeros" class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500 border-gray-300">
-                    <div>
-                        <label for="showZeros" class="font-medium text-slate-700 cursor-pointer text-sm select-none">
-                            Inclure les machines avec compteurs à 0
-                        </label>
-                        <p class="text-xs text-slate-400">Cochez pour voir les machines Mono=0 et Couleur=0 (elles apparaitront en rouge).</p>
+                <!-- Colonne Droite (Checkboxes) -->
+                <div class="flex flex-col gap-3 justify-center">
+                    <div class="flex items-center gap-3 p-2 border border-slate-100 rounded bg-slate-50">
+                        <input type="checkbox" id="showZeros" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 border-gray-300">
+                        <div>
+                            <label for="showZeros" class="font-medium text-slate-700 cursor-pointer text-sm select-none">
+                                Inclure les machines à 0
+                            </label>
+                            <p class="text-xs text-slate-400">Affiche Mono=0 et Couleur=0 (en rouge).</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 p-2 border border-orange-100 rounded bg-orange-50">
+                        <input type="checkbox" id="genNotFound" checked class="w-4 h-4 text-orange-600 rounded focus:ring-orange-500 border-gray-300">
+                        <div>
+                            <label for="genNotFound" class="font-medium text-slate-700 cursor-pointer text-sm select-none">
+                                Générer le fichier des Inconnus
+                            </label>
+                            <p class="text-xs text-slate-400">Liste séparée des séries introuvables dans le fichier 1.</p>
+                        </div>
                     </div>
                 </div>
-                
-                <button onclick="processFiles()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition active:scale-95 flex items-center justify-center gap-2 mt-2" id="processBtn">
-                    <i class="fa-solid fa-gears"></i>
-                    Lancer le traitement
-                </button>
             </div>
+            
+            <button onclick="processFiles()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition active:scale-95 flex items-center justify-center gap-2 mt-6" id="processBtn">
+                <i class="fa-solid fa-gears"></i>
+                Lancer le traitement
+            </button>
         </div>
 
         <!-- Results Section -->
         <div id="resultSection" class="hidden bg-white rounded-xl shadow-lg overflow-hidden animate-fade-in">
-            <div class="p-4 bg-green-50 border-b border-green-100 flex justify-between items-center flex-wrap gap-4">
+            <div class="p-4 bg-slate-50 border-b border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h3 class="font-bold text-green-800">Traitement terminé !</h3>
-                    <p class="text-sm text-green-700" id="resultCount"></p>
+                    <h3 class="font-bold text-slate-800">Résultats</h3>
+                    <p class="text-sm text-slate-600" id="resultCount"></p>
                     <div id="resultDetails" class="text-xs text-slate-500 mt-1"></div>
                 </div>
-                <button onclick="downloadExcel()" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg shadow text-sm font-bold flex items-center gap-2">
-                    <i class="fa-solid fa-download"></i> Excel
-                </button>
+                
+                <div class="flex gap-2">
+                    <button onclick="downloadExcel()" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg shadow text-sm font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-download"></i> Résultat Principal
+                    </button>
+                    <button id="btnDownloadNotFound" onclick="downloadNotFoundExcel()" class="hidden bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-lg shadow text-sm font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-file-circle-question"></i> Télécharger les Inconnus
+                    </button>
+                </div>
             </div>
             
             <div class="overflow-x-auto max-h-96">
@@ -137,7 +157,8 @@
     <script>
         let dataRef = null;    
         let dataTarget = null; 
-        let finalData = null;  
+        let finalData = null;
+        let finalDataNotFound = null; // Stockage pour le 2ème fichier
 
         function parseExcelDate(value) {
             if (!value) return null;
@@ -187,6 +208,7 @@
         function processFiles() {
             const msgDiv = document.getElementById('statusMessage');
             msgDiv.className = "hidden mb-6 p-4 rounded-lg"; 
+            document.getElementById('btnDownloadNotFound').classList.add('hidden');
 
             if (!dataRef || !dataTarget) {
                 showError("Veuillez charger les deux fichiers.");
@@ -197,6 +219,7 @@
                 // Options
                 const monthsFilter = parseInt(document.getElementById('dateFilter').value);
                 const showZeros = document.getElementById('showZeros').checked;
+                const genNotFound = document.getElementById('genNotFound').checked;
                 
                 let cutoffDate = null;
                 if (monthsFilter !== 999) {
@@ -238,11 +261,16 @@
 
                 if (idxComment === -1) throw new Error("Colonne 'Commentaires' introuvable dans Fichier 2.");
 
+                // Listes de résultats
                 const processedRows = [];
                 processedRows.push(["Client", "Série Extraite", "Modèle", "Total Mono", "Total Couleur", "Dernière Collecte"]);
+                
+                const notFoundRows = [];
+                notFoundRows.push(["Client", "Série Extraite", "Commentaire Original"]);
 
-                let stats = { zeros: 0, doublons: 0, vieux: 0, kept: 0 };
+                let stats = { zeros: 0, doublons: 0, vieux: 0, kept: 0, unknown: 0 };
                 const seenSerials = new Set();
+                const seenSerialsNotFound = new Set(); // Pour éviter les doublons dans les inconnus aussi
 
                 for (let i = 1; i < dataTarget.length; i++) {
                     const row = dataTarget[i];
@@ -259,49 +287,62 @@
                         serieExtraite = contenu.trim().toUpperCase();
                     }
 
-                    let info = { modele: "Non trouvé dans F1", mono: 0, couleur: 0, dateObj: null, dateStr: "" };
+                    // Si on n'a même pas pu extraire de numéro de série, on ignore (ou on pourrait le mettre dans inconnus)
+                    if (serieExtraite === "Non trouvé") continue;
+
                     let foundInRef = false;
-
-                    if (serieExtraite !== "Non trouvé" && refMap.has(serieExtraite)) {
-                        info = refMap.get(serieExtraite);
+                    
+                    if (refMap.has(serieExtraite)) {
+                        // --- CAS 1 : TROUVÉ DANS FICHIER 1 ---
                         foundInRef = true;
-                    }
+                        const info = refMap.get(serieExtraite);
 
-                    const valMono = parseFloat(info.mono) || 0;
-                    const valCouleur = parseFloat(info.couleur) || 0;
-                    const isZero = (valMono === 0 && valCouleur === 0);
+                        const valMono = parseFloat(info.mono) || 0;
+                        const valCouleur = parseFloat(info.couleur) || 0;
+                        const isZero = (valMono === 0 && valCouleur === 0);
 
-                    // Filtre Zéro
-                    if (isZero && !showZeros) {
-                        stats.zeros++;
-                        continue;
-                    }
-
-                    // Filtre Date
-                    if (cutoffDate && foundInRef && info.dateObj && info.dateObj < cutoffDate) {
-                        stats.vieux++;
-                        continue;
-                    }
-
-                    // Filtre Doublons
-                    if (serieExtraite !== "Non trouvé") {
+                        // Filtre Zéro
+                        if (isZero && !showZeros) {
+                            stats.zeros++;
+                            continue;
+                        }
+                        // Filtre Date
+                        if (cutoffDate && info.dateObj && info.dateObj < cutoffDate) {
+                            stats.vieux++;
+                            continue;
+                        }
+                        // Filtre Doublons
                         if (seenSerials.has(serieExtraite)) {
                             stats.doublons++;
                             continue;
                         }
+                        
                         seenSerials.add(serieExtraite);
-                    }
+                        processedRows.push([client, serieExtraite, info.modele, valMono, valCouleur, info.dateStr, isZero]);
+                        stats.kept++;
 
-                    processedRows.push([client, serieExtraite, info.modele, valMono, valCouleur, info.dateStr, isZero]);
-                    stats.kept++;
+                    } else {
+                        // --- CAS 2 : NON TROUVÉ DANS FICHIER 1 (INCONNU) ---
+                        if (genNotFound) {
+                            // On vérifie aussi les doublons pour les inconnus
+                            if (!seenSerialsNotFound.has(serieExtraite)) {
+                                seenSerialsNotFound.add(serieExtraite);
+                                notFoundRows.push([client, serieExtraite, comment]);
+                                stats.unknown++;
+                            }
+                        }
+                    }
                 }
 
                 finalData = processedRows.map(r => r.slice(0,6)); // On enlève le flag isZero pour l'export
+                finalDataNotFound = notFoundRows;
+
                 showSuccess(stats);
-                renderPreview(processedRows); // On passe tout le tableau (avec isZero) pour l'affichage
+                renderPreview(processedRows); 
 
             } catch (e) {
                 showError("Erreur : " + e.message);
+                console.error(e);
             }
         }
 
@@ -314,14 +355,12 @@
                 return;
             }
 
-            // On affiche un peu plus de lignes si possible
             const max = Math.min(rows.length, 15); 
 
             for (let i = 1; i < max; i++) {
                 const row = rows[i];
                 const isZero = row[6]; // Flag récupéré
 
-                // Style spécial pour les machines à 0
                 const rowClass = isZero ? "bg-red-50 border-l-4 border-red-400" : "bg-white hover:bg-blue-50";
                 const monoClass = isZero ? "text-red-600 font-bold" : "text-slate-600";
                 
@@ -350,6 +389,15 @@
             XLSX.writeFile(wb, "RESULTAT_COMPARAISON.xlsx");
         }
 
+        function downloadNotFoundExcel() {
+            if (!finalDataNotFound || finalDataNotFound.length <= 1) return;
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(finalDataNotFound);
+            ws['!cols'] = [{wch: 30}, {wch: 20}, {wch: 60}]; // Client, Série, Commentaire
+            XLSX.utils.book_append_sheet(wb, ws, "Inconnus");
+            XLSX.writeFile(wb, "MACHINES_INCONNUES.xlsx");
+        }
+
         function showError(msg) {
             const el = document.getElementById('statusMessage');
             el.className = "mb-6 p-4 rounded-lg bg-red-100 text-red-700 border-l-4 border-red-500 flex items-center gap-3 shadow-sm";
@@ -359,14 +407,21 @@
 
         function showSuccess(stats) {
             const el = document.getElementById('statusMessage');
-            document.getElementById('resultCount').innerHTML = `<b>${stats.kept}</b> lignes affichées`;
+            document.getElementById('resultCount').innerHTML = `<b>${stats.kept}</b> machines traitées avec succès.`;
+            
             document.getElementById('resultDetails').innerHTML = `
-                <div class="flex gap-4 flex-wrap">
+                <div class="flex gap-4 flex-wrap items-center">
                     <span class="text-orange-600"><i class="fa-solid fa-filter"></i> <b>${stats.zeros}</b> masquées (0/0)</span>
-                    <span class="text-purple-600"><i class="fa-solid fa-clone"></i> <b>${stats.doublons}</b> doublons retirés</span>
-                    <span class="text-red-600"><i class="fa-regular fa-calendar-xmark"></i> <b>${stats.vieux}</b> date hors limite</span>
+                    <span class="text-purple-600"><i class="fa-solid fa-clone"></i> <b>${stats.doublons}</b> doublons</span>
+                    <span class="text-red-600"><i class="fa-regular fa-calendar-xmark"></i> <b>${stats.vieux}</b> hors délai</span>
+                    ${stats.unknown > 0 ? `<span class="bg-orange-100 text-orange-800 px-2 py-1 rounded font-bold border border-orange-200"><i class="fa-solid fa-circle-question"></i> ${stats.unknown} inconnus</span>` : ''}
                 </div>
             `;
+            
+            // Afficher le bouton de téléchargement des inconnus si nécessaire
+            if (stats.unknown > 0) {
+                document.getElementById('btnDownloadNotFound').classList.remove('hidden');
+            }
         }
     </script>
 </body>
